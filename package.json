@@ -1,0 +1,56 @@
+{
+  "name": "@applitools/eyes-storybook",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/eyes-storybook.js",
+  "engines": {
+    "node": ">=8.6.0"
+  },
+  "files": [
+    "src"
+  ],
+  "scripts": {
+    "test": "npm run test:mocha && npm run eslint",
+    "test:mocha": "mocha --no-timeouts --trace-warnings 'test/unit/*.test.js' 'test/it/*.test.js' 'test/e2e/*.test.js'",
+    "eslint": "eslint '**/*.js'",
+    "prepublishOnly": "npm version patch",
+    "storybook": "start-storybook -c test/it/fixtures/appWithStorybook -p 9001"
+  },
+  "keywords": [
+    "applitools",
+    "testing",
+    "browser",
+    "grid",
+    "visual-testing",
+    "nodejs",
+    "javascript"
+  ],
+  "author": "Applitools Team <team@applitools.com>",
+  "license": "Apache-2.0",
+  "repository": {
+    "url": "https://github.com/applitools/eyes-storybook",
+    "type": "git"
+  },
+  "dependencies": {
+    "@applitools/monitoring-commons": "^1.0.7",
+    "@applitools/visual-grid-client": "^4.2.4",
+    "debug": "^3.1.0",
+    "puppeteer": "^1.7.0"
+  },
+  "devDependencies": {
+    "@storybook/react": "^3.4.10",
+    "babel-core": "^6.26.3",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-react": "^6.24.1",
+    "chai": "^4.1.2",
+    "eslint": "^5.0.1",
+    "eslint-plugin-mocha-no-only": "^1.0.0",
+    "eslint-plugin-node": "^6.0.1",
+    "eslint-plugin-prettier": "^2.6.1",
+    "mocha": "^5.2.0",
+    "node-fetch": "^2.2.0",
+    "prettier": "^1.5.2",
+    "react": "^16.4.2",
+    "react-dom": "^16.4.2"
+  }
+}
