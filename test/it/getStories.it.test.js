@@ -1,41 +1,21 @@
-const fetch = require('node-fetch');
 const puppeteer = require('puppeteer');
 const {describe, it, before, after} = require('mocha');
 const {expect} = require('chai');
-const {promisify: p} = require('util');
-const {spawn} = require('child_process');
-const {resolve} = require('path');
-const psetTimeout = p(setTimeout);
+const testServer = require('../util/testServer');
+const testStorybook = require('../util/testStorybook');
 const getStories = require('../../src/getStories');
 
-async function waitForServer() {
-  try {
-    await fetch('http://localhost:9001');
-  } catch (ex) {
-    await psetTimeout(100);
-    await waitForServer();
-  }
-}
-
 describe('getStories', () => {
-  let proc;
+  let closeStorybook;
   before(async () => {
-    proc = spawn(
-      'npx',
-      ['start-storybook', '-c', resolve(__dirname, 'fixtures/appWithStorybook'), '-p', '9001'],
-      {
-        stdio: process.env.APPLITOOLS_SHOW_LOGS ? 'inherit' : 'ignore',
-      },
-    );
-    await waitForServer();
+    closeStorybook = await testStorybook({port: 9001});
   });
 
   after(async () => {
-    proc.kill();
+    closeStorybook();
   });
 
   let browser, page;
-
   before(async () => {
     browser = await puppeteer.launch();
     page = await browser.newPage();
@@ -45,12 +25,23 @@ describe('getStories', () => {
     await browser.close();
   });
 
+  let closeTestServer;
+  before(async () => {
+    const server = await testServer({port: 7272});
+    closeTestServer = server.close;
+  });
+
+  after(async () => {
+    await closeTestServer();
+  });
+
   it('gets stories without nesting', async () => {
     await page.goto('http://localhost:9001');
     const stories = await page.evaluate(getStories);
     expect(stories).to.eql([
       {name: 'with text', kind: 'Button'},
       {name: 'with some emoji', kind: 'Button'},
+      {name: 'image', kind: 'Image'},
       {name: 'story 1', kind: 'Nested'},
       {name: 'story 1.1', kind: 'Nested/Component'},
       {name: 'story 1.2', kind: 'Nested/Component'},
