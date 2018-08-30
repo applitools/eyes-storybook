@@ -7,8 +7,12 @@
     "node": ">=8.6.0"
   },
   "files": [
-    "src"
+    "src",
+    "bin"
   ],
+  "bin": {
+    "eyes-storybook": "./bin/eyes-storybook.js"
+  },
   "scripts": {
     "test": "npm run test:mocha && npm run eslint",
     "test:mocha": "mocha --no-timeouts --trace-warnings 'test/unit/*.test.js' 'test/it/*.test.js' 'test/e2e/*.test.js'",
@@ -17,7 +21,8 @@
     "test:e2e": "mocha --no-timeouts --trace-warnings 'test/e2e/*.test.js'",
     "eslint": "eslint '**/*.js'",
     "prepublishOnly": "npm version patch",
-    "storybook": "start-storybook -c test/fixtures/appWithStorybook -p 9001"
+    "storybook": "start-storybook -c test/fixtures/appWithStorybook -p 9001",
+    "eyes-storybook": "node bin/eyes-storybook.js"
   },
   "keywords": [
     "applitools",
@@ -35,10 +40,13 @@
     "type": "git"
   },
   "dependencies": {
+    "@applitools/eyes.sdk.core": "^1.8.0",
     "@applitools/monitoring-commons": "^1.0.7",
     "@applitools/visual-grid-client": "^4.2.4",
+    "chalk": "^2.4.1",
     "debug": "^3.1.0",
-    "puppeteer": "^1.7.0"
+    "puppeteer": "^1.7.0",
+    "yargs": "^12.0.1"
   },
   "devDependencies": {
     "@storybook/react": "^3.4.10",

@@ -1,13 +1,14 @@
 'use strict';
 const puppeteer = require('puppeteer');
 const getStories = require('./getStories');
-const {initConfig, makeVisualGridClient} = require('@applitools/visual-grid-client');
+const {makeVisualGridClient} = require('@applitools/visual-grid-client');
 const {
   extractResources: _extractResources,
   domNodesToCdt: _domNodeToCdt,
 } = require('@applitools/visual-grid-client/browser');
 const {makeTiming} = require('@applitools/monitoring-commons');
 const {performance, timeItAsync} = makeTiming();
+const getChunks = require('./getChunks');
 
 const extractResources = new Function(
   `return (${_extractResources})(document.documentElement, window).then(${serialize})`,
@@ -15,14 +16,21 @@ const extractResources = new Function(
 
 const domNodesToCdt = new Function(`return (${_domNodeToCdt})(document)`);
 
-async function eyesStorybook(storybookUrl) {
+const CONCURRENT_PAGES = 3;
+
+async function eyesStorybook(storybookUrl, {getConfig, updateConfig, getInitialConfig}) {
   const browser = await puppeteer.launch();
-  const page = await browser.newPage();
-  const {openEyes, waitForTestResults} = makeVisualGridClient({...initConfig(), showLogs: true});
+  const pages = await Promise.all(new Array(CONCURRENT_PAGES).fill().map(() => browser.newPage()));
+  const {openEyes, waitForTestResults} = makeVisualGridClient({
+    getConfig,
+    updateConfig,
+    getInitialConfig,
+    showLogs: true,
+  });
 
   try {
-    await page.goto(storybookUrl);
-    let stories = await page.evaluate(getStories);
+    await pages[0].goto(storybookUrl);
+    let stories = await pages[0].evaluate(getStories);
     // stories = stories.slice(0, 10);
     console.log(`starting to run ${stories.length} stories`);
 
@@ -33,6 +41,7 @@ async function eyesStorybook(storybookUrl) {
           `[${result.getStatus()}] [${performance[getStoryTitle(stories[i])]}] ${result.getName()}`,
       ),
     );
+    return results.map(([result]) => result);
   } catch (ex) {
     console.log(ex);
   } finally {
@@ -41,16 +50,27 @@ async function eyesStorybook(storybookUrl) {
   }
 
   async function renderStories(stories) {
-    const storiesData = [];
-    for (const story of stories) {
-      storiesData.push(await getStoryData(story));
-    }
+    const storiesData = await timeItAsync('getStoriesData', () => getStoriesData(stories));
+    console.log(`get stories data took ${performance['getStoriesData']}ms`);
     return renderStory(storiesData[0]).then(() =>
-      Promise.all(storiesData.slice(1).map(renderStory)),
+      waitForTestResults(storiesData.slice(1).map(renderStory)),
     );
   }
 
-  async function getStoryData(story) {
+  async function getStoriesData(stories) {
+    const storiesData = [];
+    const chunks = getChunks(stories, pages.length);
+    await Promise.all(
+      chunks.map(async (chunk, i) => {
+        for (const story of chunk) {
+          storiesData.push(await getStoryData(story, pages[i]));
+        }
+      }),
+    );
+    return storiesData;
+  }
+
+  async function getStoryData(story, page) {
     const name = getStoryTitle(story);
     const url = getStoryUrl(story, storybookUrl);
     console.log(`getting data from story ${name} - ${url}`);
@@ -64,13 +84,7 @@ async function eyesStorybook(storybookUrl) {
     console.log('running story', name);
     return timeItAsync(name, async () => {
       const {checkWindow, close} = await openEyes({
-        batchName: 'simple storybook',
-        appName: 'storybook',
         testName: name,
-        // showLogs: true,
-        // saveDebugData: true,
-        // browser: [{width: 1024, height: 768}, {width: 1200, height: 800}],
-        browser: {width: 800, height: 600},
       });
       checkWindow({cdt, resourceUrls, resourceContents, url});
       return close(false);

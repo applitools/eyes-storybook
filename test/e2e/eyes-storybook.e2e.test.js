@@ -1,8 +1,8 @@
 const {describe, it, before, after} = require('mocha');
-const {expect} = require('chai');
+const {expect: _expect} = require('chai');
 const testServer = require('../util/testServer');
 const testStorybook = require('../util/testStorybook');
-const eyesStorybook = require('../../src/eyes-storybook');
+const eyesStorybook = require('../../src/eyesStorybook');
 
 describe('eyes-storybook', () => {
   let closeStorybook;
