@@ -1,6 +1,6 @@
 {
-  "name": "@applitools/eyes-storybook",
-  "version": "1.0.0",
+  "name": "@applitools/eyes.storybook",
+  "version": "2.0.0",
   "description": "",
   "main": "src/eyes-storybook.js",
   "engines": {
@@ -40,9 +40,9 @@
     "type": "git"
   },
   "dependencies": {
-    "@applitools/eyes.sdk.core": "^1.8.0",
+    "@applitools/eyes.sdk.core": "^1.9.0",
     "@applitools/monitoring-commons": "^1.0.7",
-    "@applitools/visual-grid-client": "^4.2.4",
+    "@applitools/visual-grid-client": "^4.3.3",
     "chalk": "^2.4.1",
     "debug": "^3.1.0",
     "puppeteer": "^1.7.0",
