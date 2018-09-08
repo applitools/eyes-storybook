@@ -26,7 +26,7 @@ async function eyesStorybook(storybookUrl, {getConfig, updateConfig, getInitialC
     getConfig,
     updateConfig,
     getInitialConfig,
-    showLogs: true,
+    showLogs: getConfig().showLogs,
   });
   const logger = createLogger(getConfig().showLogs);
 
