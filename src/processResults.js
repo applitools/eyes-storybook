@@ -7,10 +7,13 @@ const EYES_TEST_FAILED_EXIT_CODE = 130;
 function processResults(results) {
   const formatter = new TestResultsFormatter();
 
-  let exitCode = 0;
-  if (results.length > 0) {
+  const testResults = results.filter(result => !(result instanceof Error));
+  const errors = results.filter(result => result instanceof Error);
+
+  let exitCode = errors.length ? EYES_TEST_FAILED_EXIT_CODE : 0;
+  if (testResults.length > 0) {
     console.log('\n[EYES: TEST RESULTS]:');
-    results.forEach(result => {
+    testResults.forEach(result => {
       formatter.addResults(result);
 
       const storyTitle = `${result.getName()} [${result.getHostDisplaySize().toString()}] - `;
@@ -28,9 +31,17 @@ function processResults(results) {
         }
       }
     });
-    console.log('See details at', results[0].getAppUrls().getBatch());
-  } else {
+  } else if (!errors.length) {
     console.log('Test is finished but no results returned.');
+  }
+
+  if (errors.length) {
+    console.log('\nThe following errors were found:');
+    console.log(errors.map(err => chalk.red(err.toString())).join('\n'));
+  }
+
+  if (testResults[0]) {
+    console.log('\nSee details at', testResults[0].getAppUrls().getBatch());
   }
 
   return {
