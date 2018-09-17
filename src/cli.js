@@ -95,8 +95,10 @@ if (!cliOptions.url) {
 }
 
 (async function() {
-  const results = await eyesStorybook(cliOptions.url, {getConfig, updateConfig, getInitialConfig});
-  const {exitCode, formatter} = processResults(results);
+  const url = cliOptions.url.replace(/\/$/, '');
+  const results = await eyesStorybook(url, {getConfig, updateConfig, getInitialConfig});
+  const {exitCode, formatter, outputStr} = processResults(results);
+  console.log(outputStr);
 
   const tapFilePath = resolve(process.cwd(), 'eyes.tap');
   fs.writeFileSync(tapFilePath, formatter.asHierarchicTAPString(false, true));

@@ -4,7 +4,8 @@ const chalk = require('chalk');
 
 const EYES_TEST_FAILED_EXIT_CODE = 130;
 
-function processResults(results) {
+function processResults(results = []) {
+  let outputStr = '';
   const formatter = new TestResultsFormatter();
 
   const testResults = results.filter(result => !(result instanceof Error));
@@ -12,19 +13,21 @@ function processResults(results) {
 
   let exitCode = errors.length ? EYES_TEST_FAILED_EXIT_CODE : 0;
   if (testResults.length > 0) {
-    console.log('\n[EYES: TEST RESULTS]:');
+    outputStr += '\n[EYES: TEST RESULTS]:';
     testResults.forEach(result => {
       formatter.addResults(result);
 
       const storyTitle = `${result.getName()} [${result.getHostDisplaySize().toString()}] - `;
 
       if (result.getIsNew()) {
-        console.log(storyTitle, chalk.blue('New'));
+        outputStr += `${storyTitle}, ${chalk.blue('New')}\n`;
       } else if (result.isPassed()) {
-        console.log(storyTitle, chalk.green('Passed'));
+        outputStr += `${storyTitle}, ${chalk.green('Passed')}\n`;
       } else {
         const stepsFailed = result.getMismatches() + result.getMissing();
-        console.log(storyTitle, chalk.red(`Failed ${stepsFailed} of ${result.getSteps()}`));
+        outputStr += `${storyTitle}, ${chalk.red(
+          `Failed ${stepsFailed} of ${result.getSteps()}`,
+        )}\n`;
 
         if (exitCode < EYES_TEST_FAILED_EXIT_CODE) {
           exitCode = EYES_TEST_FAILED_EXIT_CODE;
@@ -32,19 +35,20 @@ function processResults(results) {
       }
     });
   } else if (!errors.length) {
-    console.log('Test is finished but no results returned.');
+    outputStr += 'Test is finished but no results returned.\n';
   }
 
   if (errors.length) {
-    console.log('\nThe following errors were found:');
-    console.log(errors.map(err => chalk.red(err.toString())).join('\n'));
+    outputStr += '\nThe following errors were found:\n';
+    outputStr += errors.map(err => chalk.red(err.toString())).join('\n');
   }
 
   if (testResults[0]) {
-    console.log('\nSee details at', testResults[0].getAppUrls().getBatch());
+    outputStr += `\nSee details at ${testResults[0].getAppUrls().getBatch()}\n`;
   }
 
   return {
+    outputStr,
     formatter,
     exitCode,
   };
