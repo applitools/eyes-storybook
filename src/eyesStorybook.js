@@ -38,7 +38,13 @@ async function eyesStorybook(storybookUrl, {getConfig, updateConfig, getInitialC
   const logger = createLogger(getConfig().showLogs);
 
   const getStoryData = makeGetStoryData({logger, extractResources, domNodesToCdt});
-  const renderStory = makeRenderStory({logger, openEyes, performance, timeItAsync});
+  const renderStory = makeRenderStory({
+    logger,
+    openEyes,
+    performance,
+    timeItAsync,
+    batchName: getConfig().appName /*TODO remove batchName*/,
+  });
   const renderStories = makeRenderStories({
     getChunks,
     getStoryData,

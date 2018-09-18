@@ -1,11 +1,18 @@
 'use strict';
 
-function makeRenderStory({logger, openEyes, performance, timeItAsync}) {
+function makeRenderStory({
+  logger,
+  openEyes,
+  performance,
+  timeItAsync,
+  batchName /*TODO remove batchName*/,
+}) {
   return function renderStory({name, resourceUrls, resourceContents, cdt, url}) {
     logger.log('running story', name);
     return timeItAsync(name, async () => {
       const {checkWindow, close} = await openEyes({
         testName: name,
+        batchName,
       });
       checkWindow({cdt, resourceUrls, resourceContents, url});
       return close(false).catch(err => err);
