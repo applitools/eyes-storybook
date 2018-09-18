@@ -89,8 +89,51 @@ if (!config.apiKey) {
   process.exit(1);
 }
 
+if (!config.appName) {
+  const packageJsonPath = `${process.cwd()}/package.json`;
+  if (!fs.existsSync(packageJsonPath)) {
+    console.log(
+      chalk.red(
+        `\nApp name is not defined. Normally we would take it by default from the package.json file located at the root of your project (${process.cwd()}), but the package.json file wasn't found.\n`,
+      ),
+    );
+    console.log(
+      chalk.green(
+        `To set an "appName", do one of the following:
+  Option 1: specify "appName" in the eyes.json file that should be placed in the current working directory.
+  Option 2: set an environment variable APPLITOOLS_APP_NAME.
+  Option 3: have a package.json file in the current working directory that has a "name" property. We'll take it from there.\n`,
+      ),
+    );
+    process.exit(1);
+  }
+  const packageJson = require(packageJsonPath);
+  if (!packageJson.name) {
+    console.log(
+      chalk.red(
+        `\nApp name is not defined. Normally we would take it by default from the package.json file located at the root of your project (${process.cwd()}), but the package.json file doesn't have a "name" property.\n`,
+      ),
+    );
+    console.log(
+      chalk.green(
+        `To fix, add a "name" property to your package.json file located at ${process.cwd()}\n`,
+      ),
+    );
+    process.exit(1);
+  }
+  updateConfig({appName: packageJson.name});
+}
+
+// TODO fix config!!!!!
+// if (!config.batchName) {
+//   updateConfig({batchName: getConfig().appName});
+// }
+
 if (!cliOptions.url) {
-  console.info(chalk.red('url should be defined.'));
+  console.info(
+    chalk.red('The parameter "URL" was not passed. Pass a URL with the "-u" parameter.\n'),
+  );
+  console.log(chalk.green('For example:\nnpx eyes-storybook -u http://localhost:9009'));
   process.exit(1);
 }
 
