@@ -1,6 +1,6 @@
-const {createWriteStream, writeFileSync} = require('fs');
+const {createWriteStream, writeFileSync: _writeFileSync} = require('fs');
 const path = require('path');
-const {promisify: p} = require('util');
+const {promisify: _p} = require('util');
 const {spawn} = require('child_process');
 const ts = Date.now();
 

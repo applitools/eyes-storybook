@@ -1,8 +1,10 @@
 const {describe, it, before, after} = require('mocha');
-const {expect: _expect} = require('chai');
+const {expect} = require('chai');
 const testServer = require('../util/testServer');
 const testStorybook = require('../util/testStorybook');
 const eyesStorybook = require('../../src/eyesStorybook');
+const {initConfig} = require('@applitools/visual-grid-client');
+const path = require('path');
 
 describe('eyes-storybook', () => {
   let closeStorybook;
@@ -25,6 +27,24 @@ describe('eyes-storybook', () => {
   });
 
   it('renders test storybook', async () => {
-    await eyesStorybook('http://localhost:9001');
+    const configPath = path.resolve(__dirname, '../fixtures');
+    const {getConfig, updateConfig, getInitialConfig} = initConfig(configPath);
+    const results = await eyesStorybook('http://localhost:9001', {
+      getConfig,
+      updateConfig,
+      getInitialConfig,
+    });
+    expect(
+      results
+        .map(r => ({name: r.getName(), isPassed: r.isPassed()}))
+        .sort((a, b) => (a.name < b.name ? -1 : 1)),
+    ).to.eql([
+      {name: 'Button: with some emoji', isPassed: true},
+      {name: 'Button: with text', isPassed: true},
+      {name: 'Image: image', isPassed: true},
+      {name: 'Nested/Component: story 1.1', isPassed: true},
+      {name: 'Nested/Component: story 1.2', isPassed: true},
+      {name: 'Nested: story 1', isPassed: true},
+    ]);
   });
 });
