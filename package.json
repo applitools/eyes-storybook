@@ -40,10 +40,10 @@
     "type": "git"
   },
   "dependencies": {
-    "@applitools/eyes.sdk.core": "^1.9.0",
+    "@applitools/eyes.sdk.core": "^1.10.0",
     "@applitools/functional-commons": "^1.0.19",
     "@applitools/monitoring-commons": "^1.0.7",
-    "@applitools/visual-grid-client": "^4.3.6",
+    "@applitools/visual-grid-client": "^4.3.8",
     "chalk": "^2.4.1",
     "debug": "^3.1.0",
     "lodash.flatten": "^4.4.0",
