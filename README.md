@@ -47,15 +47,14 @@ It's possible to define the following configuration for tests:
 
 | Property name             | Default value               | Description   |
 | -------------             |:-------------               |:-----------   |
-| `browser`                 | { width: 800, height: 600, name: 'chrome' } | The size and browser of the generated screenshots. This doesn't need to be the same as the browser that Cypress is running. It could be a different size and also a different browser. Currently, `firefox` and `chrome` are supported. For more info, see the [browser section below](#configuring-the-browser).|
-| `showLogs`                | false                       | Whether or not you want to see logs of the Eyes.Cypress plugin. Logs are written to the same output of the Cypress process. |
+| `browser`                 | { width: 800, height: 600, name: 'chrome' } | The size and browser of the generated screenshots. Currently, `firefox` and `chrome` are supported. For more info, see the [browser section below](#configuring-the-browser).|
+| `showLogs`                | false                       | Whether or not you want to see logs of the Eyes.Storybook plugin. |
 | `saveDebugData`           | false                       | Whether to save troubleshooting data. See the troubleshooting section of this doc for more info. |
 | `batchId`                 | random                      | Provides ability to group tests into batches. Read more about batches [here](https://applitools.com/docs/topics/working-with-test-batches/how-to-group-tests-into-batches.html). |
 | `batchName`               | undefined                   | Provides a name to the batch. |
 | `baselineEnvName`         | undefined                   | The name of the environment of the baseline. |
 | `envName`                 | undefined                   | A name for the environment in which the application under test is running. |
 | `ignoreCaret`             | false                       | Whether to ignore or the blinking caret or not when comparing images. |
-| `isDisabled`              | false                       | If true, all calls to Eyes.Cypress commandswill be silently ignored. |
 | `matchLevel`              | undefined                   | The test-wide match level to use when checking application screenshot with the expected output. Possible values are `Strict`, `Exact`, `Layout` and `Content`. Read more about match levels [here](http://support.applitools.com/customer/portal/articles/2088359). |
 | `matchTimeout`            | undefined                   | Sets the maximum time (in ms) a match operation tries to perform a match. |
 | `branchName`              | undefined                   | The name of the branch. |
@@ -72,7 +71,7 @@ There are 2 ways to specify test configuration:
 1) Environment variables
 2) The `eyes.json` file
 
-The list above is also the order of precedence, which means that if you pass a property to `cy.eyesOpen` it will override the environment variable, and the environment variable will override the value defined in the `eyes.json` file.
+The list above is also the order of precedence, which means that if you specify a property as an environment variable, it will override the value defined for the same property in the `eyes.json` file.
 
 ### Method 1: Environment variables
 
