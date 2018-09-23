@@ -28,12 +28,11 @@ describe('eyes-storybook', () => {
 
   it('renders test storybook', async () => {
     const configPath = path.resolve(__dirname, '../fixtures');
-    const {getConfig, updateConfig, getInitialConfig} = initConfig(configPath);
-    const results = await eyesStorybook('http://localhost:9001', {
-      getConfig,
-      updateConfig,
-      getInitialConfig,
-    });
+    const cwd = process.cwd();
+    process.chdir(configPath);
+    const {getConfig} = initConfig();
+    process.chdir(cwd);
+    const results = await eyesStorybook({storybookUrl: 'http://localhost:9001', ...getConfig()});
     expect(
       results
         .map(r => ({name: r.getName(), isPassed: r.isPassed()}))

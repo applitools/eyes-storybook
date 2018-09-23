@@ -25,17 +25,13 @@ const domNodesToCdt = new Function(`return (${_domNodeToCdt})(document)`);
 
 const CONCURRENT_PAGES = 3;
 
-async function eyesStorybook(storybookUrl, {getConfig, updateConfig, getInitialConfig}) {
+async function eyesStorybook(config) {
+  const {showLogs, storybookUrl} = config;
   const browser = await puppeteer.launch();
   const pages = await Promise.all(new Array(CONCURRENT_PAGES).fill().map(() => browser.newPage()));
   const page = pages[0];
-  const {openEyes} = makeVisualGridClient({
-    getConfig,
-    updateConfig,
-    getInitialConfig,
-    showLogs: getConfig().showLogs,
-  });
-  const logger = createLogger(getConfig().showLogs);
+  const {openEyes} = makeVisualGridClient(config);
+  const logger = createLogger(showLogs);
 
   const getStoryData = makeGetStoryData({logger, extractResources, domNodesToCdt});
   const renderStory = makeRenderStory({
@@ -43,7 +39,6 @@ async function eyesStorybook(storybookUrl, {getConfig, updateConfig, getInitialC
     openEyes,
     performance,
     timeItAsync,
-    batchName: getConfig().appName /*TODO remove batchName*/,
   });
   const renderStories = makeRenderStories({
     getChunks,
