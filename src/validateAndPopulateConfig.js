@@ -1,8 +1,10 @@
 'use strict';
 const chalk = require('chalk');
 const fs = require('fs');
+const detect = require('detect-port');
+const startStorybookServer = require('./startStorybookServer');
 
-function validateAndPopulateConfig(config) {
+async function validateAndPopulateConfig(config) {
   if (!config.apiKey) {
     const msg = `
 ${chalk.red('Environment variable APPLITOOLS_API_KEY is not set.')}
@@ -52,6 +54,32 @@ ${chalk.green(
 
   if (!config.batchName) {
     config.batchName = config.appName;
+  }
+
+  if (config.storybookUrl) {
+    config.startServer = false;
+  }
+
+  if (config.startServer) {
+    try {
+      config.storybookPort = await detect(config.storybookPort);
+    } catch (ex) {
+      console.log(chalk.red(`couldn't find available port around`, config.storybookPort));
+    }
+
+    config.storybookUrl = await startStorybookServer(
+      Object.assign({packagePath: process.cwd()}, config),
+    );
+  } else {
+    config.storybookUrl = config.storybookUrl.replace(/\/$/, '');
+  }
+
+  if (!config.storybookUrl) {
+    console.info(
+      chalk.red('The parameter "URL" was not passed. Pass a URL with the "-u" parameter.\n'),
+    );
+    console.log(chalk.green('For example:\nnpx eyes-storybook -u http://localhost:9009'));
+    process.exit(1);
   }
 }
 

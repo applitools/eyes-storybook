@@ -32,6 +32,24 @@ module.exports = {
     requiresArg: false,
     string: true,
   },
+  storybookConfigDir: {
+    alias: ['c', 'storybook-config-dir'],
+    description: "Path to Storybook's config folder (defaults to .storybook)",
+    requiresArg: true,
+    string: true,
+  },
+  storybookStaticDir: {
+    alias: ['storybook-static-dir'],
+    description: "Path to Storybook's static files folder",
+    requiresArg: true,
+    string: true,
+  },
+  showStorybookOutput: {
+    alias: ['show-storybook-output'],
+    description: 'whether or not you want to see Storybook output',
+    requiresArg: true,
+    boolean: true,
+  },
 
   // general
   exitcode: {
