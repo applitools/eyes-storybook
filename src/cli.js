@@ -3,7 +3,7 @@ const yargs = require('yargs');
 const fs = require('fs');
 const {resolve} = require('path');
 const VERSION = require('../package.json').version;
-const {initConfig} = require('@applitools/visual-grid-client');
+const {makeGetConfig} = require('@applitools/visual-grid-client');
 const eyesStorybook = require('./eyesStorybook');
 const processResults = require('./processResults');
 const validateAndPopulateConfig = require('./validateAndPopulateConfig');
@@ -23,7 +23,7 @@ console.log(`Using eyes.storybook version ${VERSION}.`);
 
 /* --- Load configuration from config file --- */
 const configPath = argv.conf ? resolve(process.cwd(), argv.conf) : undefined;
-const {getConfig} = initConfig({configPath});
+const getConfig = makeGetConfig({configPath});
 const config = Object.assign({}, defaultConfig, getConfig(), argv); // TODO pick only configParams (on both getConfig and argv)
 
 (async function() {

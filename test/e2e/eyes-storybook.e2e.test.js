@@ -3,7 +3,7 @@ const {expect} = require('chai');
 const testServer = require('../util/testServer');
 const testStorybook = require('../util/testStorybook');
 const eyesStorybook = require('../../src/eyesStorybook');
-const {initConfig} = require('@applitools/visual-grid-client');
+const {makeGetConfig} = require('@applitools/visual-grid-client');
 const path = require('path');
 
 describe('eyes-storybook', () => {
@@ -30,7 +30,7 @@ describe('eyes-storybook', () => {
     const configPath = path.resolve(__dirname, '../fixtures');
     const cwd = process.cwd();
     process.chdir(configPath);
-    const {getConfig} = initConfig();
+    const getConfig = makeGetConfig();
     process.chdir(cwd);
     const results = await eyesStorybook({storybookUrl: 'http://localhost:9001', ...getConfig()});
     expect(
