@@ -33,20 +33,72 @@ set APPLITOOLS_API_KEY=<your_key>
 
 After completing the installation and defining the API key, you will be able to run Eyes.Storybook from the command line and let it take screenshots of all your stories.
 
-You should provide the SDK with a URL of a working storybook. It might be a local dev server or a pre-built and deployed production storybook.
+If your project is using the default storybook config folder (i.e. `<project_folder>/.storybook`), then run the following command:
 
 ### Example
 
 ```bash
-npx eyes-storybook -u http://localhost:9009
+npx eyes-storybook
+```
+
+### Configuring local storybook server
+
+Normally, Eyes.Storybook starts a storybook dev server in an available port between 9000-9010 for the duration of the tests. It's possible to pass arguments to Eyes.Storybook to configure the local storybook server:
+
+* `--storybook-port OR -p`: Port to run storybook (passed as `-p` to `start-storybook`).
+* `--storybook-host OR -h`: Host to run storybook (passed as `-h` to `start-storybook`).
+* `--storybook-config-dir OR -c`: Directory where to load Storybook configurations from (passed as `-c` to `start-storybook`)
+* `--storybook-static-dir OR -s`: Directory where to load static files from, comma-separated list (passed as `-s` to `start-storybook`)
+
+### Standalone server
+
+As noted in the previous section, Eyes.Storybook starts a storybook dev server. If you wish to start the server outside of Eyes.Storybook, or test a production build that's available at a certain URL, then just specify the URL for the storybook in the command line (or in the configuration file, see [Advanced configuration](#advanced-configuration) below).
+
+For example:
+
+```bash
+npx eyes-storybook -u http://localhost:6006
+```
+
+Or for a production storybook:
+
+```bash
+npx eyes-storybook -u http://react.carbondesignsystem.com/
+```
+
+### Command line arguments
+
+The full list of command line arguments can be viewed by running `npx eyes-storybook --help`:
+
+```txt
+Usage: eyes-storybook.js [options]
+
+Options:
+  --help                                            Show help                                                      [boolean]
+  --version, -v                                     Show the version number                                        [boolean]
+  --conf, -f                                        Path to applitools.config.js config file                        [string]
+  --storybook-url, -u                               URL to storybook                                                [string]
+  --storybookPort, -p, --storybook-port             Port to run Storybook                                           [number]
+  --storybookHost, -h, --storybook-host             Host to run Storybook                                           [string]
+  --storybookConfigDir, -c, --storybook-config-dir  Path to Storybook's config folder (defaults to .storybook)      [string]
+  --storybookStaticDir, --storybook-static-dir      Path to Storybook's static files folder                         [string]
+  --showStorybookOutput, --show-storybook-output    Whether or not you want to see Storybook output                [boolean]
+  --exitcode, -e                                    If tests failed close with non-zero exit code                  [boolean]
 ```
 
 ## Advanced configuration
 
-It's possible to define the following configuration for tests:
+In addition to command-line arguments, it's possible to define the following configuration for tests:
 
 | Property name             | Default value               | Description   |
 | -------------             |:-------------               |:-----------   |
+| `storybookUrl`            | undefined                   | URL to storybook (also available as command-line argument). |
+| `storybookPort`           | 9000                        | Port to run Storybook (also available as command-line argument). |
+| `storybookHost`           | localhost                   | Host to run Storybook (also available as command-line argument). |
+| `storybookConfigDir`      | .storybook                  | Path to Storybook's config folder (also available as command-line argument). |
+| `storybookStaticDir`      | undefined                   | Path to Storybook's static files folder (also available as command-line argument). |
+| `showStorybookOutput`     | undefined                   | Whether or not you want to see Storybook output (also available as command-line argument). |
+| `exitcode`                | false                       | If tests failed close with non-zero exit code (also available as command-line argument). |
 | `browser`                 | { width: 800, height: 600, name: 'chrome' } | The size and browser of the generated screenshots. Currently, `firefox` and `chrome` are supported. For more info, see the [browser section below](#configuring-the-browser).|
 | `showLogs`                | false                       | Whether or not you want to see logs of the Eyes.Storybook plugin. |
 | `saveDebugData`           | false                       | Whether to save troubleshooting data. See the troubleshooting section of this doc for more info. |
@@ -69,9 +121,9 @@ It's possible to define the following configuration for tests:
 
 There are 2 ways to specify test configuration:
 1) Environment variables
-2) The `eyes.json` file
+2) The `applitools.config.js` file
 
-The list above is also the order of precedence, which means that if you specify a property as an environment variable, it will override the value defined for the same property in the `eyes.json` file.
+The list above is also the order of precedence, which means that if you specify a property as an environment variable, it will override the value defined for the same property in the `applitools.config.js` file.
 
 ### Method 1: Environment variables
 
@@ -85,15 +137,15 @@ APPLITOOLS_BATCH_NAME
 // all other configuration variables apply
 ```
 
-### Method 2: The `eyes.json` file
+### Method 2: The `applitools.config.js` file
 
-It's possible to have a file called `eyes.json` at the current working directory (the directory you are at when running the `eyes-storybook` script). In this file specify the desired configuration, in a valid JSON format. For example:
+It's possible to have a file called `applitools.config.js` at the current working directory (the directory you are at when running the `eyes-storybook` script). In this file specify the desired configuration, as an exported CommonJS module. For example:
 
 ```js
-{
-  "appName": "My app",
-  "showLogs": true,
-  "batchName": "My batch"
+module.exports = {
+  appName: 'My app',
+  showLogs: true,
+  batchName: 'My batch'
   ...
   // all other configuration variables apply
 }
@@ -103,13 +155,13 @@ It's possible to have a file called `eyes.json` at the current working directory
 
 Eyes.Storybook will take a screenshot of the page as specified in the `browser` configuration parameter.
 
-It's also possible to send an array of browsers, for example in the `eyes.json` file:
+It's also possible to send an array of browsers, for example in the `applitools.config.js` file:
 
 ```js
-{
-  "browser": [
-    {"width": 800, "height": 600, "name": "firefox"},
-    {"width": 1024, "height": 768, "name": "chrome"}
+module.exports = {
+  browser: [
+    {width: 800, height: 600, name: 'firefox'},
+    {width: 1024, height: 768, name: 'chrome'}
   ]
 }
 ```
@@ -119,10 +171,10 @@ It's also possible to send an array of browsers, for example in the `eyes.json` 
 To enable chrome's device emulation, it's possible to send a device name and screen orientation, for example:
 
 ```js
-{
-  "browser": {
-    "deviceName": 'iPhone X',
-    "screenOrientation": 'landscape'
+module.exports = {
+  browser: {
+    deviceName: 'iPhone X',
+    screenOrientation: 'landscape'
   }
 }
 ```
@@ -138,12 +190,12 @@ curl -s https://raw.githubusercontent.com/chromium/chromium/0aee4434a4dba42a42ab
 In addition, it's possible to use chrome's device emulation with custom viewport sizes, pixel density and mobile mode, by passing `deviceScaleFactor` and `mobile` in addition to `width` and `height`. For example:
 
 ```js
-{
-  "browser": {
-    "width": 800,
-    "height": 600,
-    "deviceScaleFactor": 3,
-    "mobile": true
+module.exports = {
+  browser: {
+    width: 800,
+    height: 600,
+    deviceScaleFactor: 3,
+    mobile: true
   }
 }
 ```

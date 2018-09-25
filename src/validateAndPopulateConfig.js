@@ -60,7 +60,7 @@ ${chalk.green(
     config.startServer = false;
   }
 
-  if (config.startServer) {
+  if (config.startServer && !config.storybookUrl) {
     try {
       config.storybookPort = await detect(config.storybookPort);
     } catch (ex) {
@@ -70,15 +70,16 @@ ${chalk.green(
     config.storybookUrl = await startStorybookServer(
       Object.assign({packagePath: process.cwd()}, config),
     );
-  } else {
+  } else if (config.storybookUrl) {
     config.storybookUrl = config.storybookUrl.replace(/\/$/, '');
   }
 
   if (!config.storybookUrl) {
     console.info(
-      chalk.red('The parameter "URL" was not passed. Pass a URL with the "-u" parameter.\n'),
+      chalk.red(
+        'Could not find a storybook URL to test. This might be either because there was an error when starting the storybook dev server, or the parameter "storybookUrl" was not specified. Specify a URL with the "-u" parameter, or with "storybookUrl" in the config file (by default the config file is located at <project-folder>/applitools.config.js>).\n',
+      ),
     );
-    console.log(chalk.green('For example:\nnpx eyes-storybook -u http://localhost:9009'));
     process.exit(1);
   }
 }

@@ -7,33 +7,27 @@ module.exports = {
   },
 
   storybookUrl: {
-    alias: ['u', 'storybook-url'],
+    alias: ['storybook-url', 'u'],
     description: 'URL to storybook',
     requiresArg: true,
     string: true,
   },
 
   // storybook options
-  startServer: {
-    alias: ['s', 'start-server'],
-    description: 'Whether to run a storybook dev server',
-    requiresArg: false,
-    boolean: true,
-  },
   storybookPort: {
-    alias: ['p', 'storybook-port'],
+    alias: ['storybook-port', 'p'],
     description: 'Port to run Storybook',
     requiresArg: false,
     number: true,
   },
   storybookHost: {
-    alias: ['h', 'storybook-host'],
+    alias: ['storybook-host', 'h'],
     description: 'Host to run Storybook',
     requiresArg: false,
     string: true,
   },
   storybookConfigDir: {
-    alias: ['c', 'storybook-config-dir'],
+    alias: ['storybook-config-dir', 'c'],
     description: "Path to Storybook's config folder (defaults to .storybook)",
     requiresArg: true,
     string: true,
