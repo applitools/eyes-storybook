@@ -3,31 +3,27 @@ const yargs = require('yargs');
 const fs = require('fs');
 const {resolve} = require('path');
 const VERSION = require('../package.json').version;
-const {makeGetConfig} = require('@applitools/visual-grid-client');
 const eyesStorybook = require('./eyesStorybook');
 const processResults = require('./processResults');
 const validateAndPopulateConfig = require('./validateAndPopulateConfig');
 const yargsOptions = require('./yargsOptions');
+const generateConfig = require('./generateConfig');
 const defaultConfig = require('./defaultConfig');
-
-const argv = yargs
-  .usage('Usage: $0 [options]')
-  .epilogue('Check our documentation here: https://applitools.com/resources/tutorial')
-  .showHelpOnFail(false, 'Specify --help for available options')
-  .version('version', 'Show the version number', `Version ${VERSION}`)
-  .alias('version', 'v')
-  .wrap(yargs.terminalWidth())
-  .options(yargsOptions).argv;
-
-console.log(`Using eyes.storybook version ${VERSION}.`);
-
-/* --- Load configuration from config file --- */
-const configPath = argv.conf ? resolve(process.cwd(), argv.conf) : undefined;
-const getConfig = makeGetConfig({configPath});
-const config = Object.assign({}, defaultConfig, getConfig(), argv); // TODO pick only configParams (on both getConfig and argv)
 
 (async function() {
   try {
+    const argv = yargs
+      .usage('Usage: $0 [options]')
+      .epilogue('Check our documentation here: https://applitools.com/resources/tutorial')
+      .showHelpOnFail(false, 'Specify --help for available options')
+      .version('version', 'Show the version number', `Version ${VERSION}`)
+      .alias('version', 'v')
+      .wrap(yargs.terminalWidth())
+      .options(yargsOptions).argv;
+
+    console.log(`Using eyes.storybook version ${VERSION}.`);
+
+    const config = generateConfig({argv, defaultConfig});
     await validateAndPopulateConfig(config);
     const results = await eyesStorybook(config);
     const {exitCode, formatter, outputStr} = processResults(results);

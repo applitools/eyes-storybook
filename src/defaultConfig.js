@@ -3,6 +3,8 @@
 module.exports = {
   storybookPort: 9000,
   storybookHost: 'localhost',
-  startServer: true,
   storybookConfigDir: '.storybook',
+  storybookUrl: undefined,
+  storybookStaticDir: undefined,
+  showStorybookOutput: false,
 };
