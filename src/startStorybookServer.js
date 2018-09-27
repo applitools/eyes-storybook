@@ -16,7 +16,7 @@ async function startStorybookServer({
     `node_modules/.bin/start-storybook${isWindows ? '.cmd' : ''}`,
   );
 
-  const args = ['-p', storybookPort, '-h', storybookHost, '-c', storybookConfigDir, '--ci'];
+  const args = ['-p', storybookPort, '-h', storybookHost, '-c', storybookConfigDir];
   if (storybookStaticDir) {
     args.push('-s');
     args.push(storybookStaticDir);
