@@ -1,5 +1,6 @@
 'use strict';
 const {presult} = require('@applitools/functional-commons');
+const {promisify: p} = require('util');
 
 function makeGetStoryData({logger, extractResources, domNodesToCdt}) {
   return async function getStoryData(name, url, page) {
@@ -8,6 +9,7 @@ function makeGetStoryData({logger, extractResources, domNodesToCdt}) {
     if (err) {
       logger.log(`error navigating to story ${name}`, err);
     }
+    await p(setTimeout)(50);
     const {resourceUrls, blobs: resourceContents} = await page.evaluate(extractResources);
     const cdt = await page.evaluate(domNodesToCdt);
     logger.log(`done getting data from story ${name}`);
