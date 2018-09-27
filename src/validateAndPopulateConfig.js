@@ -56,11 +56,7 @@ ${chalk.green(
     config.batchName = config.appName;
   }
 
-  if (config.storybookUrl) {
-    config.startServer = false;
-  }
-
-  if (config.startServer && !config.storybookUrl) {
+  if (!config.storybookUrl) {
     try {
       config.storybookPort = await detect(config.storybookPort);
     } catch (ex) {
