@@ -35,8 +35,6 @@ After completing the installation and defining the API key, you will be able to 
 
 If your project is using the default storybook config folder (i.e. `<project_folder>/.storybook`), then run the following command:
 
-### Example
-
 ```bash
 npx eyes-storybook
 ```
