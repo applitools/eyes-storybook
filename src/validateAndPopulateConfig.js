@@ -17,9 +17,11 @@ ${chalk.green(`To fix:
     throw new Error(msg);
   }
 
+  const packageJsonPath = `${process.cwd()}/package.json`;
+  const packageJson = fs.existsSync(packageJsonPath) ? require(packageJsonPath) : undefined;
+
   if (!config.appName) {
-    const packageJsonPath = `${process.cwd()}/package.json`;
-    if (!fs.existsSync(packageJsonPath)) {
+    if (!packageJson) {
       const msg = `
 ${chalk.red(
         `App name is not defined. Normally we would take it by default from the package.json file located at the root of your project (${process.cwd()}), but the package.json file wasn't found.`,
@@ -34,7 +36,6 @@ Option 3: have a package.json file in the current working directory that has a "
       throw new Error(msg);
     }
 
-    const packageJson = require(packageJsonPath);
     if (!packageJson.name) {
       const msg = `
 ${chalk.red(
@@ -66,9 +67,9 @@ ${chalk.green(
     config.storybookUrl = await startStorybookServer(
       Object.assign({packagePath: process.cwd()}, config),
     );
-  } else if (config.storybookUrl) {
-    config.storybookUrl = config.storybookUrl.replace(/\/$/, '');
   }
+
+  config.storybookUrl = config.storybookUrl.replace(/\/$/, '');
 
   if (!config.storybookUrl) {
     console.info(
