@@ -5,6 +5,7 @@ const makeRenderStory = require('../../src/renderStory');
 const {presult} = require('@applitools/functional-commons');
 const {makeTiming} = require('@applitools/monitoring-commons');
 const psetTimeout = require('util').promisify(setTimeout);
+const getStoryTitle = require('../../src/getStoryTitle');
 
 describe('renderStory', () => {
   const logger = console;
@@ -46,19 +47,21 @@ describe('renderStory', () => {
     const resourceContents = 'resourceContents';
     const url = 'url';
     const name = 'name';
+    const kind = 'kind';
+    const title = getStoryTitle({name, kind});
 
-    const results = await renderStory({name, resourceUrls, resourceContents, cdt, url});
+    const results = await renderStory({name, kind, resourceUrls, resourceContents, cdt, url});
 
     expect(results).to.eql({
       throwEx: false,
-      testName: name,
+      testName: title,
       url,
       cdt,
       resourceUrls,
       resourceContents,
     });
 
-    expect(performance[name]).not.to.equal(undefined);
+    expect(performance[title]).not.to.equal(undefined);
   });
 
   it('throws error during openEyes', async () => {
@@ -82,9 +85,10 @@ describe('renderStory', () => {
     });
 
     const renderStory = makeRenderStory({logger, openEyes, performance, timeItAsync});
-    const {message} = await renderStory({name: 'name1'});
+    const story = {name: 'name1', kind: 'kind'};
+    const {message} = await renderStory(story);
     expect(message).to.equal('bla');
     console.log(performance);
-    expect(performance['name1']).not.to.equal(undefined);
+    expect(performance[getStoryTitle(story)]).not.to.equal(undefined);
   });
 });

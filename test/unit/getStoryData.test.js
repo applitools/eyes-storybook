@@ -20,14 +20,8 @@ describe('getStoryData', () => {
     const domNodesToCdt = () => 'cdt';
     const logger = console;
     const getStoryData = makeGetStoryData({logger, extractResources, domNodesToCdt});
-    const {name, resourceUrls, resourceContents, cdt, url} = await getStoryData(
-      'name',
-      'url',
-      page,
-    );
+    const {resourceUrls, resourceContents, cdt} = await getStoryData({url: 'url', page});
 
-    expect(name).to.equal('name');
-    expect(url).to.equal('url');
     expect(resourceUrls).to.eql(['url1']);
     expect(resourceContents).to.eql(blobs);
     expect(cdt).to.equal('cdt');

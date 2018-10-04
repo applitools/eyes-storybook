@@ -1,5 +1,4 @@
 'use strict';
-const getStoryTitle = require('./getStoryTitle');
 const getStoryUrl = require('./getStoryUrl');
 
 function makeRenderStories({getChunks, getStoryData, pages, renderStory, ora, storybookUrl}) {
@@ -13,12 +12,20 @@ function makeRenderStories({getChunks, getStoryData, pages, renderStory, ora, st
     await Promise.all(
       chunks.map(async (chunk, i) => {
         for (const story of chunk) {
-          const name = getStoryTitle(story);
           const url = getStoryUrl(story, storybookUrl);
-          const storyDataPromise = getStoryData(name, url, pages[i]); // TODO handle error
+          const storyDataPromise = getStoryData({url, page: pages[i]}); // TODO handle error
           const storyRenderPromise = storyDataPromise
             .then(updateRunning)
-            .then(renderStory)
+            .then(({cdt, resourceUrls, resourceContents}) =>
+              renderStory({
+                cdt,
+                resourceUrls,
+                resourceContents,
+                url,
+                name: story.name,
+                kind: story.kind,
+              }),
+            )
             .then(onDoneStory, onDoneStory);
           storyPromises.push(storyRenderPromise);
           await storyDataPromise;
