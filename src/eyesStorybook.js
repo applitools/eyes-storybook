@@ -13,7 +13,6 @@ const makeRenderStory = require('./renderStory');
 const makeRenderStories = require('./renderStories');
 const makeGetStoryData = require('./getStoryData');
 const getChunks = require('./getChunks');
-const createLogger = require('@applitools/visual-grid-client/src/sdk/createLogger');
 const ora = require('ora');
 const flatten = require('lodash.flatten');
 
@@ -25,13 +24,12 @@ const domNodesToCdt = new Function(`return (${_domNodeToCdt})(document)`);
 
 const CONCURRENT_PAGES = 3;
 
-async function eyesStorybook(config) {
-  const {showLogs, storybookUrl} = config;
+async function eyesStorybook({config, logger}) {
+  const {storybookUrl} = config;
   const browser = await puppeteer.launch();
   const pages = await Promise.all(new Array(CONCURRENT_PAGES).fill().map(() => browser.newPage()));
   const page = pages[0];
   const {openEyes} = makeVisualGridClient(config);
-  const logger = createLogger(showLogs);
 
   const getStoryData = makeGetStoryData({logger, extractResources, domNodesToCdt});
   const renderStory = makeRenderStory({
@@ -45,7 +43,6 @@ async function eyesStorybook(config) {
     getStoryData,
     pages,
     renderStory,
-    ora,
     storybookUrl,
   });
 

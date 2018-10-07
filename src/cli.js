@@ -2,6 +2,7 @@
 const yargs = require('yargs');
 const fs = require('fs');
 const {resolve} = require('path');
+const createLogger = require('@applitools/visual-grid-client/src/sdk/createLogger');
 const VERSION = require('../package.json').version;
 const eyesStorybook = require('./eyesStorybook');
 const processResults = require('./processResults');
@@ -24,8 +25,9 @@ const defaultConfig = require('./defaultConfig');
     console.log(`Using eyes.storybook version ${VERSION}.`);
 
     const config = generateConfig({argv, defaultConfig});
-    await validateAndPopulateConfig(config);
-    const results = await eyesStorybook(config);
+    const logger = createLogger(config.showLogs);
+    await validateAndPopulateConfig({config, logger});
+    const results = await eyesStorybook({config, logger});
     const {exitCode, formatter, outputStr} = processResults(results);
     console.log(outputStr);
 

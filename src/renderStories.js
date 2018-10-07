@@ -1,7 +1,8 @@
 'use strict';
 const getStoryUrl = require('./getStoryUrl');
+const ora = require('ora');
 
-function makeRenderStories({getChunks, getStoryData, pages, renderStory, ora, storybookUrl}) {
+function makeRenderStories({getChunks, getStoryData, pages, renderStory, storybookUrl}) {
   return async function renderStories(stories) {
     let runningStories = 0;
     let doneStories = 0;

@@ -4,7 +4,7 @@ const fs = require('fs');
 const detect = require('detect-port');
 const startStorybookServer = require('./startStorybookServer');
 
-async function validateAndPopulateConfig(config) {
+async function validateAndPopulateConfig({config, logger}) {
   if (!config.apiKey) {
     const msg = `
 ${chalk.red('Environment variable APPLITOOLS_API_KEY is not set.')}
@@ -65,7 +65,7 @@ ${chalk.green(
     }
 
     config.storybookUrl = await startStorybookServer(
-      Object.assign({packagePath: process.cwd()}, config),
+      Object.assign({packagePath: process.cwd(), logger}, config),
     );
   }
 

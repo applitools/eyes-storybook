@@ -1,6 +1,7 @@
 'use strict';
 const {resolve} = require('path');
 const {spawn} = require('child_process');
+const ora = require('ora');
 
 async function startStorybookServer({
   packagePath,
@@ -9,6 +10,7 @@ async function startStorybookServer({
   storybookConfigDir,
   storybookStaticDir,
   showStorybookOutput,
+  logger,
 }) {
   const isWindows = process.platform.startsWith('win');
   const storybookPath = resolve(
@@ -22,7 +24,9 @@ async function startStorybookServer({
     args.push(storybookStaticDir);
   }
 
-  console.log(`${storybookPath} ${args.join(' ')}`);
+  logger.log(`${storybookPath} ${args.join(' ')}`);
+  const spinner = ora('Starting storybook server');
+  spinner.start();
 
   const childProcess = spawn(storybookPath, args, {detached: !isWindows});
 
@@ -45,7 +49,7 @@ async function startStorybookServer({
         process.kill(-childProcess.pid);
       }
     } catch (e) {
-      console.log("Can't kill child (Storybook) process.", e);
+      logger.log("Can't kill child (Storybook) process.", e);
     }
   });
 
@@ -54,7 +58,7 @@ async function startStorybookServer({
   process.on('uncaughtException', () => process.exit(1));
 
   await waitForStorybook(childProcess);
-  console.log('Storybook was started.');
+  spinner.success('Storybook was started');
   return `http://${storybookHost}:${storybookPort}`;
 
   function waitForStorybook(childProcess) {
