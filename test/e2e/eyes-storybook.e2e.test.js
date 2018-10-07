@@ -3,8 +3,10 @@ const {expect} = require('chai');
 const testServer = require('../util/testServer');
 const testStorybook = require('../util/testStorybook');
 const eyesStorybook = require('../../src/eyesStorybook');
-const {makeGetConfig} = require('@applitools/visual-grid-client');
+const {makeGetConfig, createLogger} = require('@applitools/visual-grid-client');
 const path = require('path');
+const {makeTiming} = require('@applitools/monitoring-commons');
+const {performance, timeItAsync} = makeTiming();
 
 describe('eyes-storybook', () => {
   let closeStorybook;
@@ -32,7 +34,13 @@ describe('eyes-storybook', () => {
     process.chdir(configPath);
     const getConfig = makeGetConfig();
     process.chdir(cwd);
-    const results = await eyesStorybook({storybookUrl: 'http://localhost:9001', ...getConfig()});
+    const config = getConfig();
+    const results = await eyesStorybook({
+      config: {storybookUrl: 'http://localhost:9001', ...config},
+      logger: createLogger(config.showLogs),
+      performance,
+      timeItAsync,
+    });
     expect(
       results
         .map(r => ({name: r.getName(), isPassed: r.isPassed()}))

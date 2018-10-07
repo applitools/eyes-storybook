@@ -31,15 +31,20 @@ async function startStorybookServer({
   const childProcess = spawn(storybookPath, args, {detached: !isWindows});
 
   if (showStorybookOutput) {
-    // eslint-disable-next-line no-console
     childProcess.stderr.on('data', data =>
       console.error('start-storybook (stderr):', bufferToString(data)),
     );
-    // eslint-disable-next-line no-console
     childProcess.stdout.on('data', data =>
       console.log('start-storybook (stdout):', bufferToString(data)),
     );
   }
+
+  childProcess.on('exit', code => {
+    if (code) {
+      spinner.fail('Failed to start storybook server');
+      process.exit(1);
+    }
+  });
 
   process.on('exit', () => {
     try {
@@ -58,7 +63,7 @@ async function startStorybookServer({
   process.on('uncaughtException', () => process.exit(1));
 
   await waitForStorybook(childProcess);
-  spinner.success('Storybook was started');
+  spinner.succeed('Storybook was started');
   return `http://${storybookHost}:${storybookPort}`;
 
   function waitForStorybook(childProcess) {

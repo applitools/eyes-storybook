@@ -22,7 +22,7 @@
     "eslint": "eslint '**/*.js'",
     "prepublishOnly": "npm version patch",
     "storybook": "start-storybook -c test/fixtures/appWithStorybook -p 9001",
-    "eyes-storybook": "node bin/eyes-storybook.js"
+    "eyes-storybook": "node bin/eyes-storybook.js -f test/fixtures/applitools.config.js"
   },
   "keywords": [
     "applitools",

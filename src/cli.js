@@ -10,6 +10,8 @@ const validateAndPopulateConfig = require('./validateAndPopulateConfig');
 const yargsOptions = require('./yargsOptions');
 const generateConfig = require('./generateConfig');
 const defaultConfig = require('./defaultConfig');
+const {makeTiming} = require('@applitools/monitoring-commons');
+const {performance, timeItAsync} = makeTiming();
 
 (async function() {
   try {
@@ -22,13 +24,15 @@ const defaultConfig = require('./defaultConfig');
       .wrap(yargs.terminalWidth())
       .options(yargsOptions).argv;
 
-    console.log(`Using eyes.storybook version ${VERSION}.`);
+    console.log(`Using @applitools/eyes.storybook version ${VERSION}.\n`);
 
     const config = generateConfig({argv, defaultConfig});
     const logger = createLogger(config.showLogs);
     await validateAndPopulateConfig({config, logger});
-    const results = await eyesStorybook({config, logger});
-    const {exitCode, formatter, outputStr} = processResults(results);
+    const results = await timeItAsync('eyesStorybook', () =>
+      eyesStorybook({config, logger, performance, timeItAsync}),
+    );
+    const {exitCode, formatter, outputStr} = processResults(results, performance['eyesStorybook']);
     console.log(outputStr);
 
     if (config.tapFilePath) {
@@ -36,7 +40,7 @@ const defaultConfig = require('./defaultConfig');
       fs.writeFileSync(tapFilePath, formatter.asHierarchicTAPString(false, true));
     }
 
-    process.exit(exitCode);
+    process.exit(config.exitcode ? exitCode : 0);
   } catch (ex) {
     console.log(ex.message);
     process.exit(1);

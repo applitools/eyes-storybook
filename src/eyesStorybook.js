@@ -6,15 +6,14 @@ const {
   extractResources: _extractResources,
   domNodesToCdt: _domNodeToCdt,
 } = require('@applitools/visual-grid-client/browser');
-const {makeTiming} = require('@applitools/monitoring-commons');
 const {presult} = require('@applitools/functional-commons');
-const {performance, timeItAsync} = makeTiming();
 const makeRenderStory = require('./renderStory');
 const makeRenderStories = require('./renderStories');
 const makeGetStoryData = require('./getStoryData');
 const getChunks = require('./getChunks');
 const ora = require('ora');
 const flatten = require('lodash.flatten');
+const chalk = require('chalk');
 
 const extractResources = new Function(
   `return (${_extractResources})(document.documentElement, window).then(${serialize})`,
@@ -24,7 +23,7 @@ const domNodesToCdt = new Function(`return (${_domNodeToCdt})(document)`);
 
 const CONCURRENT_PAGES = 3;
 
-async function eyesStorybook({config, logger}) {
+async function eyesStorybook({config, logger, performance, timeItAsync}) {
   const {storybookUrl} = config;
   const browser = await puppeteer.launch();
   const pages = await Promise.all(new Array(CONCURRENT_PAGES).fill().map(() => browser.newPage()));
@@ -68,7 +67,7 @@ async function eyesStorybook({config, logger}) {
     );
 
     if (error) {
-      console.log('Error when rendering stories', error);
+      console.log(chalk.red(`Error when rendering stories: ${error}`));
       return [];
     } else {
       return flatten(results);

@@ -4,7 +4,7 @@ const chalk = require('chalk');
 
 const EYES_TEST_FAILED_EXIT_CODE = 130;
 
-function processResults(results = []) {
+function processResults(results = [], totalTime) {
   let outputStr = '';
   const formatter = new TestResultsFormatter();
 
@@ -43,8 +43,16 @@ function processResults(results = []) {
 
   if (testResults[0]) {
     const diffCount = testResults.filter(result => !result.getIsNew() && !result.isPassed()).length;
-    outputStr += `\nA total of ${diffCount} difference${diffCount > 1 ? 's were' : ' was'} found.`;
-    outputStr += `\nSee details at ${testResults[0].getAppUrls().getBatch()}\n`;
+    if (diffCount) {
+      outputStr += chalk.red(`
+A total of ${diffCount} difference${diffCount > 1 ? 's were' : ' was'} found.`);
+    } else {
+      outputStr += chalk.green(`
+No differences were found!`);
+    }
+    outputStr += `\n
+See details at ${testResults[0].getAppUrls().getBatch()}
+Total time: ${Math.round(totalTime / 1000)} seconds\n`;
   }
 
   return {
