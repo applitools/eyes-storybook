@@ -4,7 +4,6 @@ const ora = require('ora');
 
 function makeRenderStories({getChunks, getStoryData, pages, renderStory, storybookUrl}) {
   return async function renderStories(stories) {
-    let runningStories = 0;
     let doneStories = 0;
     const spinner = ora(`Done 0 stories out of ${stories.length}`);
     spinner.start();
@@ -39,8 +38,7 @@ function makeRenderStories({getChunks, getStoryData, pages, renderStory, storybo
     return renderStoriesPromise;
 
     function updateRunning(data) {
-      ++runningStories;
-      spinner.text = `Done ${doneStories} stories out of ${stories.length}${currentlyRunning()}`;
+      spinner.text = `Done ${doneStories} stories out of ${stories.length}`;
       return data;
     }
 
@@ -53,13 +51,8 @@ function makeRenderStories({getChunks, getStoryData, pages, renderStory, storybo
     }
 
     function onDoneStory(resultsOrErr) {
-      --runningStories;
-      spinner.text = `Done ${++doneStories} stories out of ${stories.length}${currentlyRunning()}`;
+      spinner.text = `Done ${++doneStories} stories out of ${stories.length}`;
       return resultsOrErr;
-    }
-
-    function currentlyRunning() {
-      return runningStories ? ` (currently running ${runningStories} stories)` : '';
     }
   };
 }
