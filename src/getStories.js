@@ -72,8 +72,8 @@ function getStories() {
     console.log(`returning ${anchors.length} stories.`);
     return anchors.map((anchor, i) => {
       const url = new URL(anchor.href);
-      const kind = decodeURIComponent(url.searchParams.get('selectedKind'));
-      const name = decodeURIComponent(url.searchParams.get('selectedStory'));
+      const kind = url.searchParams.get('selectedKind');
+      const name = url.searchParams.get('selectedStory');
       console.log(`${i + 1}) story kind=${kind}, name=${name}`);
       return {
         kind,
