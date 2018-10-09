@@ -5,7 +5,7 @@ const chalk = require('chalk');
 const EYES_TEST_FAILED_EXIT_CODE = 130;
 
 function processResults(results = [], totalTime) {
-  let outputStr = '';
+  let outputStr = '\n';
   const formatter = new TestResultsFormatter();
 
   const testResults = results.filter(result => !(result instanceof Error));
@@ -13,7 +13,7 @@ function processResults(results = [], totalTime) {
 
   let exitCode = errors.length ? EYES_TEST_FAILED_EXIT_CODE : 0;
   if (testResults.length > 0) {
-    outputStr += '\n[EYES: TEST RESULTS]:\n';
+    outputStr += '[EYES: TEST RESULTS]:\n';
     testResults.forEach(result => {
       formatter.addResults(result);
 
