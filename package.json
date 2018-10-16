@@ -43,7 +43,7 @@
     "@applitools/eyes.sdk.core": "2.0.x",
     "@applitools/functional-commons": "^1.0.19",
     "@applitools/monitoring-commons": "^1.0.7",
-    "@applitools/visual-grid-client": "^5.3.4",
+    "@applitools/visual-grid-client": "^5.3.5",
     "chalk": "^2.4.1",
     "detect-port": "^1.2.3",
     "lodash.flatten": "^4.4.0",
