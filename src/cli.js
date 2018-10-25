@@ -10,6 +10,7 @@ const validateAndPopulateConfig = require('./validateAndPopulateConfig');
 const yargsOptions = require('./yargsOptions');
 const generateConfig = require('./generateConfig');
 const defaultConfig = require('./defaultConfig');
+const configDigest = require('./configDigest');
 const {makeTiming} = require('@applitools/monitoring-commons');
 const {performance, timeItAsync} = makeTiming();
 
@@ -29,6 +30,7 @@ const {performance, timeItAsync} = makeTiming();
     const config = generateConfig({argv, defaultConfig});
     const logger = createLogger(config.showLogs);
     await validateAndPopulateConfig({config, logger});
+    logger.log(`Running with the following config:\n${configDigest(config)}`);
     const results = await timeItAsync('eyesStorybook', () =>
       eyesStorybook({config, logger, performance, timeItAsync}),
     );
