@@ -84,6 +84,13 @@ Options:
   --exitcode, -e                                    If tests failed close with non-zero exit code                  [boolean]
 ```
 
+## Concurrency
+
+The default level of concurrency for free accounts is `10`. This means that only up to 10 visual tests can run in parallel, and therefore the execution might be slow.
+If your account does support a higher level of concurrency, it's possible to pass a different value by specifying it in the property `concurrency` in the applitools.config.js file (see [Advanced configuration](#advanced-configuration) section below).
+
+If you are interested in speeding up your visual tests, contact sdr@applitools.com to get a trial account and faster tests with more concurrency.
+
 ## Advanced configuration
 
 In addition to command-line arguments, it's possible to define the following configuration for tests:

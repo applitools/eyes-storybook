@@ -1,10 +1,11 @@
 'use strict';
 const {TestResultsFormatter} = require('@applitools/eyes.sdk.core');
 const chalk = require('chalk');
+const concurrencyMsg = require('./concurrencyMsg');
 
 const EYES_TEST_FAILED_EXIT_CODE = 130;
 
-function processResults(results = [], totalTime) {
+function processResults({results = [], totalTime, concurrency}) {
   let outputStr = '\n';
   const formatter = new TestResultsFormatter();
 
@@ -53,6 +54,10 @@ No differences were found!`);
     outputStr += `\n
 See details at ${testResults[0].getAppUrls().getBatch()}
 Total time: ${Math.round(totalTime / 1000)} seconds\n`;
+  }
+
+  if (concurrency == 10) {
+    outputStr += `\n${concurrencyMsg}\n`;
   }
 
   return {

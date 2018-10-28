@@ -34,7 +34,11 @@ const {performance, timeItAsync} = makeTiming();
     const results = await timeItAsync('eyesStorybook', () =>
       eyesStorybook({config, logger, performance, timeItAsync}),
     );
-    const {exitCode, formatter, outputStr} = processResults(results, performance['eyesStorybook']);
+    const {exitCode, formatter, outputStr} = processResults({
+      results,
+      totalTime: performance['eyesStorybook'],
+      concurrency: config.concurrency,
+    });
     console.log(outputStr);
 
     if (config.tapFilePath) {
