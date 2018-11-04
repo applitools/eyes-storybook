@@ -179,7 +179,8 @@ To enable chrome's device emulation, it's possible to send a device name and scr
 module.exports = {
   browser: {
     deviceName: 'iPhone X',
-    screenOrientation: 'landscape'
+    screenOrientation: 'landscape',
+    name: 'chrome' // optional, just to make it explicit this is browser emulation and not a real device. Only chrome is supported for device emulation.
   }
 }
 ```
@@ -200,7 +201,8 @@ module.exports = {
     width: 800,
     height: 600,
     deviceScaleFactor: 3,
-    mobile: true
+    mobile: true,
+    name: 'chrome' // optional, just to make it explicit this is browser emulation and not a real device. Only chrome is supported for device emulation.
   }
 }
 ```
