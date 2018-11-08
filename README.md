@@ -1,6 +1,6 @@
 # Eyes.Storybook
 
-Applitoos Eyes SDK for [Storybook](http://storybook.js.org).
+Applitools Eyes SDK for [Storybook](http://storybook.js.org).
 
 ## Installation
 
