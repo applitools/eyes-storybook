@@ -43,7 +43,7 @@
     "@applitools/eyes.sdk.core": "2.0.x",
     "@applitools/functional-commons": "^1.0.27",
     "@applitools/monitoring-commons": "^1.0.9",
-    "@applitools/visual-grid-client": "^5.4.2",
+    "@applitools/visual-grid-client": "^5.5.1",
     "chalk": "^2.4.1",
     "detect-port": "^1.2.3",
     "lodash.flatten": "^4.4.0",
@@ -58,15 +58,15 @@
     "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
     "chai": "^4.2.0",
-    "eslint": "^5.8.0",
+    "eslint": "^5.9.0",
     "eslint-plugin-mocha-no-only": "^1.0.0",
     "eslint-plugin-node": "^6.0.1",
     "eslint-plugin-prettier": "^2.7.0",
     "express": "^4.16.4",
     "mocha": "^5.2.0",
-    "node-fetch": "^2.2.1",
-    "prettier": "^1.14.3",
-    "react": "^16.6.0",
-    "react-dom": "^16.6.0"
+    "node-fetch": "^2.3.0",
+    "prettier": "^1.15.2",
+    "react": "^16.6.3",
+    "react-dom": "^16.6.3"
   }
 }
