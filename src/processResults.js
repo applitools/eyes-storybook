@@ -1,5 +1,5 @@
 'use strict';
-const {TestResultsFormatter} = require('@applitools/eyes.sdk.core');
+const {TestResultsFormatter} = require('@applitools/eyes-sdk-core');
 const chalk = require('chalk');
 const concurrencyMsg = require('./concurrencyMsg');
 
