@@ -1,4 +1,11 @@
 
+v2.1.16 / 2018-11-14
+====================
+
+* 2.1.16 - Amit Zur [[429d52c](https://github.com/applitools/eyes.storybook/commit/429d52c13c062b61f75b85b07645a6f9f2d2339b)]
+* update visual-grid-client to 5.5.3 and eyes-sdk-core to 4.1.0 - Amit Zur [[90c5d19](https://github.com/applitools/eyes.storybook/commit/90c5d19a1a440ece7c728c96276cd4c125ddafb6)]
+* add a changelog - Amit Zur [[a957714](https://github.com/applitools/eyes.storybook/commit/a957714c995b1fb107a5d36ac43d9751565d8353)]
+
 v2.1.15 / 2018-11-13
 ====================
 
