@@ -1,4 +1,12 @@
 
+v2.1.17 / 2018-11-20
+====================
+
+* 2.1.17 - Amit Zur [[31ee7a9](https://github.com/applitools/eyes.storybook/commit/31ee7a9d890647d2d821997beb816bf6ec1ef9d1)]
+* update visual-grid-client to 6.0.1 to fix deviceInfo - Amit Zur [[2f75540](https://github.com/applitools/eyes.storybook/commit/2f7554043eff9abc841c19a913c270134291fecd)]
+* license - Amit Zur [[4a02569](https://github.com/applitools/eyes.storybook/commit/4a02569d4f8de750958db14074a97776908c0736)]
+* changelog - Amit Zur [[5ca10cd](https://github.com/applitools/eyes.storybook/commit/5ca10cd3935b0102d9819d3ca69c500721db293d)]
+
 v2.1.16 / 2018-11-14
 ====================
 
