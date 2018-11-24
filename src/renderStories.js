@@ -16,11 +16,12 @@ function makeRenderStories({getChunks, getStoryData, pages, renderStory, storybo
           const storyDataPromise = getStoryData({url, page: pages[i]}); // TODO handle error
           const storyRenderPromise = storyDataPromise
             .then(updateRunning)
-            .then(({cdt, resourceUrls, resourceContents}) =>
+            .then(({cdt, resourceUrls, resourceContents, frames}) =>
               renderStory({
                 cdt,
                 resourceUrls,
                 resourceContents,
+                frames,
                 url,
                 name: story.name,
                 kind: story.kind,

@@ -6,9 +6,13 @@ const psetTimeout = p(setTimeout);
 
 async function testStorybook({port}) {
   const storybookPath = resolve(__dirname, '../fixtures/appWithStorybook');
-  const proc = spawn('npx', ['start-storybook', '-c', storybookPath, '-p', port], {
-    stdio: process.env.APPLITOOLS_SHOW_LOGS ? 'inherit' : 'ignore',
-  });
+  const proc = spawn(
+    'npx',
+    ['start-storybook', '-c', storybookPath, '-p', port, '-s', 'test/fixtures'],
+    {
+      stdio: process.env.APPLITOOLS_SHOW_LOGS ? 'inherit' : 'ignore',
+    },
+  );
   await waitForServer();
 
   return () => proc.kill();

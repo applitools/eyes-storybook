@@ -11,9 +11,10 @@ storiesOf('Button', module)
   ));
 
 storiesOf('Image', module)
-  .add('image', () => (
+  .add('image', () => (<React.Fragment>
     <img src="http://localhost:7272/smurfs.jpg"/>
-  ));
+    <img src="smurfs.jpg"/>
+  </React.Fragment>));
 
 storiesOf('Nested', module)
   .add('story 1', () => <div>story 1</div>);

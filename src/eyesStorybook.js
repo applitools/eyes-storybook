@@ -2,10 +2,7 @@
 const puppeteer = require('puppeteer');
 const getStories = require('./getStories');
 const {makeVisualGridClient} = require('@applitools/visual-grid-client');
-const {
-  extractResources: _extractResources,
-  domNodesToCdt: _domNodeToCdt,
-} = require('@applitools/visual-grid-client/browser');
+const {getProcessPageAndSerializeScript} = require('@applitools/visual-grid-client/browser');
 const {presult} = require('@applitools/functional-commons');
 const makeRenderStory = require('./renderStory');
 const makeRenderStories = require('./renderStories');
@@ -14,12 +11,6 @@ const getChunks = require('./getChunks');
 const ora = require('ora');
 const flatten = require('lodash.flatten');
 const chalk = require('chalk');
-
-const extractResources = new Function(
-  `return (${_extractResources})(document.documentElement, window).then(${serialize})`,
-);
-
-const domNodesToCdt = new Function(`return (${_domNodeToCdt})(document)`);
 
 const CONCURRENT_PAGES = 3;
 
@@ -30,7 +21,8 @@ async function eyesStorybook({config, logger, performance, timeItAsync}) {
   const page = pages[0];
   const {openEyes} = makeVisualGridClient(config);
 
-  const getStoryData = makeGetStoryData({logger, extractResources, domNodesToCdt});
+  const processPageAndSerialize = await getProcessPageAndSerializeScript();
+  const getStoryData = makeGetStoryData({logger, processPageAndSerialize});
   const renderStory = makeRenderStory({
     logger,
     openEyes,
@@ -78,19 +70,6 @@ async function eyesStorybook({config, logger, performance, timeItAsync}) {
     logger.log('total time: ', performance['renderStories']);
     await browser.close();
   }
-}
-
-function serialize({resourceUrls, blobs}) {
-  //eslint-disable-next-line
-  const decoder = new TextDecoder('utf-8');
-  return {
-    resourceUrls,
-    blobs: blobs.map(({url, type, value}) => ({
-      url,
-      type,
-      value: decoder.decode(value),
-    })),
-  };
 }
 
 module.exports = eyesStorybook;
