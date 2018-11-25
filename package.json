@@ -41,10 +41,11 @@
     "type": "git"
   },
   "dependencies": {
+    "@applitools/dom-capture": "^5.0.1",
     "@applitools/eyes-sdk-core": "^4.2.0",
     "@applitools/functional-commons": "^1.0.27",
     "@applitools/monitoring-commons": "^1.0.9",
-    "@applitools/visual-grid-client": "^7.1.1",
+    "@applitools/visual-grid-client": "^7.1.2",
     "chalk": "^2.4.1",
     "detect-port": "^1.3.0",
     "lodash.flatten": "^4.4.0",
