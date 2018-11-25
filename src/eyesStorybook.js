@@ -21,7 +21,7 @@ async function eyesStorybook({config, logger, performance, timeItAsync}) {
   const page = pages[0];
   const {openEyes} = makeVisualGridClient(config);
 
-  const processPageAndSerialize = await getProcessPageAndSerializeScript();
+  const processPageAndSerialize = `(${await getProcessPageAndSerializeScript()})()`;
   const getStoryData = makeGetStoryData({logger, processPageAndSerialize});
   const renderStory = makeRenderStory({
     logger,
