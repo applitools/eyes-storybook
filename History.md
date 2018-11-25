@@ -1,4 +1,24 @@
 
+v2.1.20 / 2018-11-25
+====================
+
+* 2.1.20 - Amit Zur [[9dddede](https://github.com/applitools/eyes.storybook/commit/9dddededced082b03b04583c44a8a466dc9c877d)]
+* work directly with dom-capture - Amit Zur [[89d8537](https://github.com/applitools/eyes.storybook/commit/89d853732699bb8069c605cce2c8d404d07f7c95)]
+
+v2.1.19 / 2018-11-25
+====================
+
+* 2.1.19 - Amit Zur [[6edbe28](https://github.com/applitools/eyes.storybook/commit/6edbe28f6ad5dd4678ed23df59abb24ab729e61f)]
+* update visual-grid-client - Amit Zur [[b872e53](https://github.com/applitools/eyes.storybook/commit/b872e5368506f294d349c550b24af17bc4137eac)]
+* package lock - Amit Zur [[97361d8](https://github.com/applitools/eyes.storybook/commit/97361d8ab704a5d08f85b7b4512f6b76f1c9dadf)]
+
+v2.1.18 / 2018-11-24
+====================
+
+* 2.1.18 - Amit Zur [[5aae0f3](https://github.com/applitools/eyes.storybook/commit/5aae0f318872164c551464b3cb138e6a6f11b258)]
+* fix resource serialization - Amit Zur [[df020b5](https://github.com/applitools/eyes.storybook/commit/df020b59f3a8508085672b2659f52908921d1f92)]
+* changelog - Amit Zur [[b0f2d14](https://github.com/applitools/eyes.storybook/commit/b0f2d14aa99900ce483b58f179de29bc4d13ee5c)]
+
 v2.1.17 / 2018-11-20
 ====================
 
