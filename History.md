@@ -1,4 +1,35 @@
 
+v2.2.4 / 2018-11-28
+===================
+
+* 2.2.4 - Amit Zur [[3951868](https://github.com/applitools/eyes.storybook/commit/3951868ada1a3e8aba2202b607326be9ee825a53)]
+* update vgc to 7.2.5 - Amit Zur [[661ad99](https://github.com/applitools/eyes.storybook/commit/661ad99a26e7886b7cbd6852ec2401cf9ffaed3c)]
+* add reference link to concurrency message - Amit Zur [[b968e23](https://github.com/applitools/eyes.storybook/commit/b968e23a80719b5bc4828a6a43f5c5a00ce6a72f)]
+
+v2.2.3 / 2018-11-27
+===================
+
+* 2.2.3 - Amit Zur [[db1e4db](https://github.com/applitools/eyes.storybook/commit/db1e4dbc584e4971ba3a189bec8256916a992d98)]
+* update vgc to 7.2.3 to fix max concurrency of renders with failures - Amit Zur [[bfedfef](https://github.com/applitools/eyes.storybook/commit/bfedfefbf3dd5f8fedc69655aa8fdc5670b4b7ad)]
+
+v2.2.2 / 2018-11-26
+===================
+
+* 2.2.2 - Amit Zur [[ce3a46f](https://github.com/applitools/eyes.storybook/commit/ce3a46f13f6e6177d07ab8f785316dd849acf2bb)]
+* update vgc to 7.2.2 to fix hangs in failed renders - Amit Zur [[c974904](https://github.com/applitools/eyes.storybook/commit/c974904d1ed1b44044368fda2a36749deb9b0747)]
+
+v2.2.1 / 2018-11-26
+===================
+
+* 2.2.1 - Amit Zur [[fce2581](https://github.com/applitools/eyes.storybook/commit/fce25819f6017af64fb9313872d672d927919546)]
+
+v2.2.0 / 2018-11-26
+===================
+
+* 2.2.0 - Amit Zur [[7a646c5](https://github.com/applitools/eyes.storybook/commit/7a646c5822a833bcec8483fa2be0c074268f6405)]
+* update visual-grid-client to 7.2.1 to get proxy user/pass - Amit Zur [[cf9cb65](https://github.com/applitools/eyes.storybook/commit/cf9cb6571b56ddc78e35e882a95dd4e5c00210d9)]
+* changelog - Amit Zur [[cecbb60](https://github.com/applitools/eyes.storybook/commit/cecbb6055a2f28c8c6b1345b77180ac8b24ec11e)]
+
 v2.1.20 / 2018-11-25
 ====================
 
