@@ -2,6 +2,7 @@
 const chalk = require('chalk');
 const fs = require('fs');
 const detect = require('detect-port');
+const {version: packageVersion} = require('../package.json');
 const startStorybookServer = require('./startStorybookServer');
 
 async function validateAndPopulateConfig({config, logger}) {
@@ -79,6 +80,8 @@ ${chalk.green(
     );
     process.exit(1);
   }
+
+  config.agentId = `eyes.storybook/${packageVersion}`;
 }
 
 module.exports = validateAndPopulateConfig;
