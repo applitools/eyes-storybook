@@ -1,6 +1,7 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 import './storybook.css';
+import smurfs from '../smurfs.jpg';
 
 storiesOf('Button', module)
   .add('with text', () => (
@@ -12,8 +13,9 @@ storiesOf('Button', module)
 
 storiesOf('Image', module)
   .add('image', () => (<React.Fragment>
-    <img src="http://localhost:7272/smurfs.jpg"/>
-    <img src="smurfs.jpg"/>
+    <img src="http://localhost:7272/smurfs.jpg" alt="cross origin url"/>
+    <img src="smurfs.jpg" alt="relative url"/>
+    <img src={smurfs} alt="imported image from code"/>
   </React.Fragment>));
 
 storiesOf('Nested', module)
