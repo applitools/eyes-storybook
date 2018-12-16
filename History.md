@@ -1,4 +1,42 @@
 
+v2.2.10 / 2018-12-16
+====================
+
+* 2.2.10 - Amit Zur [[e6d78de](https://github.com/applitools/eyes.storybook/commit/e6d78dec5d15cc25c5a4cb28fc24e75b7a5782c3)]
+* update vgc to 9.0.2 to get css deps fetched from the browser - Amit Zur [[113fbfc](https://github.com/applitools/eyes.storybook/commit/113fbfc0a251c5bc49ac6de8ddd646e98bf99387)]
+
+v2.2.9 / 2018-12-11
+===================
+
+* 2.2.9 - Amit Zur [[a0d8eeb](https://github.com/applitools/eyes.storybook/commit/a0d8eeb53fba2e8ce182904e2f7516fb4e31bafa)]
+* update vgc to 8.0.6 to handle null render status - Amit Zur [[d9e7d34](https://github.com/applitools/eyes.storybook/commit/d9e7d34cffdc8598379e648019d19bdfc2a162d1)]
+
+v2.2.8 / 2018-12-11
+===================
+
+* 2.2.8 - Amit Zur [[b96b362](https://github.com/applitools/eyes.storybook/commit/b96b362e22e642c3a269c57e3ff9ff590e39de7f)]
+* update vgc to 8.0.4 to fix statuser - Amit Zur [[d4994ae](https://github.com/applitools/eyes.storybook/commit/d4994ae4590ddc2a09ae064e13dd5d32b183a596)]
+
+v2.2.7 / 2018-12-11
+===================
+
+* 2.2.7 - Amit Zur [[b429fdb](https://github.com/applitools/eyes.storybook/commit/b429fdb914de65f4aea4a5d866de29a71e874ce9)]
+* update vgc to get statuser - Amit Zur [[9f4ce5b](https://github.com/applitools/eyes.storybook/commit/9f4ce5bd76ba544816de8c96cf6a365e04ae6eae)]
+* add imported image to test - Amit Zur [[f45eee0](https://github.com/applitools/eyes.storybook/commit/f45eee032ce95047a4bda24536c105533ba2bb0a)]
+
+v2.2.6 / 2018-12-02
+===================
+
+* 2.2.6 - Amit Zur [[7b47555](https://github.com/applitools/eyes.storybook/commit/7b47555681e0f23f2599b296c63fab1a0b1ac645)]
+* update vgc to 7.2.8 and use the correct agentId - Amit Zur [[5edcf33](https://github.com/applitools/eyes.storybook/commit/5edcf330addc0d29108b7f21e7d9a0b51ca7677c)]
+
+v2.2.5 / 2018-12-02
+===================
+
+* 2.2.5 - Amit Zur [[ecce24c](https://github.com/applitools/eyes.storybook/commit/ecce24cea223da6d234a5e8f12b3381aa054b528)]
+* update vgc to 7.2.7 to fix unopened transactions - Amit Zur [[07e330e](https://github.com/applitools/eyes.storybook/commit/07e330e94ff7c8b3b84b5a1164f78438d8e0a05a)]
+* changelog - Amit Zur [[724a72a](https://github.com/applitools/eyes.storybook/commit/724a72a0899e7c06b8a9daa1c305d250a1739f74)]
+
 v2.2.4 / 2018-11-28
 ===================
 
