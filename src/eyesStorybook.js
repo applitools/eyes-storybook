@@ -15,6 +15,7 @@ const chalk = require('chalk');
 const CONCURRENT_PAGES = 3;
 
 async function eyesStorybook({config, logger, performance, timeItAsync}) {
+  logger.log('eyesStorybook started');
   const {storybookUrl} = config;
   const browser = await puppeteer.launch();
   const pages = await Promise.all(new Array(CONCURRENT_PAGES).fill().map(() => browser.newPage()));
@@ -37,6 +38,7 @@ async function eyesStorybook({config, logger, performance, timeItAsync}) {
     storybookUrl,
   });
 
+  logger.log('finished creating functions');
   try {
     page.on('console', msg => {
       logger.log(msg.args().join(' '));
@@ -44,8 +46,11 @@ async function eyesStorybook({config, logger, performance, timeItAsync}) {
 
     const spinner = ora('Reading stories');
     spinner.start();
+    logger.log('navigating to storybook url:', storybookUrl);
     await page.goto(storybookUrl);
+    logger.log('Getting stories from storybook');
     let stories = await page.evaluate(getStories);
+    logger.log('got stories:', JSON.stringify(stories));
     spinner.succeed();
 
     if (process.env.APPLITOOLS_STORYBOOK_DEBUG) {
