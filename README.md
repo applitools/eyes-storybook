@@ -123,6 +123,8 @@ In addition to command-line arguments, it's possible to define the following con
 | `serverUrl`               | Default Eyes server URL     | The URL of Eyes server |
 | `compareWithParentBranch` | false                       |  |
 | `ignoreBaseline`          | false                       |  |
+| `runInDocker`             | false                       | If you are having issues running the SDK in docker, set this flag to `true`. See more info [below](#running-eyes.storybook-in-docker) |
+| `puppeteerOptions`        | undefined                   | Options to send to `puppeteer.launch`. This is a low-level configuration and should be used with great care. |
 
 There are 2 ways to specify test configuration:
 1) Environment variables
@@ -203,6 +205,20 @@ module.exports = {
     deviceScaleFactor: 3,
     mobile: true,
     name: 'chrome' // optional, just to make it explicit this is browser emulation and not a real device. Only chrome is supported for device emulation.
+  }
+}
+```
+
+## Running Eyes.Storybook in Docker
+
+When running the SDK in docker, there might be issues related to properly launching the internal chrome browser via puppeteer. If you seem to have such issues, set `runInDocker: true` in your config file. This will pass the internal chrome browser special arguments, as described [here](https://github.com/GoogleChrome/puppeteer/blob/master/docs/troubleshooting.md#tips).
+
+If you still have issues, you might need to follow the instructions to use your own chromium browser in the docker container, and point that to the SDK's puppeteer. Follow the instructions [here](https://github.com/GoogleChrome/puppeteer/blob/master/docs/troubleshooting.md#running-puppeteer-in-docker) and set the `executablePath` via the `puppeteerOptions`. For example, `applitools.config.js`:
+
+```js
+module.exports = {
+  puppeteerOptions: {
+    executablePath: '/usr/bin/chromium-browser'
   }
 }
 ```
