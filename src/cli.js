@@ -29,7 +29,7 @@ const {performance, timeItAsync} = makeTiming();
 
     const config = generateConfig({argv, defaultConfig});
     const logger = createLogger(config.showLogs);
-    await validateAndPopulateConfig({config, logger});
+    await validateAndPopulateConfig({config, logger, packagePath: process.cwd()});
     logger.log(`Running with the following config:\n${configDigest(config)}`);
     const results = await timeItAsync('eyesStorybook', () =>
       eyesStorybook({config, logger, performance, timeItAsync}),

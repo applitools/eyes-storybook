@@ -17,7 +17,7 @@ const CONCURRENT_PAGES = 3;
 async function eyesStorybook({config, logger, performance, timeItAsync}) {
   logger.log('eyesStorybook started');
   const {storybookUrl} = config;
-  const browser = await puppeteer.launch();
+  const browser = await puppeteer.launch(config.puppeteerOptions);
   const pages = await Promise.all(new Array(CONCURRENT_PAGES).fill().map(() => browser.newPage()));
   const page = pages[0];
   const {openEyes} = makeVisualGridClient(config);
