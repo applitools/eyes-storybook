@@ -12,7 +12,7 @@ const {
   missingAppNameInPackageJsonFailMsg,
 } = require('../../src/errMessages');
 
-describe.only('validateAndPopulateConfig', () => {
+describe('validateAndPopulateConfig', () => {
   it('throws error on missing apiKey', async () => {
     const [err] = await presult(validateAndPopulateConfig({config: {}}));
     expect(err).to.be.an.instanceOf(Error);
