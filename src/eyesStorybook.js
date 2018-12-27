@@ -18,11 +18,14 @@ async function eyesStorybook({config, logger, performance, timeItAsync}) {
   logger.log('eyesStorybook started');
   const {storybookUrl} = config;
   const browser = await puppeteer.launch(config.puppeteerOptions);
+  logger.log('browser launched');
   const pages = await Promise.all(new Array(CONCURRENT_PAGES).fill().map(() => browser.newPage()));
+  logger.log(`${CONCURRENT_PAGES} pages open`);
   const page = pages[0];
   const {openEyes} = makeVisualGridClient(config);
 
   const processPageAndSerialize = `(${await getProcessPageAndSerializeScript()})()`;
+  logger.log('got script for processPage');
   const getStoryData = makeGetStoryData({logger, processPageAndSerialize});
   const renderStory = makeRenderStory({
     logger,
