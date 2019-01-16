@@ -3,7 +3,9 @@ const {expect} = require('chai');
 const testServer = require('../util/testServer');
 const testStorybook = require('../util/testStorybook');
 const eyesStorybook = require('../../src/eyesStorybook');
-const {makeGetConfig, createLogger} = require('@applitools/visual-grid-client');
+const generateConfig = require('../../src/generateConfig');
+const {configParams: externalConfigParams} = require('@applitools/visual-grid-client');
+const {Logger} = require('@applitools/eyes-common');
 const path = require('path');
 const {makeTiming} = require('@applitools/monitoring-commons');
 const {performance, timeItAsync} = makeTiming();
@@ -29,15 +31,11 @@ describe('eyes-storybook', () => {
   });
 
   it('renders test storybook', async () => {
-    const configPath = path.resolve(__dirname, '../fixtures');
-    const cwd = process.cwd();
-    process.chdir(configPath);
-    const getConfig = makeGetConfig();
-    process.chdir(cwd);
-    const config = getConfig();
+    const configPath = path.resolve(__dirname, '../fixtures/applitools.config.js');
+    const config = generateConfig({argv: {conf: configPath}, externalConfigParams});
     const results = await eyesStorybook({
       config: {storybookUrl: 'http://localhost:9001', ...config},
-      logger: createLogger(config.showLogs),
+      logger: new Logger(config.showLogs),
       performance,
       timeItAsync,
     });

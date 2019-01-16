@@ -39,4 +39,32 @@ describe('generateConfig', function() {
     });
     expect(config).to.eql({bla: 'from env'});
   });
+
+  it('handles externalConfigParams', () => {
+    const config = generateConfig({
+      externalConfigParams: ['bla'],
+    });
+    expect(config).to.eql({});
+
+    process.env.APPLITOOLS_BLA = 'bla from env';
+    const config2 = generateConfig({
+      externalConfigParams: ['bla'],
+    });
+    expect(config2).to.eql({bla: 'bla from env'});
+
+    const config3 = generateConfig({
+      externalConfigParams: ['bla'],
+      defaultConfig: {kuku: 'buku'},
+    });
+    expect(config3).to.eql({bla: 'bla from env', kuku: 'buku'});
+  });
+
+  it('handles externalConfigParams with argv', () => {
+    process.env.APPLITOOLS_BLA = 'bla from env';
+    const config = generateConfig({
+      externalConfigParams: ['bla'],
+      argv: {bla: 'bla from argv'},
+    });
+    expect(config).to.eql({bla: 'bla from argv'});
+  });
 });

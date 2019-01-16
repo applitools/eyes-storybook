@@ -1,15 +1,19 @@
 'use strict';
 const pick = require('lodash.pick');
-const {makeGetConfig} = require('@applitools/visual-grid-client');
+const {ConfigUtils} = require('@applitools/eyes-common');
 const {resolve} = require('path');
 
-function generateConfig({argv = {}, defaultConfig}) {
+function generateConfig({argv = {}, defaultConfig = {}, externalConfigParams = []}) {
   const configPath = argv.conf ? resolve(process.cwd(), argv.conf) : undefined;
-  const configParams = Object.keys(defaultConfig);
-  const getConfig = makeGetConfig({configPath, configParams});
-
+  const defaultConfigParams = Object.keys(defaultConfig);
+  const configParams = uniq(defaultConfigParams.concat(externalConfigParams));
+  const config = ConfigUtils.getConfig({configPath, configParams});
   const argvConfig = pick(argv, configParams);
-  return Object.assign({}, defaultConfig, getConfig(), argvConfig);
+  return Object.assign({}, defaultConfig, config, argvConfig);
+}
+
+function uniq(arr) {
+  return Array.from(new Set(arr));
 }
 
 module.exports = generateConfig;
