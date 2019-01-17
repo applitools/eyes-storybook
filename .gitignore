@@ -2,3 +2,4 @@ node_modules
 eyes.tap
 *.log
 .applitools
+.idea/
