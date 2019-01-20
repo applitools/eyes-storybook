@@ -23,7 +23,7 @@
     "prepublishOnly": "npm version patch",
     "storybook": "start-storybook -c test/fixtures/appWithStorybook -p 9001 -s test/fixtures",
     "eyes-storybook": "node bin/eyes-storybook.js -f test/fixtures/applitools.config.js",
-    "changelog": "git changelog -f \"v$(jq -r '.version' < package.json)\""
+    "changelog": "git changelog -p -f v$npm_package_version"
   },
   "keywords": [
     "applitools",
