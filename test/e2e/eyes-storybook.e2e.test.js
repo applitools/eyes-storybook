@@ -1,6 +1,5 @@
 const {describe, it, before, after} = require('mocha');
 const {expect} = require('chai');
-const testServer = require('../util/testServer');
 const testStorybook = require('../util/testStorybook');
 const eyesStorybook = require('../../src/eyesStorybook');
 const generateConfig = require('../../src/generateConfig');
@@ -18,16 +17,6 @@ describe('eyes-storybook', () => {
 
   after(async () => {
     closeStorybook();
-  });
-
-  let closeTestServer;
-  before(async () => {
-    const server = await testServer({port: 7272});
-    closeTestServer = server.close;
-  });
-
-  after(async () => {
-    await closeTestServer();
   });
 
   it('renders test storybook', async () => {
