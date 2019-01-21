@@ -16,7 +16,7 @@ function processResults({results = [], totalTime, concurrency}) {
   if (testResults.length > 0) {
     outputStr += '[EYES: TEST RESULTS]:\n';
     testResults.forEach(result => {
-      formatter.addResults(result);
+      formatter.addTestResults(result);
 
       const storyTitle = `${result.getName()} [${result.getHostDisplaySize().toString()}] - `;
 
