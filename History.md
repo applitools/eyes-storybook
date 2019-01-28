@@ -1,4 +1,15 @@
 
+v2.3.5 / 2019-01-28
+===================
+
+  * 2.3.5
+  * Upgraded dev stroybook dependency (for tests) to 4.1.9 and fixed waitForStorybook().
+  * Merge pull request #2 from FinestV/master
+  * Merge pull request #3 from FinestV/TestResultsFormatter-addResults-has-been-renamed-to-addTestResults-in-eyes---sdk---core
+  * eyes-sdk-core has changed its API
+  * updated changelog and vhangelog command
+  * Closed menu items may not render the nextElementSibling until opened
+
 v2.3.4 / 2019-01-20
 ===================
 
