@@ -1,4 +1,11 @@
 
+v2.3.6 / 2019-01-28
+===================
+
+  * 2.3.6
+  * renamed git repo from eyes.storybook to eyes-storybook
+  * 2.3.5 changlog
+
 v2.3.5 / 2019-01-28
 ===================
 
