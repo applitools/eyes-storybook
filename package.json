@@ -37,7 +37,7 @@
   "author": "Applitools Team <team@applitools.com>",
   "license": "Apache-2.0",
   "repository": {
-    "url": "https://github.com/applitools/eyes.storybook",
+    "url": "https://github.com/applitools/eyes-storybook",
     "type": "git"
   },
   "dependencies": {
