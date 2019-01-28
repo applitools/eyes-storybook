@@ -82,7 +82,9 @@ function getStories() {
     });
 
     function getClosedMenus(menuItems) {
-      return menuItems.filter(menuItem => !menuItem.nextElementSibling || !menuItem.nextElementSibling.children[0]);
+      return menuItems.filter(
+        menuItem => !menuItem.nextElementSibling || !menuItem.nextElementSibling.children[0],
+      );
     }
 
     function openMenus(menuItems) {

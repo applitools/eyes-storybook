@@ -2,6 +2,14 @@
 const {resolve} = require('path');
 const {spawn} = require('child_process');
 const ora = require('ora');
+const fs = require('fs');
+const path = require('path');
+
+const storybookPackage = fs.readFileSync(
+  path.resolve(__dirname, '../node_modules/@storybook/react/package.json'),
+  'utf8',
+);
+const storybookVersion = JSON.parse(storybookPackage).version;
 
 async function startStorybookServer({
   packagePath,
@@ -18,7 +26,7 @@ async function startStorybookServer({
     `node_modules/.bin/start-storybook${isWindows ? '.cmd' : ''}`,
   );
 
-  const args = ['-p', storybookPort, '-h', storybookHost, '-c', storybookConfigDir];
+  const args = ['-p', storybookPort, '-h', storybookHost, '-c', storybookConfigDir, '--ci'];
   if (storybookStaticDir) {
     args.push('-s');
     args.push(storybookStaticDir);
@@ -65,32 +73,37 @@ async function startStorybookServer({
   await waitForStorybook(childProcess);
   spinner.succeed('Storybook was started');
   return `http://${storybookHost}:${storybookPort}`;
+}
 
-  function waitForStorybook(childProcess) {
-    return new Promise((resolve, reject) => {
-      childProcess.stdout.on('data', webpackBuiltListener);
-      childProcess.stderr.on('data', portBusyListener);
+function waitForStorybook(childProcess) {
+  return new Promise((resolve, reject) => {
+    childProcess.stdout.on('data', webpackBuiltListener);
+    childProcess.stderr.on('data', portBusyListener);
 
-      // Set up the timeout
-      setTimeout(() => reject("Storybook din't start after 5 min waiting."), 5 * 60 * 1000); // 5 min
+    // Set up the timeout
+    const timeout = setTimeout(
+      () => reject("Storybook din't start after 5 min waiting."),
+      5 * 60 * 1000,
+    ); // 5 min
 
-      function portBusyListener(data) {
-        if (bufferToString(data).includes('Error: listen EADDRINUSE')) {
-          reject(new Error('Storybook port already in use: ', storybookPort));
-        }
+    function portBusyListener(data) {
+      if (bufferToString(data).includes('Error: listen EADDRINUSE')) {
+        clearTimeout(timeout);
+        reject(new Error('Storybook port already in use: '));
       }
+    }
 
-      function webpackBuiltListener(data) {
-        if (bufferToString(data).includes('webpack built')) {
-          resolve();
-        }
+    function webpackBuiltListener(data) {
+      if (bufferToString(data).includes(`Storybook ${storybookVersion} started`)) {
+        clearTimeout(timeout);
+        resolve();
       }
-    });
-  }
+    }
+  });
 }
 
 function bufferToString(data) {
   return data.toString('utf8').trim();
 }
 
-module.exports = startStorybookServer;
+module.exports = {startStorybookServer, waitForStorybook};

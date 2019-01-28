@@ -9,7 +9,7 @@ const {
   missingAppNameInPackageJsonFailMsg,
   startStorybookFailMsg,
 } = require('./errMessages');
-const startStorybookServer = require('./startStorybookServer');
+const {startStorybookServer} = require('./startStorybookServer');
 
 async function validateAndPopulateConfig({config, packagePath, logger}) {
   if (!config.apiKey) {
