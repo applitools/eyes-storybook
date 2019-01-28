@@ -118,13 +118,14 @@ In addition to command-line arguments, it's possible to define the following con
 | `baselineBranchName`      | undefined                   | The name of the baseline branch. |
 | `parentBranchName`        | undefined                   | Sets the branch under which new branches are created. |
 | `proxy`                   | undefined                   | Sets the proxy settings to be used in network requests to Eyes server. |
-| `saveFailedTests`         | false                       | Set whether or not failed tests are saved by default. |
-| `saveNewTests`            | false                       | Set whether or not new tests are saved by default. |
+| `saveFailedTests`         | false                       | Set whether or not failed tests are saved by default (saved as baseline). |
+| `saveNewTests`            | false                       | Set whether or not new tests are saved by default (saved as baseline). |
 | `serverUrl`               | Default Eyes server URL     | The URL of Eyes server |
 | `compareWithParentBranch` | false                       |  |
 | `ignoreBaseline`          | false                       |  |
 | `runInDocker`             | false                       | If you are having issues running the SDK in docker, set this flag to `true`. See more info [below](#running-eyes.storybook-in-docker) |
 | `puppeteerOptions`        | undefined                   | Options to send to `puppeteer.launch`. This is a low-level configuration and should be used with great care. |
+| `tapFilePath`             | undefined                   | Path for managing a test results file |
 
 There are 2 ways to specify test configuration:
 1) Environment variables
