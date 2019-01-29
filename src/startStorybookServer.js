@@ -5,12 +5,6 @@ const ora = require('ora');
 const fs = require('fs');
 const path = require('path');
 
-const storybookPackage = fs.readFileSync(
-  path.resolve(__dirname, '../node_modules/@storybook/react/package.json'),
-  'utf8',
-);
-const storybookVersion = JSON.parse(storybookPackage).version;
-
 async function startStorybookServer({
   packagePath,
   storybookPort,
@@ -94,7 +88,7 @@ function waitForStorybook(childProcess) {
     }
 
     function webpackBuiltListener(data) {
-      if (bufferToString(data).includes(`Storybook ${storybookVersion} started`)) {
+      if (bufferToString(data).includes(`Storybook ${getStorybookVersion()} started`)) {
         clearTimeout(timeout);
         resolve();
       }
@@ -104,6 +98,14 @@ function waitForStorybook(childProcess) {
 
 function bufferToString(data) {
   return data.toString('utf8').trim();
+}
+
+function getStorybookVersion() {
+  const storybookPackage = fs.readFileSync(
+    path.resolve(__dirname, '../node_modules/@storybook/react/package.json'),
+    'utf8',
+  );
+  return storybookVersion = JSON.parse(storybookPackage).version;
 }
 
 module.exports = {startStorybookServer, waitForStorybook};
