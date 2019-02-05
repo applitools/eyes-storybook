@@ -5,12 +5,6 @@ const ora = require('ora');
 const fs = require('fs');
 const path = require('path');
 
-const storybookPackage = fs.readFileSync(
-  path.resolve(__dirname, '../node_modules/@storybook/react/package.json'),
-  'utf8',
-);
-const storybookVersion = JSON.parse(storybookPackage).version;
-
 async function startStorybookServer({
   packagePath,
   storybookPort,
@@ -70,12 +64,18 @@ async function startStorybookServer({
   process.on('SIGTERM', () => process.exit());
   process.on('uncaughtException', () => process.exit(1));
 
-  await waitForStorybook(childProcess);
+  await waitForStorybook(childProcess, packagePath);
   spinner.succeed('Storybook was started');
   return `http://${storybookHost}:${storybookPort}`;
 }
 
-function waitForStorybook(childProcess) {
+function waitForStorybook(childProcess, packagePath) {
+  const storybookPackage = fs.readFileSync(
+    path.resolve(packagePath, 'node_modules/@storybook/core/package.json'),
+    'utf8',
+  );
+  const storybookVersion = JSON.parse(storybookPackage).version;
+
   return new Promise((resolve, reject) => {
     childProcess.stdout.on('data', webpackBuiltListener);
     childProcess.stderr.on('data', portBusyListener);

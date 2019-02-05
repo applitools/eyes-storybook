@@ -14,7 +14,7 @@ async function testStorybook({port}) {
     'test/fixtures',
     '--ci',
   ]);
-  await waitForStorybook(proc);
+  await waitForStorybook(proc, './');
 
   return () => proc.kill();
 }
