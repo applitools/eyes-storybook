@@ -1,4 +1,13 @@
 
+v2.3.7 / 2019-02-05
+===================
+
+  * 2.3.7
+  * fix npx eyes-storybook cmd bug - not finding storybook dir.
+  * Added processResults sanity it test (checking exceptions and basic results).
+  * readme fix and added tapFilePath attr to readme.
+  * 2.3.6 changlog
+
 v2.3.6 / 2019-01-28
 ===================
 
