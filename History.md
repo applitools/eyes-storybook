@@ -1,4 +1,11 @@
 
+v2.3.8 / 2019-02-05
+===================
+
+  * 2.3.8
+  * updated VGC to 10.0.5: abort waits for checkWindow and having fetch timeout.
+  * changelog
+
 v2.3.7 / 2019-02-05
 ===================
 
