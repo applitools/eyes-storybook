@@ -1,4 +1,14 @@
 
+v2.3.9 / 2019-02-07
+===================
+
+* 2.3.9 [[185f011](https://github.com/applitools/eyes.storybook/commit/185f01163a74679fe9bad68d3a12a1c0930189a9)]
+* Updated dom-snapshot to 1.0.4: now returning checked propery as checked=true attribute in CDT. [[789e4cd](https://github.com/applitools/eyes.storybook/commit/789e4cd6875812b13a28b5521352d6ebc4f2050f)]
+* better changelog:install [[f71d62d](https://github.com/applitools/eyes.storybook/commit/f71d62d9b03510565772c6bb9e92230fe0b56ef7)]
+* added changelog:install script to package.json [[55aa5b4](https://github.com/applitools/eyes.storybook/commit/55aa5b498dd0873faefa1f18f5defe1fb32e586b)]
+* fixed changelog to include Links & added changelog init script [[6bafb49](https://github.com/applitools/eyes.storybook/commit/6bafb497060e444e8065bcc0699ddd09cc0b4ecd)]
+* changelog [[2efe51f](https://github.com/applitools/eyes.storybook/commit/2efe51f957e03e61db8c864a28a913471bfa9f46)]
+
 v2.3.8 / 2019-02-05
 ===================
 
