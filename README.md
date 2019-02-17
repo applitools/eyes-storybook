@@ -126,6 +126,7 @@ In addition to command-line arguments, it's possible to define the following con
 | `runInDocker`             | false                       | If you are having issues running the SDK in docker, set this flag to `true`. See more info [below](#running-eyes.storybook-in-docker) |
 | `puppeteerOptions`        | undefined                   | Options to send to `puppeteer.launch`. This is a low-level configuration and should be used with great care. |
 | `tapFilePath`             | undefined                   | Path for managing a test results file |
+| `waitBeforeScreenshots`   | undefined                   | Time in milliseconds to wait before each screenshot is taken. |
 
 There are 2 ways to specify test configuration:
 1) Environment variables

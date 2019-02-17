@@ -9,7 +9,11 @@ function generateConfig({argv = {}, defaultConfig = {}, externalConfigParams = [
   const configParams = uniq(defaultConfigParams.concat(externalConfigParams));
   const config = ConfigUtils.getConfig({configPath, configParams});
   const argvConfig = pick(argv, configParams);
-  return Object.assign({}, defaultConfig, config, argvConfig);
+  const result = Object.assign({}, defaultConfig, config, argvConfig);
+  if (result.waitBeforeScreenshots) {
+    result.waitBeforeScreenshots = Number(result.waitBeforeScreenshots);
+  }
+  return result;
 }
 
 function uniq(arr) {

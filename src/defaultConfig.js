@@ -8,4 +8,5 @@ module.exports = {
   storybookUrl: undefined,
   storybookStaticDir: undefined,
   showStorybookOutput: false,
+  waitBeforeScreenshots: 50,
 };
