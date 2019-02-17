@@ -1,4 +1,14 @@
 
+v2.3.11 / 2019-02-17
+====================
+
+* 2.3.11 [[f71977b](https://github.com/applitools/eyes-storybook/commit/f71977be08c04291056a456db83f18ac893b7734)]
+* Added waitBeforeScreenshots parametr for waiting before screenshots (Milliseconds). [[333d841](https://github.com/applitools/eyes-storybook/commit/333d841af107f6f60a7772bec569ca8cc043b03c)]
+* better changelog [[dcbbe0d](https://github.com/applitools/eyes-storybook/commit/dcbbe0d21670f804b978f48f1ed9d6b3a27da9ab)]
+* better changelog script [[2f699d1](https://github.com/applitools/eyes-storybook/commit/2f699d1af573efc7ee4279b5a2bc86a98d195080)]
+* fixed changelog script [[39cba5f](https://github.com/applitools/eyes-storybook/commit/39cba5f1a261cb557cd96850f4b74f6da2871dd6)]
+* changelog [[214cc90](https://github.com/applitools/eyes-storybook/commit/214cc90c3a694cfa65be76c2b87ef7f7a9e9e2cc)]
+
 v2.3.10 / 2019-02-07
 ====================
 
