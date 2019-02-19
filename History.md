@@ -1,4 +1,25 @@
 
+v2.3.15 / 2019-02-19
+====================
+
+* 2.3.15 [[b64662b](https://github.com/applitools/eyes-storybook/commit/b64662bb3d44a89fa76a0befd84592edef48dbfa)]
+* re changed the eyes name [[fe76a66](https://github.com/applitools/eyes-storybook/commit/fe76a668caf75ef74ed39ec49cb094bd39e2ce48)]
+* trying name change again [[8fb05a8](https://github.com/applitools/eyes-storybook/commit/8fb05a840b112096d5a972c4dba8f9cdcb1cb52e)]
+* returned correct npm package name [[51fffc6](https://github.com/applitools/eyes-storybook/commit/51fffc60ca71c469bde7105bd2b54d90a02be0a3)]
+
+v2.3.13 / 2019-02-19
+====================
+
+* 2.3.13 [[0b09392](https://github.com/applitools/eyes-storybook/commit/0b093927ff63c4c2f265341c45621046cbaa7ee3)]
+* added 2.3.12 version for the old repository just to hae a deprected message [[7fcd99f](https://github.com/applitools/eyes-storybook/commit/7fcd99fa30163921815bf70a877cfe08f250f70a)]
+
+v2.3.12 / 2019-02-19
+====================
+
+* 2.3.12 [[1b83a4e](https://github.com/applitools/eyes-storybook/commit/1b83a4ec296ed54a406f885350bcf856b6b48d95)]
+* renaming npm package from eyes.storybook to eyes-storybook [[edea55a](https://github.com/applitools/eyes-storybook/commit/edea55aa59b9d37e4b86acb0c3ea7886344ebf31)]
+* changelog [[1675661](https://github.com/applitools/eyes-storybook/commit/1675661a0a0f61e2716f25eb5ddf13dff3ab1f9b)]
+
 v2.3.11 / 2019-02-17
 ====================
 
