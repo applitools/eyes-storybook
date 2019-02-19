@@ -1,5 +1,5 @@
 {
-  "name": "@applitools/eyes.storybook",
+  "name": "@applitools/eyes-storybook",
   "version": "2.3.11",
   "description": "",
   "main": "src/eyes-storybook.js",
