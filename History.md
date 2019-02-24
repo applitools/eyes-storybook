@@ -1,4 +1,11 @@
 
+v2.3.16 / 2019-02-24
+====================
+
+* 2.3.16 [[4d5a0e2](https://github.com/applitools/eyes-storybook/commit/4d5a0e2ef55aa1db1bc6b7129ec9b138dcd9da1f)]
+* fixed readme for new stroybook name [[5c60284](https://github.com/applitools/eyes-storybook/commit/5c602848ada4b7226dc1d3620c630a00e0eb66c3)]
+* changelog [[a0d8472](https://github.com/applitools/eyes-storybook/commit/a0d8472bb1e4d950652f1f8d0b603c61689c6a34)]
+
 v2.3.15 / 2019-02-19
 ====================
 
