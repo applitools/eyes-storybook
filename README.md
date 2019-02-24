@@ -1,4 +1,4 @@
-# Eyes.Storybook
+# Eyes-Storybook
 
 Applitools Eyes SDK for [Storybook](http://storybook.js.org).
 
@@ -9,7 +9,7 @@ Applitools Eyes SDK for [Storybook](http://storybook.js.org).
 Install Eyes.Storybook as a local dev dependency in your tested project:
 
 ```bash
-npm install --save-dev @applitools/eyes.storybook
+npm install --save-dev @applitools/eyes-storybook
 ```
 
 ### Applitools API key
