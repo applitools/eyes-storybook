@@ -26,7 +26,7 @@ const {performance, timeItAsync} = makeTiming();
       .wrap(yargs.terminalWidth())
       .options(yargsOptions).argv;
 
-    console.log(`Using @applitools/eyes.storybook version ${VERSION}.\n`);
+    console.log(`Using @applitools/eyes-storybook version ${VERSION}.\n`);
 
     const config = generateConfig({argv, defaultConfig, externalConfigParams});
     const logger = new Logger(config.showLogs);
