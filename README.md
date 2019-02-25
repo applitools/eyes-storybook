@@ -6,7 +6,7 @@ Applitools Eyes SDK for [Storybook](http://storybook.js.org).
 
 ### Install npm package
 
-Install Eyes.Storybook as a local dev dependency in your tested project:
+Install Eyes-Storybook as a local dev dependency in your tested project:
 
 ```bash
 npm install --save-dev @applitools/eyes-storybook
@@ -14,7 +14,7 @@ npm install --save-dev @applitools/eyes-storybook
 
 ### Applitools API key
 
-In order to authenticate via the Applitools server, you need to supply the Eyes.Storybook SDK with the API key you got from Applitools. Read more about how to obtain the API key [here](https://applitools.com/docs/topics/overview/obtain-api-key.html).
+In order to authenticate via the Applitools server, you need to supply the Eyes-Storybook SDK with the API key you got from Applitools. Read more about how to obtain the API key [here](https://applitools.com/docs/topics/overview/obtain-api-key.html).
 
 To to this, set the environment variable `APPLITOOLS_API_KEY` to the API key before running your tests.
 For example, on Linux/Mac:
@@ -31,7 +31,7 @@ set APPLITOOLS_API_KEY=<your_key>
 
 ## Usage
 
-After completing the installation and defining the API key, you will be able to run Eyes.Storybook from the command line and let it take screenshots of all your stories.
+After completing the installation and defining the API key, you will be able to run Eyes-Storybook from the command line and let it take screenshots of all your stories.
 
 If your project is using the default storybook config folder (i.e. `<project_folder>/.storybook`), then run the following command:
 
@@ -41,7 +41,7 @@ npx eyes-storybook
 
 ### Configuring local storybook server
 
-Normally, Eyes.Storybook starts a storybook dev server in an available port between 9000-9010 for the duration of the tests. It's possible to pass arguments to Eyes.Storybook to configure the local storybook server:
+Normally, Eyes-Storybook starts a storybook dev server in an available port between 9000-9010 for the duration of the tests. It's possible to pass arguments to Eyes-Storybook to configure the local storybook server:
 
 * `--storybook-port OR -p`: Port to run storybook (passed as `-p` to `start-storybook`).
 * `--storybook-host OR -h`: Host to run storybook (passed as `-h` to `start-storybook`).
@@ -50,7 +50,7 @@ Normally, Eyes.Storybook starts a storybook dev server in an available port betw
 
 ### Standalone server
 
-As noted in the previous section, Eyes.Storybook starts a storybook dev server. If you wish to start the server outside of Eyes.Storybook, or test a production build that's available at a certain URL, then just specify the URL for the storybook in the command line (or in the configuration file, see [Advanced configuration](#advanced-configuration) below).
+As noted in the previous section, Eyes-Storybook starts a storybook dev server. If you wish to start the server outside of Eyes-Storybook, or test a production build that's available at a certain URL, then just specify the URL for the storybook in the command line (or in the configuration file, see [Advanced configuration](#advanced-configuration) below).
 
 For example:
 
@@ -105,7 +105,7 @@ In addition to command-line arguments, it's possible to define the following con
 | `showStorybookOutput`     | undefined                   | Whether or not you want to see Storybook output (also available as command-line argument). |
 | `exitcode`                | false                       | If tests failed close with non-zero exit code (also available as command-line argument). |
 | `browser`                 | { width: 800, height: 600, name: 'chrome' } | The size and browser of the generated screenshots. Currently, `firefox` and `chrome` are supported. For more info, see the [browser section below](#configuring-the-browser).|
-| `showLogs`                | false                       | Whether or not you want to see logs of the Eyes.Storybook plugin. |
+| `showLogs`                | false                       | Whether or not you want to see logs of the Eyes-Storybook plugin. |
 | `saveDebugData`           | false                       | Whether to save troubleshooting data. See the troubleshooting section of this doc for more info. |
 | `batchId`                 | random                      | Provides ability to group tests into batches. Read more about batches [here](https://applitools.com/docs/topics/working-with-test-batches/how-to-group-tests-into-batches.html). |
 | `batchName`               | undefined                   | Provides a name to the batch. |
@@ -123,7 +123,7 @@ In addition to command-line arguments, it's possible to define the following con
 | `serverUrl`               | Default Eyes server URL     | The URL of Eyes server |
 | `compareWithParentBranch` | false                       |  |
 | `ignoreBaseline`          | false                       |  |
-| `runInDocker`             | false                       | If you are having issues running the SDK in docker, set this flag to `true`. See more info [below](#running-eyes.storybook-in-docker) |
+| `runInDocker`             | false                       | If you are having issues running the SDK in docker, set this flag to `true`. See more info [below](#running-eyes-storybook-in-docker) |
 | `puppeteerOptions`        | undefined                   | Options to send to `puppeteer.launch`. This is a low-level configuration and should be used with great care. |
 | `tapFilePath`             | undefined                   | Path for managing a test results file |
 | `waitBeforeScreenshots`   | undefined                   | Time in milliseconds to wait before each screenshot is taken. |
@@ -162,7 +162,7 @@ module.exports = {
 
 ## Configuring the browser
 
-Eyes.Storybook will take a screenshot of the page as specified in the `browser` configuration parameter.
+Eyes-Storybook will take a screenshot of the page as specified in the `browser` configuration parameter.
 
 It's also possible to send an array of browsers, for example in the `applitools.config.js` file:
 
@@ -211,7 +211,7 @@ module.exports = {
 }
 ```
 
-## Running Eyes.Storybook in Docker
+## Running Eyes-Storybook in Docker
 
 When running the SDK in docker, there might be issues related to properly launching the internal chrome browser via puppeteer. If you seem to have such issues, set `runInDocker: true` in your config file. This will pass the internal chrome browser special arguments, as described [here](https://github.com/GoogleChrome/puppeteer/blob/master/docs/troubleshooting.md#tips).
 

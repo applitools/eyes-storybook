@@ -70,7 +70,7 @@ describe('validateAndPopulateConfig', () => {
       config,
       logger: console,
     });
-    expect(config.agentId).to.equal(`eyes.storybook/${version}`);
+    expect(config.agentId).to.equal(`eyes-storybook/${version}`);
   });
 
   it('adds correct configuration for runInDocker when no puppeteerOptions is specified', async () => {

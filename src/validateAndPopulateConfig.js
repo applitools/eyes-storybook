@@ -52,7 +52,7 @@ async function validateAndPopulateConfig({config, packagePath, logger}) {
 
   config.storybookUrl = config.storybookUrl.replace(/\/$/, '');
 
-  config.agentId = `eyes.storybook/${packageVersion}`;
+  config.agentId = `eyes-storybook/${packageVersion}`;
 
   if (config.runInDocker) {
     config.puppeteerOptions = config.puppeteerOptions || {};
