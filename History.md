@@ -1,4 +1,15 @@
 
+v2.4.1 / 2019-03-03
+===================
+
+* 2.4.1 [[cbea8d9](https://github.com/applitools/eyes-storybook/commit/cbea8d98ff5e7f3eb0a11857557eaca459fc7d7e)]
+* 2.4.0 [[ff93a72](https://github.com/applitools/eyes-storybook/commit/ff93a724e2a66c0ec735bc77f10bd82e7d0f16cb)]
+* Supporting udeDom & enablePatterns [[657037e](https://github.com/applitools/eyes-storybook/commit/657037e7f64c01cc3fdc6dcbd4850d82a92d78df)]
+* updated string of eyes.storybook to eyes-storybook [[1d155d4](https://github.com/applitools/eyes-storybook/commit/1d155d4800cad8eb110b3c7f2d876bd82dda3f76)]
+* better print of config in cli startup [[e75b6e4](https://github.com/applitools/eyes-storybook/commit/e75b6e438ab5e087bf8c9105be4155f97ed9b85c)]
+* changed cli eyes.storybook to eyes-storybook [[4930aa4](https://github.com/applitools/eyes-storybook/commit/4930aa4295fef98aa1679c70b7b71435cf178c07)]
+* changelog [[47a44fc](https://github.com/applitools/eyes-storybook/commit/47a44fcc60dbd7380542d042cd87886aa60a4448)]
+
 v2.3.16 / 2019-02-24
 ====================
 
