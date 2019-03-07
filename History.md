@@ -1,4 +1,15 @@
 
+v2.4.2 / 2019-03-07
+===================
+
+* 2.4.2 [[5174b65](https://github.com/applitools/eyes-storybook/commit/5174b65f4f294335b75c4aac05aa6c1db3daad42)]
+* Merge branch 'hipstersmoothie-v5-support' [[ee3a8cc](https://github.com/applitools/eyes-storybook/commit/ee3a8cc51e4d41b681ee04bc285d01a2e829a34f)]
+* Added fucntor for SB versions, alos getting component names from title. using applitools delay. [[e28881d](https://github.com/applitools/eyes-storybook/commit/e28881d440b2079b07f79cb9eff8397647d7ca1d)]
+* lint [[b27136f](https://github.com/applitools/eyes-storybook/commit/b27136f22e2fc6d6e69095966e3231d0317438a3)]
+* add delay function [[f9d0608](https://github.com/applitools/eyes-storybook/commit/f9d06085b3d4f508fefbc16f12c17642e80dbc12)]
+* support v5 [[e93d7f8](https://github.com/applitools/eyes-storybook/commit/e93d7f8f5efbd2aa3db03ec9f0573671bf029c14)]
+* changelog [[50c54fb](https://github.com/applitools/eyes-storybook/commit/50c54fb7e18d04ad28c0188717cf31887b949c2e)]
+
 v2.4.1 / 2019-03-03
 ===================
 
