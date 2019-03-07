@@ -20,30 +20,24 @@ function getStories() {
     for (const anchor of categories) {
       verifyOpen(anchor);
       const kind = anchor.textContent;
-      const storyEls = Array.from(
-        anchor.nextElementSibling.querySelectorAll('a')
-      );
+      const storyEls = Array.from(anchor.nextElementSibling.querySelectorAll('a'));
       console.log('found', storyEls.length, 'stories for category', kind);
       stories = stories.concat(
         storyEls.map(storyEl => ({
           kind,
-          name: storyEl.textContent
-        }))
+          name: storyEl.textContent,
+        })),
       );
     }
 
-    console.log(
-      stories.map(
-        ({ kind, name }, i) => `${i + 1}) story kind=${kind}, name=${name}`
-      )
-    );
+    console.log(stories.map(({kind, name}, i) => `${i + 1}) story kind=${kind}, name=${name}`));
 
     return stories;
 
     function getCategories() {
-      return Array.from(
-        document.querySelector('.Pane.vertical.Pane1 ul').children
-      ).map(li => li.querySelector('a'));
+      return Array.from(document.querySelector('.Pane.vertical.Pane1 ul').children).map(li =>
+        li.querySelector('a'),
+      );
     }
 
     function verifyOpen(anchor) {
@@ -59,9 +53,7 @@ function getStories() {
 
     let closedMenuItems = getClosedMenus(menuItems);
     console.log(
-      `got ${closedMenuItems.length} closed menu items:\n${menuItemsToString(
-        closedMenuItems
-      )}`
+      `got ${closedMenuItems.length} closed menu items:\n${menuItemsToString(closedMenuItems)}`,
     );
 
     while (closedMenuItems.length) {
@@ -71,19 +63,17 @@ function getStories() {
       closedMenuItems = getClosedMenus(menuItems);
       console.log(`after opening menus, got ${menuItems.length} menu items`);
       console.log(
-        `after opening menus, got ${
-          closedMenuItems.length
-        } closed menu items:\n${menuItemsToString(closedMenuItems)}`
+        `after opening menus, got ${closedMenuItems.length} closed menu items:\n${menuItemsToString(
+          closedMenuItems,
+        )}`,
       );
     }
 
     const anchors = Array.from(
-      document.querySelectorAll(
-        '.Pane.vertical.Pane1 [role="menuitem"] + * a[href]'
-      )
+      document.querySelectorAll('.Pane.vertical.Pane1 [role="menuitem"] + * a[href]'),
     );
     console.log(`returning ${anchors.length} stories.`);
-    
+
     return anchors.map((anchor, i) => {
       const url = new URL(anchor.href);
       const kind = url.searchParams.get('selectedKind');
@@ -91,15 +81,13 @@ function getStories() {
       console.log(`${i + 1}) story kind=${kind}, name=${name}`);
       return {
         kind,
-        name
+        name,
       };
     });
 
     function getClosedMenus(menuItems) {
       return menuItems.filter(
-        menuItem =>
-          !menuItem.nextElementSibling ||
-          !menuItem.nextElementSibling.children[0]
+        menuItem => !menuItem.nextElementSibling || !menuItem.nextElementSibling.children[0],
       );
     }
 
@@ -118,9 +106,7 @@ function getStories() {
 
     let closedMenuItems = getClosedMenus(menuItems);
     console.log(
-      `got ${closedMenuItems.length} closed menu items:\n${menuItemsToString(
-        closedMenuItems
-      )}`
+      `got ${closedMenuItems.length} closed menu items:\n${menuItemsToString(closedMenuItems)}`,
     );
 
     while (closedMenuItems.length) {
@@ -130,31 +116,27 @@ function getStories() {
       closedMenuItems = getClosedMenus(menuItems);
       console.log(`after opening menus, got ${menuItems.length} menu items`);
       console.log(
-        `after opening menus, got ${
-          closedMenuItems.length
-        } closed menu items:\n${menuItemsToString(closedMenuItems)}`
+        `after opening menus, got ${closedMenuItems.length} closed menu items:\n${menuItemsToString(
+          closedMenuItems,
+        )}`,
       );
     }
 
-    const anchors = Array.from(
-      document.querySelectorAll('[id^=explorer][id*=--]')
-    );
+    const anchors = Array.from(document.querySelectorAll('[id^=explorer][id*=--]'));
     console.log(`returning ${anchors.length} stories.`);
     return anchors.map((anchor, i) => {
-      const url = new URL(anchor.href);
       const kind = anchor.id.match(/explorer(\S+)--\S+/)[1];
       const name = anchor.id.match(/explorer\S+--(\S+)/)[1];
       console.log(`${i + 1}) story kind=${kind}, name=${name}`);
       return {
         kind,
-        name
+        name,
       };
     });
 
     function getClosedMenus(menuItems) {
       return menuItems.filter(
-        menuItem =>
-          !menuItem.nextElementSibling || menuItem.nextElementSibling.id
+        menuItem => !menuItem.nextElementSibling || menuItem.nextElementSibling.id,
       );
     }
 
@@ -168,15 +150,11 @@ function getStories() {
   }
 
   function getAllMenuItems() {
-    return Array.from(
-      document.querySelectorAll('.Pane.vertical.Pane1 [role="menuitem"]')
-    );
+    return Array.from(document.querySelectorAll('.Pane.vertical.Pane1 [role="menuitem"]'));
   }
 
   function getSidebarFolders() {
-    return Array.from(
-      document.querySelectorAll('[id^=explorer]:not([id*=--])')
-    );
+    return Array.from(document.querySelectorAll('[id^=explorer]:not([id*=--])'));
   }
 }
 

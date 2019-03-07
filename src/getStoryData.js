@@ -1,6 +1,5 @@
 'use strict';
 const {presult} = require('@applitools/functional-commons');
-const {promisify: p} = require('util');
 const delay = require('./delay');
 const {ArgumentGuard} = require('@applitools/eyes-common');
 
