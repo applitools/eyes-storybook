@@ -19,6 +19,9 @@ describe('getStories', () => {
   before(async () => {
     browser = await puppeteer.launch();
     page = await browser.newPage();
+    // page.on('console', msg => {
+    //   console.log(msg.args().join(' '));
+    // });
   });
 
   after(async () => {

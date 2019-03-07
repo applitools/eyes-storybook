@@ -1,7 +1,7 @@
 'use strict';
 const {presult} = require('@applitools/functional-commons');
-const {promisify: p} = require('util');
 const {ArgumentGuard} = require('@applitools/eyes-common');
+const {delay} = require('@applitools/functional-commons');
 
 function makeGetStoryData({logger, processPageAndSerialize, waitBeforeScreenshots}) {
   ArgumentGuard.greaterThanOrEqualToZero(waitBeforeScreenshots, 'waitBeforeScreenshots', true);
@@ -12,7 +12,7 @@ function makeGetStoryData({logger, processPageAndSerialize, waitBeforeScreenshot
     if (err) {
       logger.log(`error navigating to story ${url}`, err);
     }
-    await p(setTimeout)(waitBeforeScreenshots);
+    await delay(waitBeforeScreenshots);
     const {resourceUrls, blobs, frames, cdt} = await page.evaluate(processPageAndSerialize);
     const resourceContents = blobs.map(({url, type, value}) => ({
       url,

@@ -51,6 +51,7 @@ async function eyesStorybook({config, logger, performance, timeItAsync}) {
     spinner.start();
     logger.log('navigating to storybook url:', storybookUrl);
     await page.goto(storybookUrl);
+
     logger.log('Getting stories from storybook');
     let stories = await page.evaluate(getStories);
     logger.log('got stories:', JSON.stringify(stories));
