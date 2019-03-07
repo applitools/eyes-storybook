@@ -14,6 +14,12 @@ const chalk = require('chalk');
 
 const CONCURRENT_PAGES = 3;
 
+function delay(time) {
+  return new Promise(function(resolve) {
+    setTimeout(resolve, time);
+  });
+}
+
 async function eyesStorybook({config, logger, performance, timeItAsync}) {
   logger.log('eyesStorybook started');
   const {storybookUrl, waitBeforeScreenshots} = config;
@@ -51,6 +57,7 @@ async function eyesStorybook({config, logger, performance, timeItAsync}) {
     spinner.start();
     logger.log('navigating to storybook url:', storybookUrl);
     await page.goto(storybookUrl);
+    await delay(1000);
     logger.log('Getting stories from storybook');
     let stories = await page.evaluate(getStories);
     logger.log('got stories:', JSON.stringify(stories));
