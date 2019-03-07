@@ -11,7 +11,6 @@ const getChunks = require('./getChunks');
 const ora = require('ora');
 const flatten = require('lodash.flatten');
 const chalk = require('chalk');
-const delay = require('./delay');
 
 const CONCURRENT_PAGES = 3;
 
@@ -52,7 +51,7 @@ async function eyesStorybook({config, logger, performance, timeItAsync}) {
     spinner.start();
     logger.log('navigating to storybook url:', storybookUrl);
     await page.goto(storybookUrl);
-    await delay(2000);
+
     logger.log('Getting stories from storybook');
     let stories = await page.evaluate(getStories);
     logger.log('got stories:', JSON.stringify(stories));

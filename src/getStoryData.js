@@ -1,7 +1,7 @@
 'use strict';
 const {presult} = require('@applitools/functional-commons');
-const delay = require('./delay');
 const {ArgumentGuard} = require('@applitools/eyes-common');
+const {delay} = require('@applitools/functional-commons');
 
 function makeGetStoryData({logger, processPageAndSerialize, waitBeforeScreenshots}) {
   ArgumentGuard.greaterThanOrEqualToZero(waitBeforeScreenshots, 'waitBeforeScreenshots', true);
