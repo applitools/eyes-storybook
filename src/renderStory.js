@@ -11,12 +11,12 @@ function makeRenderStory({logger, openEyes, performance, timeItAsync}) {
         properties: [{name: 'Component name', value: kind}, {name: 'State', value: name}],
       });
       checkWindow({cdt, resourceUrls, resourceContents, url, frames});
-      return close(false).catch(err => err);
+      return close(false);
     }).then(onDoneStory);
 
-    function onDoneStory(resultsOrErr) {
+    function onDoneStory(results) {
       logger.log('finished story', title, 'in', performance[title]);
-      return resultsOrErr;
+      return results;
     }
   };
 }

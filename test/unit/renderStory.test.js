@@ -76,18 +76,21 @@ describe('renderStory', () => {
   });
 
   it('handles error during close', async () => {
+    let shouldThrow;
     const openEyes = async () => ({
       checkWindow() {},
-      close: async () => {
+      close: async throwEx => {
+        shouldThrow = throwEx;
         await psetTimeout(0);
-        throw new Error('bla');
+        return [new Error('bla')];
       },
     });
 
     const renderStory = makeRenderStory({logger, openEyes, performance, timeItAsync});
     const story = {name: 'name1', kind: 'kind'};
-    const {message} = await renderStory(story);
+    const [{message}] = await renderStory(story);
     expect(message).to.equal('bla');
+    expect(!!shouldThrow).to.be.false;
     console.log(performance);
     expect(performance[getStoryTitle(story)]).not.to.equal(undefined);
   });

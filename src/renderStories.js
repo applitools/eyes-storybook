@@ -35,8 +35,16 @@ function makeRenderStories({getChunks, getStoryData, pages, renderStory, storybo
     );
 
     const renderStoriesPromise = Promise.all(storyPromises);
-    renderStoriesPromise.then(stopSpinnerSuccess, stopSpinnerFail);
+    renderStoriesPromise.then(results =>
+      results.every(didTestPass) ? stopSpinnerSuccess() : stopSpinnerFail(),
+    );
     return renderStoriesPromise;
+
+    function didTestPass(testResults) {
+      return testResults.every(
+        r => !(r instanceof Error) && r.getStatus && r.getStatus() === 'Passed',
+      );
+    }
 
     function updateRunning(data) {
       spinner.text = `Done ${doneStories} stories out of ${stories.length}`;
