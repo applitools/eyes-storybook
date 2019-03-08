@@ -1,4 +1,11 @@
 
+v2.4.3 / 2019-03-08
+===================
+
+* 2.4.3 [[a8a244a](https://github.com/applitools/eyes-storybook/commit/a8a244a48c9792ca005fef934d217366803691cf)]
+* Supporting layout & useDom [[2efec2e](https://github.com/applitools/eyes-storybook/commit/2efec2e5bceaf77d64f75a0fcd84e0766121d5cc)]
+* changelog [[820427a](https://github.com/applitools/eyes-storybook/commit/820427afe95043c9bbdcd812ecacae28beb1e0aa)]
+
 v2.4.2 / 2019-03-07
 ===================
 
