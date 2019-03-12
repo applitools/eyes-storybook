@@ -138,14 +138,17 @@ async function getStories() {
         return menuItems.map(item => item.textContent).join('\n');
       }
 
+      function getTitle(id) {
+        const anchorElement = document.getElementById(id);
+        return anchorElement ? anchorElement.title : '';
+      }
+
       function getKindFromAnchor(anchor) {
         const idParts = anchor.id.match(/(\S+)--.+/)[1].split('-');
         return idParts.reduce(
           (kind, id) => {
             kind.aggId = kind.aggId ? `${kind.aggId}-${id}` : id;
-            kind.aggKind = `${kind.aggKind ? kind.aggKind + '/' : ''}${
-              document.getElementById(kind.aggId).title
-            }`;
+            kind.aggKind = `${kind.aggKind ? kind.aggKind + '/' : ''}${getTitle(kind.aggId)}`;
             return kind;
           },
           {aggId: null, aggKind: null},

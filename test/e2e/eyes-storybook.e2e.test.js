@@ -40,6 +40,7 @@ describe('eyes-storybook', () => {
       {name: 'Nested/Component: story 1.1', isPassed: true},
       {name: 'Nested/Component: story 1.2', isPassed: true},
       {name: 'Nested: story 1', isPassed: true},
+      {name: 'Component with spaces: story 1', isPassed: true},
     ]);
   });
 });

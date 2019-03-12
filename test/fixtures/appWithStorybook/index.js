@@ -25,3 +25,6 @@ storiesOf('Nested/Component', module)
   .add('story 1.1', () => <div>story 1.1</div>)
   .add('story 1.2', () => <div>story 1.2</div>);
 
+storiesOf('Component with spaces', module)
+  .add('story 1', () => <div>story 1</div>);
+  
