@@ -112,17 +112,30 @@ async function getStories() {
         );
       }
 
-      const anchors = Array.from(document.querySelectorAll('[id^=explorer][id*=--]'));
-      console.log(`returning ${anchors.length} stories.`);
-      return anchors.map((anchor, i) => {
-        const kind = getKindFromAnchor(anchor);
-        const name = anchor.innerText;
-        console.log(`${i + 1}) story kind=${kind}, name=${name}`);
-        return {
-          kind,
-          name,
+      const stories = getStoriesFromAnchors(document.querySelectorAll('section > a[id*=explore]'));
+      console.log(`returning ${stories.length} stories.`);
+      return stories;
+
+      function getStoriesFromAnchors(anchors, kind = '') {
+        const isLeafAnchor = anchor =>
+          !anchor.nextElementSibling || anchor.nextElementSibling.tagName !== 'DIV';
+
+        const getStoriesFromAnchor = (anchor, kind) => {
+          const childAnchors =
+            anchor.nextElementSibling &&
+            anchor.nextElementSibling.querySelectorAll(':scope > a[id*=explore]');
+          return getStoriesFromAnchors(childAnchors || [], kind);
         };
-      });
+
+        return Array.from(anchors).reduce((acc, anchor) => {
+          const anchorKind = kind.length ? `${kind}/${anchor.innerText}` : anchor.innerText;
+          const stories = isLeafAnchor(anchor)
+            ? [{name: anchor.innerText, kind: kind}]
+            : getStoriesFromAnchor(anchor, anchorKind);
+          acc = acc.concat(stories);
+          return acc;
+        }, []);
+      }
 
       function getClosedMenus(menuItems) {
         return menuItems.filter(
@@ -136,20 +149,6 @@ async function getStories() {
 
       function menuItemsToString(menuItems) {
         return menuItems.map(item => item.textContent).join('\n');
-      }
-
-      function getKindFromAnchor(anchor) {
-        const idParts = anchor.id.match(/(\S+)--.+/)[1].split('-');
-        return idParts.reduce(
-          (kind, id) => {
-            kind.aggId = kind.aggId ? `${kind.aggId}-${id}` : id;
-            kind.aggKind = `${kind.aggKind ? kind.aggKind + '/' : ''}${
-              document.getElementById(kind.aggId).title
-            }`;
-            return kind;
-          },
-          {aggId: null, aggKind: null},
-        ).aggKind;
       }
     },
   };

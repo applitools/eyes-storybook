@@ -34,6 +34,12 @@ describe('eyes-storybook', () => {
         .map(r => ({name: r.getName(), isPassed: r.isPassed()}))
         .sort((a, b) => (a.name < b.name ? -1 : 1)),
     ).to.eql([
+      {
+        name: 'Button with-space yes-indeed/nested with-space yes/nested again-yes a: c yes-a b',
+        isPassed: true,
+      },
+      {name: 'Button with-space yes-indeed/nested with-space yes: b yes-a b', isPassed: true},
+      {name: 'Button with-space yes-indeed: a yes-a b', isPassed: true},
       {name: 'Button: with some emoji', isPassed: true},
       {name: 'Button: with text', isPassed: true},
       {name: 'Image: image', isPassed: true},

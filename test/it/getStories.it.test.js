@@ -48,6 +48,12 @@ describe('getStories', () => {
       {name: 'story 1', kind: 'Nested'},
       {name: 'story 1.1', kind: 'Nested/Component'},
       {name: 'story 1.2', kind: 'Nested/Component'},
+      {name: 'a yes-a b', kind: 'Button with-space yes-indeed'},
+      {name: 'b yes-a b', kind: 'Button with-space yes-indeed/nested with-space yes'},
+      {
+        name: 'c yes-a b',
+        kind: 'Button with-space yes-indeed/nested with-space yes/nested again-yes a',
+      },
     ]);
   });
 });
