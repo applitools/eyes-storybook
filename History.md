@@ -1,4 +1,11 @@
 
+v2.4.4 / 2019-03-13
+===================
+
+* 2.4.4 [[a0bc140](https://github.com/applitools/eyes-storybook/commit/a0bc140cee7c6a7d5b542dc0ec6c6ffaa1d2c4cb)]
+* Getting compoenent kind like a BOSS (tree traversal). [[3f8fac4](https://github.com/applitools/eyes-storybook/commit/3f8fac41300d59afdd032254cca5f362d4a72617)]
+* changelog [[3eefcb2](https://github.com/applitools/eyes-storybook/commit/3eefcb208aa8408ca79553350464ca170cd01772)]
+
 v2.4.3 / 2019-03-08
 ===================
 
