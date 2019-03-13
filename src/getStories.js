@@ -117,16 +117,6 @@ async function getStories() {
       return stories;
 
       function getStoriesFromAnchors(anchors, kind = '') {
-        const isLeafAnchor = anchor =>
-          !anchor.nextElementSibling || anchor.nextElementSibling.tagName !== 'DIV';
-
-        const getStoriesFromAnchor = (anchor, kind) => {
-          const childAnchors =
-            anchor.nextElementSibling &&
-            anchor.nextElementSibling.querySelectorAll(':scope > a[id*=explore]');
-          return getStoriesFromAnchors(childAnchors || [], kind);
-        };
-
         return Array.from(anchors).reduce((acc, anchor) => {
           const anchorKind = kind.length ? `${kind}/${anchor.innerText}` : anchor.innerText;
           const stories = isLeafAnchor(anchor)
@@ -135,6 +125,17 @@ async function getStories() {
           acc = acc.concat(stories);
           return acc;
         }, []);
+
+        function isLeafAnchor(anchor) {
+          return !anchor.nextElementSibling || anchor.nextElementSibling.tagName !== 'DIV';
+        }
+
+        function getStoriesFromAnchor(anchor, kind) {
+          const childAnchors =
+            anchor.nextElementSibling &&
+            anchor.nextElementSibling.querySelectorAll(':scope > a[id*=explore]');
+          return getStoriesFromAnchors(childAnchors || [], kind);
+        }
       }
 
       function getClosedMenus(menuItems) {
