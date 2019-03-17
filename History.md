@@ -1,4 +1,13 @@
 
+v2.5.1 / 2019-03-17
+===================
+
+* 2.5.1 [[bbdf105](https://github.com/applitools/eyes-storybook/commit/bbdf105bf632b3bcd0aa0042d252d6523db211e1)]
+* 2.5.0 [[c85a177](https://github.com/applitools/eyes-storybook/commit/c85a1777182cb8a510363544edd91477842f2227)]
+* Added debug logger namespace of stroybook [[f886508](https://github.com/applitools/eyes-storybook/commit/f8865080ca0d002d96d69a316ae4cebd7c35332f)]
+* cosmetic change [[1209e55](https://github.com/applitools/eyes-storybook/commit/1209e55e0228d6d78015ffd1bcd6c0f9f043c48f)]
+* changelog [[7410139](https://github.com/applitools/eyes-storybook/commit/741013979b8d244b2c0928477e86a831dea62b4e)]
+
 v2.4.4 / 2019-03-13
 ===================
 
