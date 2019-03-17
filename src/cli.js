@@ -29,7 +29,7 @@ const {performance, timeItAsync} = makeTiming();
     console.log(`Using @applitools/eyes-storybook version ${VERSION}.\n`);
 
     const config = generateConfig({argv, defaultConfig, externalConfigParams});
-    const logger = new Logger(config.showLogs);
+    const logger = new Logger(config.showLogs, 'storybook');
     await validateAndPopulateConfig({config, logger, packagePath: process.cwd()});
     logger.log(`Running with the following config:\n${configDigest(config)}`);
     const results = await timeItAsync('eyesStorybook', () =>
