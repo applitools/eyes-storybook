@@ -1,4 +1,11 @@
 
+v2.5.2 / 2019-03-20
+===================
+
+* 2.5.2 [[b54a3a9](https://github.com/applitools/eyes-storybook/commit/b54a3a90f9d08e6e05f750658a084640ebbed7e2)]
+* fix(defaultConfig): fixed tapFilePath param beeing ignored [[cfa472f](https://github.com/applitools/eyes-storybook/commit/cfa472fae5bf95f7aa83d37b049279c4b58b7f82)]
+* changelog [[6602eb1](https://github.com/applitools/eyes-storybook/commit/6602eb10b8f1358384727f62b044a2beb0767ad3)]
+
 v2.5.1 / 2019-03-17
 ===================
 
