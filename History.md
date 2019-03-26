@@ -1,4 +1,12 @@
 
+v2.6.1 / 2019-03-26
+===================
+
+* 2.6.1 [[a8c4e76](https://github.com/applitools/eyes-storybook/commit/a8c4e76aeb8aad4e4cd6b0549ec21b01523eeada)]
+* updated eyes-sdk-core to 5.1.2: added browser and viewport to the TAP file. [[97540e9](https://github.com/applitools/eyes-storybook/commit/97540e9f80ff0b37603efc5742d9ee073aafaa4e)]
+* added ie and edge to readem [[53056a3](https://github.com/applitools/eyes-storybook/commit/53056a3b3c49cc6dd9114c047c31949d831a820e)]
+* changelog [[ecf892f](https://github.com/applitools/eyes-storybook/commit/ecf892f71ffef6f016ece86ffd0b6fbb0d7a7628)]
+
 v2.5.2 / 2019-03-20
 ===================
 
