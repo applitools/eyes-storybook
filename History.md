@@ -1,4 +1,11 @@
 
+v2.6.2 / 2019-03-27
+===================
+
+* 2.6.2 [[44a003a](https://github.com/applitools/eyes-storybook/commit/44a003ad11800e0e6ff19ec1e45eade7109f82dc)]
+* fixed sb3 breaking [[8fffbe8](https://github.com/applitools/eyes-storybook/commit/8fffbe85e53fba840bdca714ea4b824eb84ee97a)]
+* changelog [[0d9678d](https://github.com/applitools/eyes-storybook/commit/0d9678d5c3fef7efe391b5dfcf558e5236086637)]
+
 v2.6.1 / 2019-03-26
 ===================
 
