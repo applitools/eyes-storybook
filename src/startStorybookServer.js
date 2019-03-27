@@ -19,8 +19,17 @@ async function startStorybookServer({
     packagePath,
     `node_modules/.bin/start-storybook${isWindows ? '.cmd' : ''}`,
   );
+  const storybookPackage = fs.readFileSync(
+    path.resolve(packagePath, 'node_modules/@storybook/core/package.json'),
+    'utf8',
+  );
+  const storybookVersion = JSON.parse(storybookPackage).version;
 
-  const args = ['-p', storybookPort, '-h', storybookHost, '-c', storybookConfigDir, '--ci'];
+  const args = getVersionContext(storybookVersion).args(
+    storybookPort,
+    storybookHost,
+    storybookConfigDir,
+  );
   if (storybookStaticDir) {
     args.push('-s');
     args.push(storybookStaticDir);
@@ -64,20 +73,14 @@ async function startStorybookServer({
   process.on('SIGTERM', () => process.exit());
   process.on('uncaughtException', () => process.exit(1));
 
-  await waitForStorybook(childProcess, packagePath);
+  await waitForStorybook(childProcess, storybookVersion);
   spinner.succeed('Storybook was started');
   return `http://${storybookHost}:${storybookPort}`;
 }
 
-function waitForStorybook(childProcess, packagePath) {
-  const storybookPackage = fs.readFileSync(
-    path.resolve(packagePath, 'node_modules/@storybook/core/package.json'),
-    'utf8',
-  );
-  const storybookVersion = JSON.parse(storybookPackage).version;
-
+function waitForStorybook(childProcess, version) {
   return new Promise((resolve, reject) => {
-    childProcess.stdout.on('data', webpackBuiltListener);
+    childProcess.stdout.on('data', stdoutListener);
     childProcess.stderr.on('data', portBusyListener);
 
     // Set up the timeout
@@ -93,8 +96,9 @@ function waitForStorybook(childProcess, packagePath) {
       }
     }
 
-    function webpackBuiltListener(data) {
-      if (bufferToString(data).includes(`Storybook ${storybookVersion} started`)) {
+    function stdoutListener(data) {
+      const readyString = getVersionContext(version).readyString;
+      if (bufferToString(data).includes(readyString)) {
         clearTimeout(timeout);
         resolve();
       }
@@ -104,6 +108,41 @@ function waitForStorybook(childProcess, packagePath) {
 
 function bufferToString(data) {
   return data.toString('utf8').trim();
+}
+
+function getVersionContext(version) {
+  const Latest = 5;
+  const RoadBlocks = [
+    {
+      _untilVersion: 3,
+      readyString: 'webpack built',
+      args: (storybookPort, storybookHost, storybookConfigDir) => [
+        '-p',
+        storybookPort,
+        '-h',
+        storybookHost,
+        '-c',
+        storybookConfigDir,
+      ],
+    },
+    {
+      _untilVersion: 4,
+      readyString: `Storybook ${version} started`,
+      args: (storybookPort, storybookHost, storybookConfigDir) => [
+        '-p',
+        storybookPort,
+        '-h',
+        storybookHost,
+        '-c',
+        storybookConfigDir,
+        '--ci',
+      ],
+    },
+  ];
+
+  let m = version && version.match(/(\d+)\./);
+  m = (m && m[1]) || Latest;
+  return RoadBlocks.find(c => c._untilVersion >= m) || RoadBlocks[RoadBlocks.length - 1];
 }
 
 module.exports = {startStorybookServer, waitForStorybook};

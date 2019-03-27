@@ -1,6 +1,7 @@
 const {spawn} = require('child_process');
 const {resolve} = require('path');
 const {waitForStorybook} = require('../../src/startStorybookServer');
+const fs = require('fs');
 
 async function testStorybook({port}) {
   const storybookPath = resolve(__dirname, '../fixtures/appWithStorybook');
@@ -14,7 +15,10 @@ async function testStorybook({port}) {
     'test/fixtures',
     '--ci',
   ]);
-  await waitForStorybook(proc, './');
+
+  const storybookPackage = fs.readFileSync('node_modules/@storybook/core/package.json', 'utf8');
+  const storybookVersion = JSON.parse(storybookPackage).version;
+  await waitForStorybook(proc, storybookVersion);
 
   return () => proc.kill();
 }
