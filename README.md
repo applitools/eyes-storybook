@@ -125,7 +125,7 @@ In addition to command-line arguments, it's possible to define the following con
 | `ignoreBaseline`          | false                       |  |
 | `runInDocker`             | false                       | If you are having issues running the SDK in docker, set this flag to `true`. See more info [below](#running-eyes-storybook-in-docker) |
 | `puppeteerOptions`        | undefined                   | Options to send to `puppeteer.launch`. This is a low-level configuration and should be used with great care. |
-| `tapFilePath`             | undefined                   | Path for managing a test results [TAP](https://en.wikipedia.org/wiki/Test_Anything_Protocol#Specification) file |
+| `tapFilePath`             | undefined                   | Directory path of a results file. If set, then a [TAP](https://en.wikipedia.org/wiki/Test_Anything_Protocol#Specification) file is created in this directory, the file is created with the name eyes.tap and contains the Eyes test results. |
 | `waitBeforeScreenshots`   | undefined                   | Time in milliseconds to wait before each screenshot is taken. |
 
 There are 2 ways to specify test configuration:

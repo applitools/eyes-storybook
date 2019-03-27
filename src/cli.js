@@ -1,7 +1,5 @@
 'use strict';
 const yargs = require('yargs');
-const fs = require('fs');
-const {resolve} = require('path');
 const {Logger} = require('@applitools/eyes-common');
 const {configParams: externalConfigParams} = require('@applitools/visual-grid-client');
 const VERSION = require('../package.json').version;
@@ -13,6 +11,7 @@ const generateConfig = require('./generateConfig');
 const defaultConfig = require('./defaultConfig');
 const configDigest = require('./configDigest');
 const {makeTiming} = require('@applitools/monitoring-commons');
+const handleTapFile = require('./handleTapFile');
 const {performance, timeItAsync} = makeTiming();
 
 (async function() {
@@ -43,8 +42,7 @@ const {performance, timeItAsync} = makeTiming();
     console.log(outputStr);
 
     if (config.tapFilePath) {
-      const tapFilePath = resolve(process.cwd(), 'eyes.tap');
-      fs.writeFileSync(tapFilePath, formatter.asHierarchicTAPString(false, true));
+      handleTapFile(config.tapFilePath, formatter);
     }
 
     process.exit(config.exitcode ? exitCode : 0);
