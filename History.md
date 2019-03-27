@@ -1,4 +1,11 @@
 
+v2.6.3 / 2019-03-27
+===================
+
+* 2.6.3 [[f34cbb1](https://github.com/applitools/eyes-storybook/commit/f34cbb1e04bc2ab5996e27f8ff839f6822b11a36)]
+* fix tapFile not in correct path [[060f894](https://github.com/applitools/eyes-storybook/commit/060f8944f6f5498436a78fc6edef7be750a9cf96)]
+* changelog [[8cdbb98](https://github.com/applitools/eyes-storybook/commit/8cdbb98737ff77510df562a1f5189b33f1aece9d)]
+
 v2.6.2 / 2019-03-27
 ===================
 
