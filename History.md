@@ -1,4 +1,11 @@
 
+v2.6.4 / 2019-04-08
+===================
+
+* 2.6.4 [[f105577](https://github.com/applitools/eyes-storybook/commit/f105577f677c32313c95d298098f1c955a8ae86c)]
+* fixed exit code - now its 1 for failure 0 for success. [[237a2be](https://github.com/applitools/eyes-storybook/commit/237a2becc88ed40e6a5fec0569339a79c5eb6abf)]
+* changelog [[79f3f3a](https://github.com/applitools/eyes-storybook/commit/79f3f3ad55d58b2174e612b590a4fadcc1115224)]
+
 v2.6.3 / 2019-03-27
 ===================
 
