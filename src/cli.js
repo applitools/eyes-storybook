@@ -45,7 +45,7 @@ const {performance, timeItAsync} = makeTiming();
       handleTapFile(config.tapFilePath, formatter);
     }
 
-    process.exit(config.exitcode ? exitCode : 0);
+    process.exit(config.exitcode === undefined ? exitCode : config.exitcode);
   } catch (ex) {
     console.log(ex.message);
     process.exit(1);

@@ -3,8 +3,6 @@ const {TestResultsFormatter} = require('@applitools/eyes-sdk-core');
 const chalk = require('chalk');
 const concurrencyMsg = require('./concurrencyMsg');
 
-const EYES_TEST_FAILED_EXIT_CODE = 130;
-
 function processResults({results = [], totalTime, concurrency}) {
   let outputStr = '\n';
   const formatter = new TestResultsFormatter();
@@ -12,7 +10,7 @@ function processResults({results = [], totalTime, concurrency}) {
   const testResults = results.filter(result => !(result instanceof Error));
   const errors = results.filter(result => result instanceof Error);
 
-  let exitCode = errors.length ? EYES_TEST_FAILED_EXIT_CODE : 0;
+  let exitCode = errors.length ? 1 : 0;
   if (testResults.length > 0) {
     outputStr += '[EYES: TEST RESULTS]:\n';
     testResults.forEach(result => {
@@ -27,10 +25,7 @@ function processResults({results = [], totalTime, concurrency}) {
       } else {
         const stepsFailed = result.getMismatches() + result.getMissing();
         outputStr += `${storyTitle}${chalk.red(`Failed ${stepsFailed} of ${result.getSteps()}`)}\n`;
-
-        if (exitCode < EYES_TEST_FAILED_EXIT_CODE) {
-          exitCode = EYES_TEST_FAILED_EXIT_CODE;
-        }
+        exitCode = exitCode || 1;
       }
     });
   } else if (!errors.length) {
