@@ -1,4 +1,11 @@
 
+v2.6.5 / 2019-04-08
+===================
+
+* 2.6.5 [[51365dd](https://github.com/applitools/eyes-storybook/commit/51365dd605f3f696529b3fa6150c835aec0ee972)]
+* updated eyes-sdk-core to 5.4.1: increaesed PUT limit to 15.5 MB [[77432c6](https://github.com/applitools/eyes-storybook/commit/77432c6670477247328d9c8f5dfeaf316801395b)]
+* changelog [[8a0222e](https://github.com/applitools/eyes-storybook/commit/8a0222ee4e1f322145002697d66530912779a777)]
+
 v2.6.4 / 2019-04-08
 ===================
 
