@@ -1,4 +1,11 @@
 
+v2.6.6 / 2019-04-10
+===================
+
+* 2.6.6 [[70101f9](https://github.com/applitools/eyes-storybook/commit/70101f9a936c3644df733a5184e3c4cf4e3fbf52)]
+* updated ds to 1.0.11: fixed input not getting value attribute [[65b65b5](https://github.com/applitools/eyes-storybook/commit/65b65b51805ad1ff4f990d0a28f406212b749be3)]
+* changelog [[a8513a8](https://github.com/applitools/eyes-storybook/commit/a8513a8bc3304fc9da7e9ff72471098578131ede)]
+
 v2.6.5 / 2019-04-08
 ===================
 
