@@ -43,10 +43,10 @@
     "type": "git"
   },
   "dependencies": {
-    "@applitools/dom-snapshot": "^1.0.11",
+    "@applitools/dom-snapshot": "^1.1.1",
     "@applitools/eyes-common": "^2.2.1",
     "@applitools/eyes-sdk-core": "^5.4.2",
-    "@applitools/functional-commons": "^1.3.7",
+    "@applitools/functional-commons": "^1.4.1",
     "@applitools/monitoring-commons": "^1.0.11",
     "@applitools/visual-grid-client": "^12.6.1",
     "@storybook/addon-options": "^5.0.6",
