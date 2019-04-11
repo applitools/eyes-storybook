@@ -1,4 +1,11 @@
 
+v2.6.7 / 2019-04-11
+===================
+
+* 2.6.7 [[4ae00c9](https://github.com/applitools/eyes-storybook/commit/4ae00c940a54260e92273612620a30e5e18668e4)]
+* updated ds to 1.1.1: supporting shadow dom in sdk side [[8080e36](https://github.com/applitools/eyes-storybook/commit/8080e363192da7987655892d2859a4351a877150)]
+* changelog [[7d07a9d](https://github.com/applitools/eyes-storybook/commit/7d07a9d5174b8b9c637633e2f61efe0db5ad4f3b)]
+
 v2.6.6 / 2019-04-10
 ===================
 
