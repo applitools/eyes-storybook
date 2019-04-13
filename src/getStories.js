@@ -121,8 +121,8 @@ async function getStories() {
           let stories;
 
           if (isLeafAnchor(anchor)) {
-            const [ , kind, name] = anchor.id.match(/explorer(\S+)--(\S+)/)
-            stories = [{ kind, name }]
+            const [, kind, name] = anchor.id.match(/explorer(\S+)--(\S+)/);
+            stories = [{kind, name}];
           } else {
             stories = getStoriesFromAnchor(anchor);
           }
