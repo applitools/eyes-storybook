@@ -116,12 +116,17 @@ async function getStories() {
       console.log(`returning ${stories.length} stories.`);
       return stories;
 
-      function getStoriesFromAnchors(anchors, kind = '') {
+      function getStoriesFromAnchors(anchors) {
         return Array.from(anchors).reduce((acc, anchor) => {
-          const anchorKind = kind.length ? `${kind}/${anchor.innerText}` : anchor.innerText;
-          const stories = isLeafAnchor(anchor)
-            ? [{name: anchor.innerText, kind: kind}]
-            : getStoriesFromAnchor(anchor, anchorKind);
+          let stories;
+
+          if (isLeafAnchor(anchor)) {
+            const [ , kind, name] = anchor.id.match(/explorer(\S+)--(\S+)/)
+            stories = [{ kind, name }]
+          } else {
+            stories = getStoriesFromAnchor(anchor);
+          }
+
           acc = acc.concat(stories);
           return acc;
         }, []);
