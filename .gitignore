@@ -3,3 +3,4 @@ eyes.tap
 *.log
 .applitools
 .idea/
+.history
