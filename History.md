@@ -1,4 +1,13 @@
 
+v2.6.8 / 2019-04-14
+===================
+
+* 2.6.8 [[f573c17](https://github.com/applitools/eyes-storybook/commit/f573c17bc58c26c8fcc30dc683712028640cde6e)]
+* added .history to gitignore [[b9cef75](https://github.com/applitools/eyes-storybook/commit/b9cef75490a6768d06639ca227a0391ba1c6804e)]
+* Merge branch 'myspivey-fix-static-dir-args' [[18e9827](https://github.com/applitools/eyes-storybook/commit/18e98279d5d74b098ca25f4d4c239db4c72e489b)]
+* Update yargsOptions.js [[fba2961](https://github.com/applitools/eyes-storybook/commit/fba296182764e2107dc30c69af09bef11240adfc)]
+* changelog [[cc5916d](https://github.com/applitools/eyes-storybook/commit/cc5916dadbe236f7e747f008b6275d59e7f7c652)]
+
 v2.6.7 / 2019-04-11
 ===================
 
