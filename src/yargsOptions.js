@@ -33,7 +33,7 @@ module.exports = {
     string: true,
   },
   storybookStaticDir: {
-    alias: ['storybook-static-dir'],
+    alias: ['storybook-static-dir', 's'],
     description: "Path to Storybook's static files folder",
     requiresArg: true,
     string: true,
