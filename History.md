@@ -1,4 +1,11 @@
 
+v2.6.9 / 2019-04-16
+===================
+
+* 2.6.9 [[cdd6d29](https://github.com/applitools/eyes-storybook/commit/cdd6d290b1bff3b0213dc29bfa21527a70df623d)]
+* added support for sections [[4490737](https://github.com/applitools/eyes-storybook/commit/4490737983fcf4076f4adda9289d9addb582537e)]
+* changelog [[cf4beab](https://github.com/applitools/eyes-storybook/commit/cf4beab31c59d23d5e94ce8d1e80c5b2397d0b21)]
+
 v2.6.8 / 2019-04-14
 ===================
 
