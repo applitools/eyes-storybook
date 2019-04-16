@@ -42,6 +42,12 @@ describe('getStories', () => {
     await page.goto('http://localhost:9001');
     const stories = await page.evaluate(getStories);
     expect(stories).to.eql([
+      {name: 'story 1.1', kind: 'SOME SECTION|Nested/Component'},
+      {name: 'story 1.2', kind: 'SOME SECTION|Nested/Component'},
+      {
+        name: 'c yes-a b',
+        kind: 'WOW|one with-space yes-indeed/nested with-space yes/nested again-yes a',
+      },
       {name: 'with text', kind: 'Button'},
       {name: 'with some emoji', kind: 'Button'},
       {name: 'image', kind: 'Image'},

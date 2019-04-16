@@ -29,6 +29,7 @@ describe('eyes-storybook', () => {
       performance,
       timeItAsync,
     });
+
     expect(
       results
         .map(r => ({name: r.getName(), isPassed: r.isPassed()}))
@@ -46,6 +47,12 @@ describe('eyes-storybook', () => {
       {name: 'Nested/Component: story 1.1', isPassed: true},
       {name: 'Nested/Component: story 1.2', isPassed: true},
       {name: 'Nested: story 1', isPassed: true},
+      {name: 'SOME SECTION|Nested/Component: story 1.1', isPassed: true},
+      {name: 'SOME SECTION|Nested/Component: story 1.2', isPassed: true},
+      {
+        name: 'WOW|one with-space yes-indeed/nested with-space yes/nested again-yes a: c yes-a b',
+        isPassed: true,
+      },
     ]);
   });
 });

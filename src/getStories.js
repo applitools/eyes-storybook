@@ -118,13 +118,32 @@ async function getStories() {
 
       function getStoriesFromAnchors(anchors, kind = '') {
         return Array.from(anchors).reduce((acc, anchor) => {
-          const anchorKind = kind.length ? `${kind}/${anchor.innerText}` : anchor.innerText;
+          const sectionName = !kind.length && parentCustomSectionName(anchor);
+          const anchorKind = kind.length
+            ? `${kind}/${anchor.innerText}`
+            : sectionName
+            ? `${sectionName}|${anchor.innerText}`
+            : anchor.innerText;
           const stories = isLeafAnchor(anchor)
             ? [{name: anchor.innerText, kind: kind}]
             : getStoriesFromAnchor(anchor, anchorKind);
           acc = acc.concat(stories);
           return acc;
         }, []);
+
+        // Section name exists for root anchors that are under a section
+        function parentCustomSectionName(anchor) {
+          const anchorText =
+            anchor.id.match(/explorer(.+)/) &&
+            anchor.id.match(/explorer(.+)/)[1].replace(/-/g, ' ');
+          const sectionName =
+            anchor.previousSibling &&
+            anchor.previousSibling.getAttribute('type') === 'section' &&
+            anchor.previousSibling.innerText;
+          if (sectionName && anchorText && anchorText.toUpperCase().startsWith(sectionName)) {
+            return sectionName;
+          }
+        }
 
         function isLeafAnchor(anchor) {
           return !anchor.nextElementSibling || anchor.nextElementSibling.tagName !== 'DIV';
