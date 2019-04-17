@@ -104,7 +104,7 @@ In addition to command-line arguments, it's possible to define the following con
 | `storybookStaticDir`      | undefined                   | Path to Storybook's static files folder (also available as command-line argument). |
 | `showStorybookOutput`     | undefined                   | Whether or not you want to see Storybook output (also available as command-line argument). |
 | `exitcode`                | false                       | If tests failed close with non-zero exit code (also available as command-line argument). |
-| `browser`                 | { width: 800, height: 600, name: 'chrome' } | The size and browser of the generated screenshots. Currently, `firefox`, `chrome`, `edge` and `ie` are supported (ie renders as ie11). For more info, see the [browser section below](#configuring-the-browser).|
+| `browser`                 | { width: 800, height: 600, name: 'chrome' } | The size and browser of the generated screenshots. Currently, `firefox`, `chrome`, `edge`, `ie10` and `ie11` are supported. For more info, see the [browser section below](#configuring-the-browser).|
 | `showLogs`                | false                       | Whether or not you want to see logs of the Eyes-Storybook plugin. |
 | `saveDebugData`           | false                       | Whether to save troubleshooting data. See the troubleshooting section of this doc for more info. |
 | `batchId`                 | random                      | Provides ability to group tests into batches. Read more about batches [here](https://applitools.com/docs/topics/working-with-test-batches/how-to-group-tests-into-batches.html). |
@@ -170,7 +170,8 @@ It's also possible to send an array of browsers, for example in the `applitools.
 module.exports = {
   browser: [
     {width: 800, height: 600, name: 'firefox'},
-    {width: 1024, height: 768, name: 'chrome'}
+    {width: 1024, height: 768, name: 'chrome'},
+    {width: 1024, height: 768, name: 'ie11'}
   ]
 }
 ```
