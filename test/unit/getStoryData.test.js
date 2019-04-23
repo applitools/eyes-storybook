@@ -32,15 +32,16 @@ describe('getStoryData', () => {
     expect(cdt).to.equal('cdt');
   });
 
-  it('waits waitBeforeScreenshots before taking the screen shot', async () => {
-    let waited;
+  it('waitsFor correctly with waitBeforeScreenshots before taking the screen shot', async () => {
+    let waitedValue;
+    const waitBeforeScreenshots = 'someValue';
     const page = {
       goto: async () => {},
-      waitFor: async ms => {
-        waited = ms;
+      waitFor: async value => {
+        waitedValue = value;
       },
       evaluate: func =>
-        waited === 1100
+        waitedValue === waitBeforeScreenshots
           ? Promise.resolve(func())
           : Promise.reject('did not wait enough before taking snapshot'),
     };
@@ -57,7 +58,7 @@ describe('getStoryData', () => {
     const getStoryData = makeGetStoryData({
       logger,
       processPageAndSerialize,
-      waitBeforeScreenshots: 1100,
+      waitBeforeScreenshots: waitBeforeScreenshots,
     });
 
     const {resourceUrls, resourceContents, cdt} = await getStoryData({
