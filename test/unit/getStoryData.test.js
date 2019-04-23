@@ -33,10 +33,16 @@ describe('getStoryData', () => {
   });
 
   it('waits waitBeforeScreenshots before taking the screen shot', async () => {
+    let waited;
     const page = {
       goto: async () => {},
-      waitFor: async () => {},
-      evaluate: func => Promise.resolve(func()),
+      waitFor: async ms => {
+        waited = ms;
+      },
+      evaluate: func =>
+        waited === 1100
+          ? Promise.resolve(func())
+          : Promise.reject('did not wait enough before taking snapshot'),
     };
 
     const valueBuffer = Buffer.from('value');
