@@ -2,12 +2,12 @@
 const {describe, it} = require('mocha');
 const {expect} = require('chai');
 const makeGetStoryData = require('../../src/getStoryData');
-const {promisify: p} = require('util');
 
 describe('getStoryData', () => {
   it('works', async () => {
     const page = {
       goto: async () => {},
+      waitFor: async () => {},
       evaluate: func => Promise.resolve(func()),
     };
     const valueBuffer = Buffer.from('value');
@@ -35,10 +35,8 @@ describe('getStoryData', () => {
   it('waits waitBeforeScreenshots before taking the screen shot', async () => {
     const page = {
       goto: async () => {},
-      evaluate: func =>
-        ready
-          ? Promise.resolve(func())
-          : Promise.reject('did not wait enough before taking snapshot'),
+      waitFor: async () => {},
+      evaluate: func => Promise.resolve(func()),
     };
 
     const valueBuffer = Buffer.from('value');
@@ -56,8 +54,6 @@ describe('getStoryData', () => {
       waitBeforeScreenshots: 1100,
     });
 
-    let ready;
-    p(setTimeout)(1000).then(() => (ready = true));
     const {resourceUrls, resourceContents, cdt} = await getStoryData({
       url: 'url',
       page,
@@ -66,14 +62,6 @@ describe('getStoryData', () => {
     expect(resourceUrls).to.eql(['url1']);
     expect(resourceContents).to.eql(expectedResourceContents);
     expect(cdt).to.equal('cdt');
-  });
-
-  it('throws when getting an invalid waitBeforeScreenshots', async () => {
-    expect(() =>
-      makeGetStoryData({
-        waitBeforeScreenshots: '1100',
-      }),
-    ).to.throw('waitBeforeScreenshots');
   });
 
   it('throws when getting a negative waitBeforeScreenshots', async () => {

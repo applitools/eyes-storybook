@@ -1,10 +1,11 @@
 'use strict';
 const {presult} = require('@applitools/functional-commons');
 const {ArgumentGuard} = require('@applitools/eyes-common');
-const {delay} = require('@applitools/functional-commons');
 
 function makeGetStoryData({logger, processPageAndSerialize, waitBeforeScreenshots}) {
-  ArgumentGuard.greaterThanOrEqualToZero(waitBeforeScreenshots, 'waitBeforeScreenshots', true);
+  if (typeof waitBeforeScreenshots === 'number') {
+    ArgumentGuard.greaterThanOrEqualToZero(waitBeforeScreenshots, 'waitBeforeScreenshots', true);
+  }
 
   return async function getStoryData({url, page}) {
     logger.log(`getting data from story ${url}`);
@@ -12,7 +13,7 @@ function makeGetStoryData({logger, processPageAndSerialize, waitBeforeScreenshot
     if (err) {
       logger.log(`error navigating to story ${url}`, err);
     }
-    await delay(waitBeforeScreenshots);
+    await page.waitFor(waitBeforeScreenshots);
     const {resourceUrls, blobs, frames, cdt} = await page.evaluate(processPageAndSerialize);
     const resourceContents = blobs.map(({url, type, value}) => ({
       url,
