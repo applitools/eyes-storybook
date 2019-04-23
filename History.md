@@ -1,4 +1,13 @@
 
+v2.6.10 / 2019-04-23
+====================
+
+* 2.6.10 [[c36782d](https://github.com/applitools/eyes-storybook/commit/c36782daf000cc320291b2b19c20328d26511912)]
+* updated vgc to 12.6.6: increatsed renderStatusTimeout to 1 hour [[5077ce8](https://github.com/applitools/eyes-storybook/commit/5077ce8e61317d9f09f7287c65e20ffa00256da2)]
+* fixed tests [[cd87bb3](https://github.com/applitools/eyes-storybook/commit/cd87bb3f387f5d066d56a675e9f08af8d18f788a)]
+* added ie10 ie11 readme info [[a215052](https://github.com/applitools/eyes-storybook/commit/a215052654ab6290d23c1cc74dc57a3ef8485476)]
+* changelog [[92e97e9](https://github.com/applitools/eyes-storybook/commit/92e97e90698a3076fdba391b68e6dafca8dea4ef)]
+
 v2.6.9 / 2019-04-16
 ===================
 
