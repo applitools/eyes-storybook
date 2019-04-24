@@ -10,7 +10,10 @@ function generateConfig({argv = {}, defaultConfig = {}, externalConfigParams = [
   const config = ConfigUtils.getConfig({configPath, configParams});
   const argvConfig = pick(argv, configParams);
   const result = Object.assign({}, defaultConfig, config, argvConfig);
-  if (result.waitBeforeScreenshots) {
+  if (
+    typeof result.waitBeforeScreenshots === 'string' &&
+    !isNaN(parseInt(result.waitBeforeScreenshots))
+  ) {
     result.waitBeforeScreenshots = Number(result.waitBeforeScreenshots);
   }
   return result;

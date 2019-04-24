@@ -67,4 +67,12 @@ describe('generateConfig', function() {
     });
     expect(config).to.eql({bla: 'bla from argv'});
   });
+
+  it('handles number waitBeforeScreenshots from env variable', () => {
+    process.env.APPLITOOLS_WAIT_BEFORE_SCREENSHOTS = '1234';
+    const config = generateConfig({
+      externalConfigParams: ['waitBeforeScreenshots'],
+    });
+    expect(config).to.eql({waitBeforeScreenshots: 1234});
+  });
 });
