@@ -1,4 +1,17 @@
 
+v2.6.11 / 2019-04-24
+====================
+
+* 2.6.11 [[0a04a19](https://github.com/applitools/eyes-storybook/commit/0a04a1944daed3fd15aa4709273d89192e752082)]
+* Merge branch 'FinestV-master' [[f3765f2](https://github.com/applitools/eyes-storybook/commit/f3765f21a6b7d770ab8d6f3bd177dc6c1b3da0b6)]
+* added it tests for waitBeforeScreenschots oprions [[e5ab59e](https://github.com/applitools/eyes-storybook/commit/e5ab59e72ed5473e08894253cf64ed354c93db2b)]
+* better test for  waitBeforeScreenshots [[d781989](https://github.com/applitools/eyes-storybook/commit/d781989bfd757b208a36c1528209e4035dee5cf5)]
+* added test, doc and config changes to waitBeforeScreenshots param. [[f8bb2f5](https://github.com/applitools/eyes-storybook/commit/f8bb2f57976b81a5183ac21530ac2511f8f1a00d)]
+* Merge branch 'master' of https://github.com/FinestV/eyes.storybook into FinestV-master [[bbebaa5](https://github.com/applitools/eyes-storybook/commit/bbebaa5f1aedf22b2473b65f917b0a741c50a058)]
+* changelog [[bf61a4c](https://github.com/applitools/eyes-storybook/commit/bf61a4c0263e44164ea35d269ec6917c8ff5ab93)]
+* Remove testing the implementation of waitBeforeScreenshots [[bb8af31](https://github.com/applitools/eyes-storybook/commit/bb8af31232864b7ebf29f1e10d19c074c024587e)]
+* Change waitBeforeScreenshots configuration to use Puppeteer.waitFor() [[911dc68](https://github.com/applitools/eyes-storybook/commit/911dc685a4dd15f6acffdf3ab6d8fabad28bfa76)]
+
 v2.6.10 / 2019-04-23
 ====================
 
