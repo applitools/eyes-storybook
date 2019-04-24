@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<body>
+  <span class="host">
+    <div id="changeME">
+       Render timeout
+    </div>
+  </span>
+
+  <script>
+    setTimeout(() => {
+       document.getElementById('changeME').innerText = '1500 ms passed'
+       window.ready = 'ok'
+    }, 1500);
+  </script>
+</body>
+</html>

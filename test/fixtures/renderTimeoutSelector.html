@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<body>
+  <span id="container">
+  </span>
+
+  <script>
+    setTimeout(() => {
+      const div = document.createElement('div')
+      div.id = 'newDiv'
+      div.innerText = 'div created'
+      document.getElementById('container').append(div)
+    }, 1500);
+  </script>
+</body>
+</html>
