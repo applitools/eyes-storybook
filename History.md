@@ -1,4 +1,11 @@
 
+v2.6.13 / 2019-04-29
+====================
+
+* 2.6.13 [[3a9ca5e](https://github.com/applitools/eyes-storybook/commit/3a9ca5e83b2c60863879d89368a4f4ec1d6694a1)]
+* updated vgc to 12.6.9: fix selctor css with size mode [[bdc55c2](https://github.com/applitools/eyes-storybook/commit/bdc55c2a0a4d627aaaf98024c03d5efed55ef840)]
+* changelog [[c8290f7](https://github.com/applitools/eyes-storybook/commit/c8290f7c437064c2804f056dd4ba95786f2d068c)]
+
 v2.6.12 / 2019-04-29
 ====================
 
