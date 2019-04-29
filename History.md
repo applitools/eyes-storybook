@@ -1,4 +1,11 @@
 
+v2.6.12 / 2019-04-29
+====================
+
+* 2.6.12 [[529da81](https://github.com/applitools/eyes-storybook/commit/529da818168a2fd5775673e002bf2b0ea31f96e4)]
+* updated vgc to 12.6.8: fixed multiple emulated devices [[c29a0f9](https://github.com/applitools/eyes-storybook/commit/c29a0f9b44b73e9dc987a3397bdd09a9a5ba23e4)]
+* changelog [[c2f71b3](https://github.com/applitools/eyes-storybook/commit/c2f71b3afd5c7b139e68900031bb821a28ee71f9)]
+
 v2.6.11 / 2019-04-24
 ====================
 
