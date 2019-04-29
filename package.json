@@ -43,23 +43,23 @@
     "type": "git"
   },
   "dependencies": {
-    "@applitools/dom-snapshot": "^1.1.5",
+    "@applitools/dom-snapshot": "^1.1.7",
     "@applitools/eyes-common": "^2.2.1",
-    "@applitools/eyes-sdk-core": "^5.5.1",
+    "@applitools/eyes-sdk-core": "^5.5.2",
     "@applitools/functional-commons": "^1.4.1",
     "@applitools/monitoring-commons": "^1.0.11",
-    "@applitools/visual-grid-client": "^12.6.6",
-    "@storybook/addon-options": "^5.0.10",
+    "@applitools/visual-grid-client": "^12.6.8",
+    "@storybook/addon-options": "^5.0.11",
     "chalk": "^2.4.2",
     "detect-port": "^1.3.0",
     "lodash.flatten": "^4.4.0",
     "lodash.pick": "^4.4.0",
     "ora": "^3.4.0",
-    "puppeteer": "^1.14.0",
+    "puppeteer": "^1.15.0",
     "yargs": "^12.0.5"
   },
   "devDependencies": {
-    "@storybook/react": "^5.0.10",
+    "@storybook/react": "^5.0.11",
     "babel-core": "^6.26.3",
     "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
@@ -70,7 +70,7 @@
     "eslint-plugin-prettier": "^2.7.0",
     "express": "^4.16.4",
     "mocha": "^5.2.0",
-    "node-fetch": "^2.3.0",
+    "node-fetch": "^2.4.1",
     "prettier": "^1.17.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6"
