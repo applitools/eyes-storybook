@@ -1,4 +1,12 @@
 
+v2.6.14 / 2019-04-30
+====================
+
+* 2.6.14 [[f081a29](https://github.com/applitools/eyes-storybook/commit/f081a29e8706d005e1c4cb31501ac02fa87421ae)]
+* updated vgc to 12.6.10: added agentId to render request [[7267146](https://github.com/applitools/eyes-storybook/commit/72671464009deed8257a2f22ef076978c339e7d6)]
+* removed matchTimeout from the readme [[35e36d5](https://github.com/applitools/eyes-storybook/commit/35e36d558edbb446565e8c206953d5bec4ca1322)]
+* changelog [[70e80f2](https://github.com/applitools/eyes-storybook/commit/70e80f205574c9d3909e705d4a42b5ad854e69f4)]
+
 v2.6.13 / 2019-04-29
 ====================
 
