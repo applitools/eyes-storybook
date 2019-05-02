@@ -1,4 +1,11 @@
 
+v2.6.15 / 2019-05-02
+====================
+
+* 2.6.15 [[20750a8](https://github.com/applitools/eyes-storybook/commit/20750a8ffd3d7619788fb81ec2cae0b655c943de)]
+* visual client update with handleDebug fix [[3d7eb1b](https://github.com/applitools/eyes-storybook/commit/3d7eb1b8825f09dbbe5c12167a8e59f9701cd5d9)]
+* changelog [[516b55e](https://github.com/applitools/eyes-storybook/commit/516b55ef0e6e56fd4c28cdf6fa1bd7a5365a7f95)]
+
 v2.6.14 / 2019-04-30
 ====================
 
