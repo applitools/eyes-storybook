@@ -1,4 +1,11 @@
 
+v2.6.16 / 2019-05-06
+====================
+
+* 2.6.16 [[47ebb0e](https://github.com/applitools/eyes-storybook/commit/47ebb0e6fd9a2233f4af22d725f2f8b11a594564)]
+* updated vgc 12.8.1: aborting tests on render error [[820797c](https://github.com/applitools/eyes-storybook/commit/820797c8d36ee8d614eb623c671c3c62cd8c4df0)]
+* changelog [[a2127ac](https://github.com/applitools/eyes-storybook/commit/a2127ac7f3620d913e9e975c1e36db0933c224aa)]
+
 v2.6.15 / 2019-05-02
 ====================
 
