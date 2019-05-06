@@ -1,4 +1,11 @@
 
+v2.6.17 / 2019-05-06
+====================
+
+* 2.6.17 [[6e15770](https://github.com/applitools/eyes-storybook/commit/6e15770d11703e974c4ba277c42d022e3fc7e672)]
+* updated ds to 1.1.10: empty src attr for cors iframes [[8a9a813](https://github.com/applitools/eyes-storybook/commit/8a9a813387d281b68aaf9cae8a8bd9e97ee92747)]
+* changelog [[8de5a81](https://github.com/applitools/eyes-storybook/commit/8de5a814762130dd75e93e5889355f1d68a581b8)]
+
 v2.6.16 / 2019-05-06
 ====================
 
