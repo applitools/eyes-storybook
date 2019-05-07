@@ -1,4 +1,11 @@
 
+v2.6.18 / 2019-05-07
+====================
+
+* 2.6.18 [[40abef4](https://github.com/applitools/eyes-storybook/commit/40abef4195fd0ebcb7f5b6565cd29ecd4de378c7)]
+* updatetd vgc to use the new dom snapshot - cors iframe with no src [[cdd6ab1](https://github.com/applitools/eyes-storybook/commit/cdd6ab12401f7b6b0f8ade579c5e0a23fcb3f304)]
+* changelog [[9d0974b](https://github.com/applitools/eyes-storybook/commit/9d0974bbbe318b1122adeb6b7b07a11070940728)]
+
 v2.6.17 / 2019-05-06
 ====================
 
