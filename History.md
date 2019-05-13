@@ -1,4 +1,11 @@
 
+v2.6.19 / 2019-05-13
+====================
+
+* 2.6.19 [[b1eb329](https://github.com/applitools/eyes-storybook/commit/b1eb329895818672cf56128e1ae7c7d7c3760654)]
+* updated vgc to 12.9.0: aborting empty new teston render fail [[2746ead](https://github.com/applitools/eyes-storybook/commit/2746eadf77230597082eae28a2a011003d63f8b6)]
+* changelog [[691fda6](https://github.com/applitools/eyes-storybook/commit/691fda68051af4509065f212d634c6258e7c026a)]
+
 v2.6.18 / 2019-05-07
 ====================
 
