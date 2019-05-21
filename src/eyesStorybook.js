@@ -22,13 +22,13 @@ async function eyesStorybook({config, logger, performance, timeItAsync}) {
   const pages = await Promise.all(new Array(CONCURRENT_PAGES).fill().map(() => browser.newPage()));
   logger.log(`${CONCURRENT_PAGES} pages open`);
   const page = pages[0];
-  const {openEyes} = makeVisualGridClient(config);
+  const {openEyes} = makeVisualGridClient({...config, logger: logger.extend('vgc')});
 
   const processPageAndSerialize = `(${await getProcessPageAndSerializeScript()})()`;
   logger.log('got script for processPage');
   const getStoryData = makeGetStoryData({logger, processPageAndSerialize, waitBeforeScreenshots});
   const renderStory = makeRenderStory({
-    logger,
+    logger: logger.extend('renderStory'),
     openEyes,
     performance,
     timeItAsync,
