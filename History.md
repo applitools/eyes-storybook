@@ -1,4 +1,11 @@
 
+v2.6.20 / 2019-05-21
+====================
+
+* 2.6.20 [[1e61a45](https://github.com/applitools/eyes-storybook/commit/1e61a457116bf9f50588348bf6076561e29d9aa1)]
+* updated eyes common to include new logs [[f484387](https://github.com/applitools/eyes-storybook/commit/f484387a250aa3e70e85e0891131d15a791e1600)]
+* changelog [[3dc5c7e](https://github.com/applitools/eyes-storybook/commit/3dc5c7e5de3842ab630ef0b4a1d68c4eb580196d)]
+
 v2.6.19 / 2019-05-13
 ====================
 
