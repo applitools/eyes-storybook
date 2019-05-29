@@ -1,4 +1,11 @@
 
+v2.6.21 / 2019-05-29
+====================
+
+* 2.6.21 [[4f204dd](https://github.com/applitools/eyes-storybook/commit/4f204dd45445a661a4f96193321c79e26ef3d379)]
+* updated vgc to include  ignoreDisplacements [[bd7cb95](https://github.com/applitools/eyes-storybook/commit/bd7cb95cf7c996f5f195344f8b144a32abd3b798)]
+* changelog [[321e851](https://github.com/applitools/eyes-storybook/commit/321e851f3d5ac7923de8abe2dc7874430b7e1669)]
+
 v2.6.20 / 2019-05-21
 ====================
 
