@@ -1,4 +1,11 @@
 
+v2.6.22 / 2019-05-29
+====================
+
+* 2.6.22 [[66a2720](https://github.com/applitools/eyes-storybook/commit/66a2720808ca2a2985aadf2d81b55e694e8b44d2)]
+* updated vgc to 10.0.2: using css tokenizer instead of cssom [[bfd563f](https://github.com/applitools/eyes-storybook/commit/bfd563ff8076ded8941fa1e2037ee3bc04f8799e)]
+* changelog [[e0ce833](https://github.com/applitools/eyes-storybook/commit/e0ce83382977181642d43df7d1926ff54950f30e)]
+
 v2.6.21 / 2019-05-29
 ====================
 
