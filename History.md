@@ -1,4 +1,11 @@
 
+v2.6.23 / 2019-05-30
+====================
+
+* 2.6.23 [[ad2755b](https://github.com/applitools/eyes-storybook/commit/ad2755b043c64986462b8d41290f3de818f77067)]
+* reverted vgc css tokenizer [[07fa6db](https://github.com/applitools/eyes-storybook/commit/07fa6dbf8e2ff0a86712f397beee388956500439)]
+* changelog [[36c51cb](https://github.com/applitools/eyes-storybook/commit/36c51cbc12580d9c32c505ef69865dfd1ce2ca58)]
+
 v2.6.22 / 2019-05-29
 ====================
 
