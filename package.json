@@ -14,11 +14,13 @@
     "eyes-storybook": "./bin/eyes-storybook.js"
   },
   "scripts": {
-    "test": "npm run test:mocha && npm run eslint",
+    "test": "npm run test:mocha && npm run eslint && npm run msg:success || npm run msg:failure",
     "test:mocha": "mocha --no-timeouts --trace-warnings 'test/unit/*.test.js' 'test/it/*.test.js' 'test/e2e/*.test.js'",
     "test:unit": "mocha --no-timeouts --trace-warnings 'test/unit/*.test.js'",
     "test:it": "mocha --no-timeouts --trace-warnings 'test/it/*.test.js'",
     "test:e2e": "mocha --no-timeouts --trace-warnings 'test/e2e/*.test.js'",
+    "msg:success": "notify -t 'Storybook tests Passed !!' -m 'life`s amazeballs !!!'",
+    "msg:failure": "notify -t 'Storybook tests Failed !!' -m 'Life`s a bitch !!!'",
     "eslint": "eslint '**/*.js'",
     "prepublishOnly": "npm version patch",
     "storybook": "start-storybook -c test/fixtures/appWithStorybook -p 9001 -s test/fixtures",
@@ -48,7 +50,7 @@
     "@applitools/eyes-sdk-core": "^5.8.1",
     "@applitools/functional-commons": "^1.4.1",
     "@applitools/monitoring-commons": "^1.0.11",
-    "@applitools/visual-grid-client": "^12.10.3",
+    "@applitools/visual-grid-client": "^12.10.6",
     "@storybook/addon-options": "^5.0.11",
     "chalk": "^2.4.2",
     "detect-port": "^1.3.0",
@@ -71,6 +73,7 @@
     "express": "^4.17.1",
     "mocha": "^5.2.0",
     "node-fetch": "^2.6.0",
+    "node-notifier-cli": "^1.1.2",
     "prettier": "^1.17.1",
     "react": "^16.8.6",
     "react-dom": "^16.8.6"
