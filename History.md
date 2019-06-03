@@ -1,4 +1,11 @@
 
+v2.6.24 / 2019-06-03
+====================
+
+* 2.6.24 [[03c6a47](https://github.com/applitools/eyes-storybook/commit/03c6a476edb9d3724da882d82068e8926cbc7d5e)]
+* Using user agent for fetching resources with vgc [[f959500](https://github.com/applitools/eyes-storybook/commit/f9595002bda7cacf38e4efe14d3cabfc1c91298e)]
+* changelog [[dad0717](https://github.com/applitools/eyes-storybook/commit/dad0717b2e868f5d3cc54a34bf66706be4ad3ff6)]
+
 v2.6.23 / 2019-05-30
 ====================
 
