@@ -1,4 +1,11 @@
 
+v2.6.25 / 2019-06-04
+====================
+
+* 2.6.25 [[cdad6c3](https://github.com/applitools/eyes-storybook/commit/cdad6c3ff9f8057310d59e1eefaedf3316344923)]
+* added batchSequenceName [[fed9853](https://github.com/applitools/eyes-storybook/commit/fed9853dda0973a87175e8fe5be0e5e6916aa4af)]
+* changelog [[a484fa4](https://github.com/applitools/eyes-storybook/commit/a484fa45e7327896b66961aa44928507b2823c63)]
+
 v2.6.24 / 2019-06-03
 ====================
 
