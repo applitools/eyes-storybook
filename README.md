@@ -109,6 +109,7 @@ In addition to command-line arguments, it's possible to define the following con
 | `saveDebugData`           | false                       | Whether to save troubleshooting data. See the troubleshooting section of this doc for more info. |
 | `batchId`                 | random                      | Provides ability to group tests into batches. Read more about batches [here](https://applitools.com/docs/topics/working-with-test-batches/how-to-group-tests-into-batches.html). |
 | `batchName`               | undefined                   | Provides a name to the batch. |
+| `batchSequenceName`               | undefined | Name for managing batch statistics. |
 | `baselineEnvName`         | undefined                   | The name of the environment of the baseline. |
 | `envName`                 | undefined                   | A name for the environment in which the application under test is running. |
 | `ignoreCaret`             | false                       | Whether to ignore or the blinking caret or not when comparing images. |
@@ -140,7 +141,9 @@ The name of the corresponding environment variable is in uppercase, with the `AP
 ```js
 APPLITOOLS_APP_NAME
 APPLITOOLS_SHOW_LOGS
+APPLITOOLS_BATCH_ID
 APPLITOOLS_BATCH_NAME
+APPLITOOLS_BATCH_SEQUENCE_NAME
 ...
 // all other configuration variables apply
 ```
