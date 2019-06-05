@@ -1,4 +1,11 @@
 
+v2.6.26 / 2019-06-05
+====================
+
+* 2.6.26 [[fd9dc3d](https://github.com/applitools/eyes-storybook/commit/fd9dc3dee64c84f964fbb716d8d455daf5dc4a03)]
+* svg support [[9d8b0f9](https://github.com/applitools/eyes-storybook/commit/9d8b0f950284a0715ff77573ed3fc227668d5a75)]
+* changelog [[dd37df0](https://github.com/applitools/eyes-storybook/commit/dd37df09ece8f7936cadf62351461db5be9f751d)]
+
 v2.6.25 / 2019-06-04
 ====================
 
