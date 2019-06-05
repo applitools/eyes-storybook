@@ -15,11 +15,9 @@ async function testStorybook({port}) {
     'test/fixtures',
     '--ci',
   ]);
-
   const storybookPackage = fs.readFileSync('node_modules/@storybook/core/package.json', 'utf8');
   const storybookVersion = JSON.parse(storybookPackage).version;
   await waitForStorybook(proc, storybookVersion);
-
   return () => proc.kill();
 }
 
