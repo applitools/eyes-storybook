@@ -1,6 +1,6 @@
 {
   "name": "@applitools/eyes-storybook",
-  "version": "2.6.26",
+  "version": "2.6.27",
   "description": "",
   "main": "src/eyes-storybook.js",
   "engines": {
