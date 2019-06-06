@@ -1,4 +1,11 @@
 
+v2.6.27 / 2019-06-06
+====================
+
+* 2.6.27 [[a0b6b2b](https://github.com/applitools/eyes-storybook/commit/a0b6b2b96953c9b8ac929e50d2e53f6830dd3cc2)]
+* updated vgc to 12.11.4: svg fetch support [[8245b37](https://github.com/applitools/eyes-storybook/commit/8245b37b52c148f544d35fe22e4f26075b90bca1)]
+* changelog [[8a59431](https://github.com/applitools/eyes-storybook/commit/8a59431f35004aef86c96547bb3a54bcedf54d58)]
+
 v2.6.26 / 2019-06-05
 ====================
 
