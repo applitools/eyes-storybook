@@ -3,9 +3,8 @@ module.exports = {
   batchName: 'Simple storybook',
   storybookConfigDir: 'test/fixtures/appWithStorybook/',
   storybookStaticDir: 'test/fixtures',
+  storybookPort: 4567,
+  puppeteerOptions: {headless: true},
+  // browser: [{width: 1000, height: 600, name: 'edge'}],
   // tapFilePath: './',
-  // browser: [
-  //   {width: 800, height: 600, name: 'firefox'},
-  //   {width: 1024, height: 768, name: 'firefox'},
-  // ],
 };
