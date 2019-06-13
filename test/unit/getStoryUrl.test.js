@@ -8,7 +8,8 @@ describe('getStoryUrl', () => {
     const name = 'name='; // = ==> %3D
     const kind = 'kind+'; // + ==> %2B
     const baseUrl = 'http://some/url';
-    const expected = 'http://some/url/iframe.html?selectedKind=kind%2B&selectedStory=name%3D';
+    const expected =
+      'http://some/url/iframe.html?selectedKind=kind%2B&selectedStory=name%3D&eyes-storybook=true';
     expect(getStoryUrl({name, kind}, baseUrl)).to.equal(expected);
   });
 });

@@ -34,7 +34,11 @@ describe('eyes-storybook', () => {
     const defaultConfig = {waitBeforeScreenshots: 50};
     const config = generateConfig({argv: {conf: configPath}, defaultConfig, externalConfigParams});
     const results = await eyesStorybook({
-      config: {storybookUrl: 'http://localhost:9001', ...config},
+      config: {
+        storybookUrl: 'http://localhost:9001',
+        ...config,
+        // puppeteerOptions: {headless: false, devtools: true},
+      },
       logger: new Logger(config.showLogs),
       performance,
       timeItAsync,
