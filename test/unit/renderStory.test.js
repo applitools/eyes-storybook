@@ -19,21 +19,13 @@ describe('renderStory', () => {
 
   it('calls openEyes, checkWindow and close with proper arguments and sets performance timing', async () => {
     const openEyes = async ({testName}) => {
-      let _cdt, _resourceUrls, _resourceContents, _url;
+      let checkWindowArguments;
       return {
-        checkWindow: ({cdt, resourceUrls, resourceContents, url}) => {
-          _cdt = cdt;
-          _resourceUrls = resourceUrls;
-          _resourceContents = resourceContents;
-          _url = url;
-        },
+        checkWindow: args => (checkWindowArguments = args),
         close: async throwEx => {
           return {
             throwEx,
-            cdt: _cdt,
-            url: _url,
-            resourceUrls: _resourceUrls,
-            resourceContents: _resourceContents,
+            checkWindowArguments,
             testName,
           };
         },
@@ -46,19 +38,33 @@ describe('renderStory', () => {
     const resourceUrls = 'resourceUrls';
     const resourceContents = 'resourceContents';
     const url = 'url';
-    const name = 'name';
-    const kind = 'kind';
-    const title = getStoryTitle({name, kind});
+    const eyesOptions = {
+      ignore: ['ignore'],
+      floating: 'floating',
+      strict: 'strict',
+      layout: 'layout',
+      scriptHooks: 'scriptHooks',
+      sizeMode: 'sizeMode',
+      selector: 'selector',
+      region: 'region',
+      tag: 'tag',
+    };
+    const story = {name: 'name', kind: 'kind', parameters: {eyes: eyesOptions}};
+    const title = getStoryTitle(story);
 
-    const results = await renderStory({name, kind, resourceUrls, resourceContents, cdt, url});
+    const results = await renderStory({story, resourceUrls, resourceContents, cdt, url});
 
     expect(results).to.eql({
       throwEx: false,
       testName: title,
-      url,
-      cdt,
-      resourceUrls,
-      resourceContents,
+      checkWindowArguments: {
+        cdt,
+        resourceContents,
+        resourceUrls,
+        url,
+        frames: undefined,
+        ...eyesOptions,
+      },
     });
 
     expect(performance[title]).not.to.equal(undefined);
@@ -88,7 +94,7 @@ describe('renderStory', () => {
 
     const renderStory = makeRenderStory({logger, openEyes, performance, timeItAsync});
     const story = {name: 'name1', kind: 'kind'};
-    const [{message}] = await renderStory(story);
+    const [{message}] = await renderStory({story});
     expect(message).to.equal('bla');
     expect(!!shouldThrow).to.be.false;
     console.log(performance);
