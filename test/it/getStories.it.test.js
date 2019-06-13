@@ -17,7 +17,7 @@ describe('getStories', () => {
 
   let browser, page;
   before(async () => {
-    browser = await puppeteer.launch();
+    browser = await puppeteer.launch(); // {headless: false, devtools: true}
     page = await browser.newPage();
     // page.on('console', msg => {
     //   console.log(msg.args().join(' '));
@@ -41,25 +41,38 @@ describe('getStories', () => {
   it('gets stories without nesting', async () => {
     await page.goto('http://localhost:9001');
     const stories = await page.evaluate(getStories);
-    expect(stories).to.eql([
-      {name: 'story 1.1', kind: 'SOME SECTION|Nested/Component'},
-      {name: 'story 1.2', kind: 'SOME SECTION|Nested/Component'},
-      {
-        name: 'c yes-a b',
-        kind: 'WOW|one with-space yes-indeed/nested with-space yes/nested again-yes a',
-      },
-      {name: 'with text', kind: 'Button'},
-      {name: 'with some emoji', kind: 'Button'},
-      {name: 'image', kind: 'Image'},
-      {name: 'story 1', kind: 'Nested'},
-      {name: 'story 1.1', kind: 'Nested/Component'},
-      {name: 'story 1.2', kind: 'Nested/Component'},
-      {name: 'a yes-a b', kind: 'Button with-space yes-indeed'},
-      {name: 'b yes-a b', kind: 'Button with-space yes-indeed/nested with-space yes'},
-      {
-        name: 'c yes-a b',
-        kind: 'Button with-space yes-indeed/nested with-space yes/nested again-yes a',
-      },
-    ]);
+    expect(stories).to.eql(
+      [
+        {name: 'with text', kind: 'Button', parameters: {someParam: 'i was here, goodbye'}},
+        {name: 'with some emoji', kind: 'Button'},
+        {name: 'image', kind: 'Image'},
+        {name: 'story 1', kind: 'Nested'},
+        {name: 'story 1.1', kind: 'Nested/Component'},
+        {name: 'story 1.2', kind: 'Nested/Component'},
+        {name: 'a yes-a b', kind: 'Button with-space yes-indeed'},
+        {name: 'b yes-a b', kind: 'Button with-space yes-indeed/nested with-space yes'},
+        {
+          name: 'c yes-a b',
+          kind: 'Button with-space yes-indeed/nested with-space yes/nested again-yes a',
+        },
+        {name: 'story 1.1', kind: 'SOME section|Nested/Component'},
+        {name: 'story 1.2', kind: 'SOME section|Nested/Component'},
+        {
+          name: 'c yes-a b',
+          kind: 'Wow|one with-space yes-indeed/nested with-space yes/nested again-yes a',
+        },
+      ].map(({name, kind, parameters}) => ({
+        name,
+        kind,
+        parameters: {
+          fileName: './test/fixtures/appWithStorybook/index.js',
+          options: {
+            hierarchyRootSeparator: '|',
+            hierarchySeparator: {},
+          },
+          ...parameters,
+        },
+      })),
+    );
   });
 });

@@ -6,7 +6,7 @@ import smurfs from '../smurfs.jpg';
 storiesOf('Button', module)
   .add('with text', () => (
     <div>with text</div>
-  ))
+  ), {someParam: 'i was here, goodbye'})
   .add('with some emoji', () => (
     <div>😀 😎 👍 💯</div>
   ));
@@ -40,5 +40,5 @@ storiesOf('SOME section|Nested/Component', module)
   .add('story 1.1', () => <div>story 1.1</div>)
   .add('story 1.2', () => <div>story 1.2</div>);
 
-  storiesOf('Wow|one with-space yes-indeed/nested with-space yes/nested again-yes a', module)
+storiesOf('Wow|one with-space yes-indeed/nested with-space yes/nested again-yes a', module)
   .add('c yes-a b', () => <div>story 1.1</div>);

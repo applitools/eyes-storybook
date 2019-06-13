@@ -1,4 +1,4 @@
-/* global document */
+/* global window,document */
 
 async function getStories() {
   const Stories = {
@@ -89,110 +89,57 @@ async function getStories() {
         return menuItems.map(item => item.textContent).join('\n');
       }
     },
-
-    _getStoriesV5: () => {
-      let menuItems = getSidebarFolders();
-      console.log(`got ${menuItems.length} menu items`);
-
-      let closedMenuItems = getClosedMenus(menuItems);
-      console.log(
-        `got ${closedMenuItems.length} closed menu items:\n${menuItemsToString(closedMenuItems)}`,
-      );
-
-      while (closedMenuItems.length) {
-        console.log(`opening ${closedMenuItems.length} closed menu items`);
-        openMenus(closedMenuItems);
-        menuItems = getSidebarFolders();
-        closedMenuItems = getClosedMenus(menuItems);
-        console.log(`after opening menus, got ${menuItems.length} menu items`);
-        console.log(
-          `after opening menus, got ${
-            closedMenuItems.length
-          } closed menu items:\n${menuItemsToString(closedMenuItems)}`,
-        );
-      }
-
-      const stories = getStoriesFromAnchors(document.querySelectorAll('section > a[id*=explore]'));
-      console.log(`returning ${stories.length} stories.`);
-      return stories;
-
-      function getStoriesFromAnchors(anchors, kind = '') {
-        return Array.from(anchors).reduce((acc, anchor) => {
-          const sectionName = !kind.length && parentCustomSectionName(anchor);
-          const anchorKind = kind.length
-            ? `${kind}/${anchor.innerText}`
-            : sectionName
-            ? `${sectionName}|${anchor.innerText}`
-            : anchor.innerText;
-          const stories = isLeafAnchor(anchor)
-            ? [{name: anchor.innerText, kind: kind}]
-            : getStoriesFromAnchor(anchor, anchorKind);
-          acc = acc.concat(stories);
-          return acc;
-        }, []);
-
-        // Section name exists for root anchors that are under a section
-        function parentCustomSectionName(anchor) {
-          const anchorText =
-            anchor.id.match(/explorer(.+)/) &&
-            anchor.id.match(/explorer(.+)/)[1].replace(/-/g, ' ');
-          const sectionName =
-            anchor.previousSibling &&
-            anchor.previousSibling.getAttribute('type') === 'section' &&
-            anchor.previousSibling.innerText;
-          if (sectionName && anchorText && anchorText.toUpperCase().startsWith(sectionName)) {
-            return sectionName;
-          }
-        }
-
-        function isLeafAnchor(anchor) {
-          return !anchor.nextElementSibling || anchor.nextElementSibling.tagName !== 'DIV';
-        }
-
-        function getStoriesFromAnchor(anchor, kind) {
-          const childAnchors =
-            anchor.nextElementSibling &&
-            anchor.nextElementSibling.querySelectorAll(':scope > a[id*=explore]');
-          return getStoriesFromAnchors(childAnchors || [], kind);
-        }
-      }
-
-      function getClosedMenus(menuItems) {
-        return menuItems.filter(
-          menuItem => !menuItem.nextElementSibling || menuItem.nextElementSibling.id,
-        );
-      }
-
-      function openMenus(menuItems) {
-        menuItems.forEach(menuItem => menuItem.click());
-      }
-
-      function menuItemsToString(menuItems) {
-        return menuItems.map(item => item.textContent).join('\n');
-      }
-    },
   };
 
-  await waitForStorybook();
-  console.log(`getting stories from storybook. ${getVersion()}`);
-  return Stories[`_getStories${getVersion()}`]();
+  const clientApi = await waitForClientAPI();
+
+  if (clientApi) {
+    return getStoriesThroughClientAPI(clientApi);
+  } else if (isStoryBookLoading()) {
+    throw new Error('storybook is loading for too long');
+  } else {
+    const storybookVersion = getVersion();
+    console.log(`getting stories from storybook through scraping. ${storybookVersion}`);
+    return Stories[`_getStories${storybookVersion}`]();
+  }
+
+  function getStoriesThroughClientAPI(clientApi) {
+    return clientApi.raw().map(story => ({
+      name: story.name,
+      kind: story.kind,
+      parameters: story.parameters,
+    }));
+  }
 
   function getAllMenuItems() {
     return Array.from(document.querySelectorAll('.Pane.vertical.Pane1 [role="menuitem"]'));
   }
 
-  function getSidebarFolders() {
-    return Array.from(document.querySelectorAll('[id^=explorer]:not([id*=--])'));
-  }
-
   function getVersion() {
     if (getAllMenuItems().length !== 0) {
       return 'V3';
-    } else if (getSidebarFolders().length !== 0) {
-      return 'V5';
     } else {
       return 'V2';
     }
+  }
+
+  function getClientAPI() {
+    const frameWindow = getFrameWindow();
+    if (
+      frameWindow &&
+      frameWindow.__STORYBOOK_CLIENT_API__ &&
+      frameWindow.__STORYBOOK_CLIENT_API__.raw
+    ) {
+      return frameWindow.__STORYBOOK_CLIENT_API__;
+    }
+  }
+
+  function getFrameWindow() {
+    return Array.prototype.filter.call(window.frames, frame => {
+      try {
+        return /\/iframe.html/.test(frame.location.href);
+      } catch (e) {}
+    })[0];
   }
 
   function isStoryBookLoading() {
@@ -201,21 +148,20 @@ async function getStories() {
     );
   }
 
-  async function waitForStorybook() {
+  function waitForClientAPI() {
     const WAIT_FOR_SB_TIMEOUT = 10000;
 
-    const _waitForStorybook = async () => {
-      const isLoading = isStoryBookLoading();
-      if (isLoading) {
-        await delay(200);
-        await _waitForStorybook();
+    const _waitForClientAPI = async () => {
+      const clientApi = getClientAPI();
+      if (clientApi) {
+        return clientApi;
+      } else {
+        await delay(100);
+        return _waitForClientAPI();
       }
     };
-    await ptimeoutWithError(
-      _waitForStorybook,
-      WAIT_FOR_SB_TIMEOUT,
-      'storybook is loading for too long',
-    );
+
+    return ptimeoutWithValue(_waitForClientAPI, WAIT_FOR_SB_TIMEOUT, undefined);
   }
 
   async function delay(time) {
@@ -224,10 +170,10 @@ async function getStories() {
     });
   }
 
-  async function ptimeoutWithError(getPromise, delay, err) {
+  async function ptimeoutWithValue(getPromise, delay, value) {
     let _res, _rej;
     const result = new Promise((res, rej) => ((_res = res), (_rej = rej)));
-    const cancel = setTimeout(() => _rej(err), delay);
+    const cancel = setTimeout(() => _res(value), delay);
     getPromise()
       .then(v => _res(v))
       .catch(e => _rej(e))
