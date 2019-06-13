@@ -11,6 +11,7 @@ const getChunks = require('./getChunks');
 const ora = require('ora');
 const flatten = require('lodash.flatten');
 const chalk = require('chalk');
+const filterStories = require('./filterStories');
 
 const CONCURRENT_PAGES = 3;
 
@@ -65,8 +66,10 @@ async function eyesStorybook({config, logger, performance, timeItAsync}) {
 
     logger.log(`starting to run ${stories.length} stories`);
 
+    const filteredStories = filterStories({stories, config});
+
     const [error, results] = await presult(
-      timeItAsync('renderStories', async () => renderStories(stories)),
+      timeItAsync('renderStories', async () => renderStories(filteredStories)),
     );
 
     if (error) {
@@ -77,6 +80,9 @@ async function eyesStorybook({config, logger, performance, timeItAsync}) {
     }
   } catch (ex) {
     logger.log(ex);
+    if (ex instanceof SyntaxError) {
+      throw ex;
+    }
   } finally {
     logger.log('total time: ', performance['renderStories']);
     await browser.close();

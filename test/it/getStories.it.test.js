@@ -38,7 +38,7 @@ describe('getStories', () => {
     await closeTestServer();
   });
 
-  it('gets stories without nesting', async () => {
+  it('gets stories', async () => {
     await page.goto('http://localhost:9001');
     const stories = await page.evaluate(getStories);
     expect(stories).to.eql(
@@ -60,6 +60,17 @@ describe('getStories', () => {
         {
           name: 'c yes-a b',
           kind: 'Wow|one with-space yes-indeed/nested with-space yes/nested again-yes a',
+        },
+        {
+          name:
+            'this story should not be checked visually by eyes-storybook because of local parameter',
+          kind: 'skipped tests',
+          parameters: {eyes: {skip: true}},
+        },
+        {
+          name:
+            '[SKIP] this story should not be checked visually by eyes-storybook because of global config',
+          kind: 'skipped tests',
         },
       ].map(({name, kind, parameters}) => ({
         name,

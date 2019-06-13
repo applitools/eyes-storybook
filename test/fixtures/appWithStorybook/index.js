@@ -42,3 +42,12 @@ storiesOf('SOME section|Nested/Component', module)
 
 storiesOf('Wow|one with-space yes-indeed/nested with-space yes/nested again-yes a', module)
   .add('c yes-a b', () => <div>story 1.1</div>);
+
+storiesOf('skipped tests', module)
+  .add(
+    'this story should not be checked visually by eyes-storybook because of local parameter',
+    () => <div>this story should not be checked visually by eyes-storybook because of local parameter</div>,
+    {eyes: {skip: true}}
+  )
+  .add('[SKIP] this story should not be checked visually by eyes-storybook because of global config',
+    () => <div>this story should not be checked visually by eyes-storybook because of global config</div>)
