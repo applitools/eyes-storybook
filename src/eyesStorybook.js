@@ -40,6 +40,7 @@ async function eyesStorybook({config, logger, performance, timeItAsync}) {
     pages,
     renderStory,
     storybookUrl,
+    logger,
   });
 
   logger.log('finished creating functions');
