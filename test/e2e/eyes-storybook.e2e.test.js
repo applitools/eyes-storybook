@@ -8,6 +8,7 @@ const {Logger} = require('@applitools/eyes-common');
 const path = require('path');
 const {makeTiming} = require('@applitools/monitoring-commons');
 const {performance, timeItAsync} = makeTiming();
+const testServer = require('../util/testServer');
 
 describe('eyes-storybook', () => {
   let closeStorybook;
@@ -17,6 +18,15 @@ describe('eyes-storybook', () => {
 
   after(async () => {
     closeStorybook();
+  });
+
+  let closeTestServer;
+  before(async () => {
+    closeTestServer = (await testServer({port: 7272})).close;
+  });
+
+  after(async () => {
+    await closeTestServer();
   });
 
   it('renders test storybook', async () => {
