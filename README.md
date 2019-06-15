@@ -127,8 +127,10 @@ In addition to command-line arguments, it's possible to define the following con
 | `puppeteerOptions`        | undefined                   | Options to send to `puppeteer.launch`. This is a low-level configuration and should be used with great care. |
 | `tapFilePath`             | undefined                   | Directory path of a results file. If set, then a [TAP](https://en.wikipedia.org/wiki/Test_Anything_Protocol#Specification) file is created in this directory, the file is created with the name eyes.tap and contains the Eyes test results. |
 | `waitBeforeScreenshots`   | undefined                   | Selector, function or timeout. If `waitBeforeScreenshots` is a number then the argument is treated as time in milliseconds to wait before each screenshot is taken. If `waitBeforeScreenshots` is a string then the argument is treated as a selector or xpath, (depending on whether or not it starts with '//') for an element to wait for before each screenshot is taken. If `waitBeforeScreenshots` is a function, then the argument is treated as a predicate to wait for before each screenshot is taken.|
+| `filterStories`           | undefined                   | An expression that specifies which stories should be visually tested. Visual baselines will be created only for the components specified. The value of this parameter can be either a regular experession, e.g. `/\[visual\]$/`, a string which will be made into a regular expression using `new RegExp`, e.g. `'visual'`, or a function. Component names will be tested against the regular expression and only the components which will match the expression will be tested. If a function is specified, the story's metadata will be passed, of the structure `{name, kind, parameters}`, where `name` is the name of the component (this is the value passed in the case of a regex), `kind` is the string built by storybook for the category, e.g. `Forms|Input/Text`, and `parameters` are the third argument to storybook's `.add` function. The component will tested if the return value of the function is truthy. |
 
 There are 2 ways to specify test configuration:
+
 1) Environment variables
 2) The `applitools.config.js` file
 
@@ -214,6 +216,21 @@ module.exports = {
 }
 ```
 
+## Per component configuration
+
+It's possible to pass a third argument to storybook's `.add` function, to customize each story. An `eyes` property on the parameters object can be specified. The following property is supported:
+
+* `skip` - when true, the component will not be visually tested. If `false` is specified, this will override a global configuration in case the component is skipped by the `filterStories` parameter. For example:
+
+```js
+storiesOf('Some kind', module)
+  .add(
+    'Some story',
+    () => <div>I'm visually perfect!</div>,
+    {eyes: {skip: true}}
+  )
+```
+
 ## Running Eyes-Storybook in Docker
 
 When running the SDK in docker, there might be issues related to properly launching the internal chrome browser via puppeteer. If you seem to have such issues, set `runInDocker: true` in your config file. This will pass the internal chrome browser special arguments, as described [here](https://github.com/GoogleChrome/puppeteer/blob/master/docs/troubleshooting.md#tips).
@@ -226,6 +243,25 @@ module.exports = {
     executablePath: '/usr/bin/chromium-browser'
   }
 }
+```
+
+## Dealing with dynamic data
+
+Sometimes components render dynamic data, such as dates, or random data. This creates a challenge when testing these components. The way we recommend to address this issue is to insert code into your storybook which normalizes the data (uses fixed dates, or a specific seed), when it is being run in an automated environment.
+
+Eyes storybook makes it possible for components to be aware that they are being tested. There will be a specific query parameter on the URL of the story's iframe: `?eyes-storybook=true`.
+
+This way it's possible to write a story like this:
+
+```js
+const isBeingTested =
+    new URL(window.location).searchParams.get('eyes-storybook')
+
+const SOME_FIXED_DATE = 354060000000
+
+const date = new Date(isBeingTested ? SOME_FIXED_DATE : undefined)
+
+storiesOf('Some kind', module).add('Date', () => <div>{date}</div>)
 ```
 
 ## Troubleshooting
