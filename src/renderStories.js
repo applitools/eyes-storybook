@@ -27,8 +27,7 @@ function makeRenderStories({getChunks, getStoryData, pages, renderStory, storybo
                     resourceContents,
                     frames,
                     url,
-                    name: story.name,
-                    kind: story.kind,
+                    story,
                   })
                 : [error],
             )

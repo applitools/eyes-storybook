@@ -3,6 +3,12 @@ import { storiesOf } from '@storybook/react';
 import './storybook.css';
 import smurfs from '../smurfs.jpg';
 
+const isRTL = new URL(window.location).searchParams.get('rtl');
+
+if (isRTL) {
+  document.documentElement.setAttribute('dir', 'rtl')
+}
+
 storiesOf('Button', module)
   .add('with text', () => (
     <div>with text</div>
@@ -42,6 +48,12 @@ storiesOf('SOME section|Nested/Component', module)
 
 storiesOf('Wow|one with-space yes-indeed/nested with-space yes/nested again-yes a', module)
   .add('c yes-a b', () => <div>story 1.1</div>);
+
+storiesOf('RTL', module)
+  .add('should also do RTL', () => {
+    const isRTL = document.documentElement.getAttribute('dir') === 'rtl';
+    return (<div>{isRTL ? 'rtl' : 'ltr'}</div>)
+  });
 
 storiesOf('skipped tests', module)
   .add(

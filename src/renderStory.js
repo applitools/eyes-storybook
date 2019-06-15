@@ -2,8 +2,9 @@
 const getStoryTitle = require('./getStoryTitle');
 
 function makeRenderStory({logger, openEyes, performance, timeItAsync}) {
-  return function renderStory({name, kind, resourceUrls, resourceContents, frames, cdt, url}) {
-    const title = getStoryTitle({name, kind});
+  return function renderStory({story, resourceUrls, resourceContents, frames, cdt, url}) {
+    const {name, kind, parameters} = story;
+    const title = getStoryTitle({name, kind, parameters});
     logger.log('running story', title);
     return timeItAsync(title, async () => {
       const {checkWindow, close} = await openEyes({

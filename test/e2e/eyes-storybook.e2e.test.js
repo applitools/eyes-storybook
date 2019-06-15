@@ -85,6 +85,8 @@ describe('eyes-storybook', () => {
       {name: 'Nested/Component: story 1.1', isPassed: true},
       {name: 'Nested/Component: story 1.2', isPassed: true},
       {name: 'Nested: story 1', isPassed: true},
+      {name: 'RTL: should also do RTL', isPassed: true},
+      {name: 'RTL: should also do RTL [RTL]', isPassed: true},
       {name: 'SOME section|Nested/Component: story 1.1', isPassed: true},
       {name: 'SOME section|Nested/Component: story 1.2', isPassed: true},
       {

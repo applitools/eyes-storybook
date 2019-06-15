@@ -46,11 +46,10 @@ describe('renderStory', () => {
     const resourceUrls = 'resourceUrls';
     const resourceContents = 'resourceContents';
     const url = 'url';
-    const name = 'name';
-    const kind = 'kind';
-    const title = getStoryTitle({name, kind});
+    const story = {name: 'name', kind: 'kind'};
+    const title = getStoryTitle(story);
 
-    const results = await renderStory({name, kind, resourceUrls, resourceContents, cdt, url});
+    const results = await renderStory({story, resourceUrls, resourceContents, cdt, url});
 
     expect(results).to.eql({
       throwEx: false,
@@ -71,7 +70,7 @@ describe('renderStory', () => {
     };
 
     const renderStory = makeRenderStory({logger, openEyes, performance, timeItAsync});
-    const [{message}] = await presult(renderStory({}));
+    const [{message}] = await presult(renderStory({story: {}}));
     expect(message).to.equal('bla');
   });
 
@@ -88,7 +87,7 @@ describe('renderStory', () => {
 
     const renderStory = makeRenderStory({logger, openEyes, performance, timeItAsync});
     const story = {name: 'name1', kind: 'kind'};
-    const [{message}] = await renderStory(story);
+    const [{message}] = await renderStory({story});
     expect(message).to.equal('bla');
     expect(!!shouldThrow).to.be.false;
     console.log(performance);

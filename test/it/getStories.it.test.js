@@ -61,6 +61,7 @@ describe('getStories', () => {
           name: 'c yes-a b',
           kind: 'Wow|one with-space yes-indeed/nested with-space yes/nested again-yes a',
         },
+        {name: 'should also do RTL', kind: 'RTL'},
         {
           name:
             'this story should not be checked visually by eyes-storybook because of local parameter',

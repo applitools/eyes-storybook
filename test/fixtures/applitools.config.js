@@ -6,6 +6,7 @@ module.exports = {
   storybookPort: 4567,
   puppeteerOptions: {headless: true},
   filterStories: ({name}) => !/^\[SKIP\]/.test(name),
+  rtlRegex: /should also do RTL/,
   // browser: [{width: 1000, height: 600, name: 'edge'}],
   // tapFilePath: './',
 };
