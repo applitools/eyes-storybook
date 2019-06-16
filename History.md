@@ -1,4 +1,31 @@
 
+v2.7.3 / 2019-06-16
+===================
+
+* 2.7.3 [[bc470a8](https://github.com/applitools/eyes-storybook/commit/bc470a8e34f89af658c835b7ced7bd034cda5264)]
+* updated vgc and ds: agentId fix and not fetching status != 200 [[334e925](https://github.com/applitools/eyes-storybook/commit/334e92514f109179dabdf062f9b527a3060db6d7)]
+* 2.7.2 [[2a2b956](https://github.com/applitools/eyes-storybook/commit/2a2b95619fc0a810a4f867428d947735d093bf35)]
+* support RTL stories [[289b910](https://github.com/applitools/eyes-storybook/commit/289b91050ea56672399c98ccfe7f788e19a9afe0)]
+* 2.7.1 [[3fb9a45](https://github.com/applitools/eyes-storybook/commit/3fb9a45f17ebb1841479b0cb1f2e8aca134e1419)]
+* 2.7.0 [[83e13ac](https://github.com/applitools/eyes-storybook/commit/83e13ac598aa6c01367fce581081411a23ab3d7e)]
+* docs for filterStories and per component configuration [[b6c06ec](https://github.com/applitools/eyes-storybook/commit/b6c06ec64d8001237dc63af1ba0063b3c80b8d84)]
+* 2.6.29 [[e2ea05c](https://github.com/applitools/eyes-storybook/commit/e2ea05c2f5a70dc3faa19d859a996ec0a56b2619)]
+* add ability to filter out stories [[34bd1e5](https://github.com/applitools/eyes-storybook/commit/34bd1e5d7d45f857cc606716b52cd6affd605f19)]
+* css tokenizer v2 [[10ebf48](https://github.com/applitools/eyes-storybook/commit/10ebf48813fbaad1ae812172d909bf39fe17fe21)]
+* config file changes [[089eede](https://github.com/applitools/eyes-storybook/commit/089eedeb8c76ebb3d89096d82647cc0b24339a0b)]
+* add eyes-storybook query param to story [[e1dff88](https://github.com/applitools/eyes-storybook/commit/e1dff887df258fdc6bc6b4025e923d1ad045891e)]
+* 2.6.28 [[c3ab958](https://github.com/applitools/eyes-storybook/commit/c3ab958e3c008a5a55bbb5fd01256349f0bcfcb3)]
+* use storybook client api to get stories with parameters [[4044e1f](https://github.com/applitools/eyes-storybook/commit/4044e1f498d9aa2f13f90a607420bb7cf4d8423b)]
+* bring back CORS resource in e2e test [[dfaa006](https://github.com/applitools/eyes-storybook/commit/dfaa0063908987a6af32f616d7175246680c3bee)]
+
+v2.6.28 / 2019-06-13
+====================
+
+* 2.6.28 [[10c6026](https://github.com/applitools/eyes-storybook/commit/10c60262ee855982e4fae5259b929da26a665acf)]
+* css tokenizer v2 [[9f5d15e](https://github.com/applitools/eyes-storybook/commit/9f5d15e5590c59d184b5971d37bb222acabfaf7a)]
+* config file changes [[89b91c2](https://github.com/applitools/eyes-storybook/commit/89b91c28d03484d64b6a065be06e22d73d1a1431)]
+* changelog [[b52bc0a](https://github.com/applitools/eyes-storybook/commit/b52bc0a975b3a43ccc4c4c0d7b7466247c240881)]
+
 v2.6.27 / 2019-06-06
 ====================
 
