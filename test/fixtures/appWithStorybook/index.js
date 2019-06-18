@@ -3,7 +3,7 @@ import { storiesOf } from '@storybook/react';
 import './storybook.css';
 import smurfs from '../smurfs.jpg';
 
-const isRTL = new URL(window.location).searchParams.get('rtl');
+const isRTL = new URL(window.location).searchParams.get('eyes-variation') === 'rtl';
 
 if (isRTL) {
   document.documentElement.setAttribute('dir', 'rtl')
@@ -19,7 +19,7 @@ storiesOf('Button', module)
     }
   })
   .add('with some emoji', () => (
-    <div style={{position: 'relative'}} className="amit">😀 😎 👍 💯 <span style={{position: 'absolute', top: -20}} data-eyes-ignore>{Date.now()}</span></div>
+    <div style={{position: 'relative'}} className="amit">😀 😎 👍 💯</div>
   ));
 
 storiesOf('Image', module)
@@ -58,7 +58,11 @@ storiesOf('RTL', module)
   .add('should also do RTL', () => {
     const isRTL = document.documentElement.getAttribute('dir') === 'rtl';
     return (<div>{isRTL ? 'rtl' : 'ltr'}</div>)
-  });
+  })
+  .add('local RTL config', () => {
+    const isRTL = document.documentElement.getAttribute('dir') === 'rtl';
+    return (<div>{isRTL ? 'rtl' : 'ltr'}</div>)
+  }, { eyes: {variations: ['rtl']}});
 
 storiesOf('skipped tests', module)
   .add(

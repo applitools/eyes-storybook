@@ -4,7 +4,7 @@ const getStoryTitle = require('./getStoryTitle');
 function makeRenderStory({logger, openEyes, performance, timeItAsync}) {
   return function renderStory({story, resourceUrls, resourceContents, frames, cdt, url}) {
     const {name, kind, parameters} = story;
-    const title = getStoryTitle({name, kind});
+    const title = getStoryTitle({name, kind, parameters});
     const eyesOptions = (parameters && parameters.eyes) || {};
     const {
       ignore,
@@ -18,8 +18,6 @@ function makeRenderStory({logger, openEyes, performance, timeItAsync}) {
       tag,
     } = eyesOptions;
 
-    const ignoreWithDataAttrs = (ignore || []).concat({selector: '[data-eyes-ignore]'});
-
     logger.log('running story', title);
     return timeItAsync(title, async () => {
       const {checkWindow, close} = await openEyes({
@@ -32,7 +30,7 @@ function makeRenderStory({logger, openEyes, performance, timeItAsync}) {
         resourceContents,
         url,
         frames,
-        ignore: ignoreWithDataAttrs,
+        ignore,
         floating,
         strict,
         layout,

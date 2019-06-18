@@ -17,9 +17,9 @@ describe('getStoryUrl', () => {
     const name = 'name';
     const kind = 'kind';
     const baseUrl = 'baseUrl';
-    const parameters = {eyes: {shouldAddRTL: true}};
+    const parameters = {eyes: {variationUrlParam: 'bla'}};
     const expected =
-      'baseUrl/iframe.html?selectedKind=kind&selectedStory=name&eyes-storybook=true&rtl=true';
+      'baseUrl/iframe.html?selectedKind=kind&selectedStory=name&eyes-storybook=true&eyes-variation=bla';
     expect(getStoryUrl({name, kind, parameters}, baseUrl)).to.equal(expected);
   });
 });

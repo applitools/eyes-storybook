@@ -12,7 +12,7 @@ const ora = require('ora');
 const flatten = require('lodash.flatten');
 const chalk = require('chalk');
 const filterStories = require('./filterStories');
-const addRTLStories = require('./addRTLStories');
+const addVariationStories = require('./addVariationStories');
 
 const CONCURRENT_PAGES = 3;
 
@@ -67,12 +67,12 @@ async function eyesStorybook({config, logger, performance, timeItAsync}) {
 
     const filteredStories = filterStories({stories, config});
 
-    const storiesIncludingRTL = addRTLStories({stories: filteredStories, config});
+    const storiesIncludingVariations = addVariationStories({stories: filteredStories, config});
 
-    logger.log(`starting to run ${storiesIncludingRTL.length} stories`);
+    logger.log(`starting to run ${storiesIncludingVariations.length} stories`);
 
     const [error, results] = await presult(
-      timeItAsync('renderStories', async () => renderStories(storiesIncludingRTL)),
+      timeItAsync('renderStories', async () => renderStories(storiesIncludingVariations)),
     );
 
     if (error) {

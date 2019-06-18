@@ -1,10 +1,12 @@
 'use strict';
 
 function getStoryUrl({name, kind, parameters}, baseUrl) {
-  const rtlParam = parameters && parameters.eyes && parameters.eyes.shouldAddRTL ? '&rtl=true' : '';
+  const variationUrlParam = parameters && parameters.eyes && parameters.eyes.variationUrlParam;
+  const variation = variationUrlParam ? `&eyes-variation=${variationUrlParam}` : '';
+
   return `${baseUrl}/iframe.html?selectedKind=${encodeURIComponent(
     kind,
-  )}&selectedStory=${encodeURIComponent(name)}&eyes-storybook=true${rtlParam}`;
+  )}&selectedStory=${encodeURIComponent(name)}&eyes-storybook=true${variation}`;
 }
 
 module.exports = getStoryUrl;

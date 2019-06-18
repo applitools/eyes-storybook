@@ -1,8 +1,10 @@
 'use strict';
 
 function getStoryTitle({name, kind, parameters}) {
-  const rtlSuffix = parameters && parameters.eyes && parameters.eyes.shouldAddRTL ? ' [RTL]' : '';
-  return `${kind}: ${name}${rtlSuffix}`;
+  const variationUrlParam = parameters && parameters.eyes && parameters.eyes.variationUrlParam;
+  const urlSuffix = variationUrlParam ? ` [${variationUrlParam}]` : '';
+
+  return `${kind}: ${name}${urlSuffix}`;
 }
 
 module.exports = getStoryTitle;

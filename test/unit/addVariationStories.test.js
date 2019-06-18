@@ -1,0 +1,64 @@
+'use strict';
+const {describe, it} = require('mocha');
+const {expect} = require('chai');
+const addVariationStories = require('../../src/addVariationStories');
+
+describe('addRTLStories', () => {
+  it('adds stories by function in global config', () => {
+    const stories = [{name: 'aaa', kind: 'kuku'}, {name: 'bbb'}];
+    const config = {variations: ({name}) => name === 'aaa' && ['var1', 'var2']};
+    expect(addVariationStories({stories, config})).to.eql([
+      {name: 'aaa', kind: 'kuku'},
+      {name: 'bbb'},
+      {name: 'aaa', kind: 'kuku', parameters: {eyes: {variationUrlParam: 'var1'}}},
+      {name: 'aaa', kind: 'kuku', parameters: {eyes: {variationUrlParam: 'var2'}}},
+    ]);
+  });
+
+  it('adds stories by function in global config with existing parameters', () => {
+    const stories = [{name: 'aaa', kind: 'kuku', parameters: {}}, {name: 'bbb'}];
+    const config = {variations: ({name}) => name === 'aaa' && ['var1', 'var2']};
+    expect(addVariationStories({stories, config})).to.eql([
+      {name: 'aaa', kind: 'kuku', parameters: {}},
+      {name: 'bbb'},
+      {name: 'aaa', kind: 'kuku', parameters: {eyes: {variationUrlParam: 'var1'}}},
+      {name: 'aaa', kind: 'kuku', parameters: {eyes: {variationUrlParam: 'var2'}}},
+    ]);
+  });
+
+  it('adds stories by function in global config with existing parameters that have eyes property', () => {
+    const stories = [{name: 'aaa', kind: 'kuku', parameters: {eyes: {bla: 'bla'}}}, {name: 'bbb'}];
+    const config = {variations: ({name}) => name === 'aaa' && ['var1', 'var2']};
+    expect(addVariationStories({stories, config})).to.eql([
+      {name: 'aaa', kind: 'kuku', parameters: {eyes: {bla: 'bla'}}},
+      {name: 'bbb'},
+      {name: 'aaa', kind: 'kuku', parameters: {eyes: {bla: 'bla', variationUrlParam: 'var1'}}},
+      {name: 'aaa', kind: 'kuku', parameters: {eyes: {bla: 'bla', variationUrlParam: 'var2'}}},
+    ]);
+  });
+
+  it('fails when global config has invalid variations', () => {
+    const stories = [{name: 'aaa', bla: 'kuku'}, {name: 'bbb'}];
+    const config = {variations: () => 'not an array'};
+    expect(() => addVariationStories({stories, config})).to.throw(
+      Error,
+      `variations should be an array`,
+    );
+  });
+
+  it('adds variations by local parameter', () => {
+    const stories = [
+      {name: 'aaa', bla: 'kuku'},
+      {name: 'bbb', kind: 'kuku', parameters: {eyes: {variations: ['rtl']}}},
+    ];
+    expect(addVariationStories({stories, config: {}})).to.eql([
+      {name: 'aaa', bla: 'kuku'},
+      {name: 'bbb', kind: 'kuku', parameters: {eyes: {variations: ['rtl']}}},
+      {
+        name: 'bbb',
+        kind: 'kuku',
+        parameters: {eyes: {variations: ['rtl'], variationUrlParam: 'rtl'}},
+      },
+    ]);
+  });
+});

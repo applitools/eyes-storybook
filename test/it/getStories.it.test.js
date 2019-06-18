@@ -43,7 +43,14 @@ describe('getStories', () => {
     const stories = await page.evaluate(getStories);
     expect(stories).to.eql(
       [
-        {name: 'with text', kind: 'Button', parameters: {someParam: 'i was here, goodbye'}},
+        {
+          name: 'with text',
+          kind: 'Button',
+          parameters: {
+            someParam: 'i was here, goodbye',
+            eyes: {ignore: [{selector: '.ignore-this'}]},
+          },
+        },
         {name: 'with some emoji', kind: 'Button'},
         {name: 'image', kind: 'Image'},
         {name: 'story 1', kind: 'Nested'},
@@ -62,6 +69,7 @@ describe('getStories', () => {
           kind: 'Wow|one with-space yes-indeed/nested with-space yes/nested again-yes a',
         },
         {name: 'should also do RTL', kind: 'RTL'},
+        {name: 'local RTL config', kind: 'RTL', parameters: {eyes: {variations: ['rtl']}}},
         {
           name:
             'this story should not be checked visually by eyes-storybook because of local parameter',
