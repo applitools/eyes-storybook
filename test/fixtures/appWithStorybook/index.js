@@ -11,10 +11,15 @@ if (isRTL) {
 
 storiesOf('Button', module)
   .add('with text', () => (
-    <div>with text</div>
-  ), {someParam: 'i was here, goodbye'})
+    <div style={{position: 'relative'}}>with text <span style={{position: 'absolute', top: -20}} className="ignore-this">{Date.now()}</span></div>
+  ), {
+    someParam: 'i was here, goodbye',
+    eyes: {
+      ignore: [{selector: '.ignore-this'}]
+    }
+  })
   .add('with some emoji', () => (
-    <div>😀 😎 👍 💯</div>
+    <div style={{position: 'relative'}} className="amit">😀 😎 👍 💯 <span style={{position: 'absolute', top: -20}} data-eyes-ignore>{Date.now()}</span></div>
   ));
 
 storiesOf('Image', module)

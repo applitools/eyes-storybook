@@ -58,18 +58,18 @@ async function eyesStorybook({config, logger, performance, timeItAsync}) {
 
     logger.log('Getting stories from storybook');
     let stories = await page.evaluate(getStories);
-    logger.log('got stories:', JSON.stringify(stories));
+    logger.log(`got ${stories.length} stories:`, JSON.stringify(stories));
     spinner.succeed();
 
     if (process.env.APPLITOOLS_STORYBOOK_DEBUG) {
       stories = stories.slice(0, 5);
     }
 
-    logger.log(`starting to run ${stories.length} stories`);
-
     const filteredStories = filterStories({stories, config});
 
     const storiesIncludingRTL = addRTLStories({stories: filteredStories, config});
+
+    logger.log(`starting to run ${storiesIncludingRTL.length} stories`);
 
     const [error, results] = await presult(
       timeItAsync('renderStories', async () => renderStories(storiesIncludingRTL)),
