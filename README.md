@@ -268,6 +268,7 @@ if (isRTL) {
   document.documentElement.setAttribute('dir', 'rtl')
 }
 
+// 2 visual tests will be created - one for LTR and one for RTL
 storiesOf('Components that support RTL', module)
   .add(
     'Some story',
@@ -277,6 +278,25 @@ storiesOf('Components that support RTL', module)
     </div>,
     {eyes: {variations: ['RTL']}}
   )
+```
+
+### `ignore`
+
+A single or an array of regions to ignore when checking for visual differences. For example:
+
+```js
+storiesOf('Components with ignored region', module)
+  .add(
+    'Some story',
+    () => <div>
+      <span>I am visually perfect!<span>
+      <span className="ignore-this">this should be ignored</span>
+    </div>,
+    {eyes: {
+      ignore: [{selector: '.ignore-this'}]
+    }}
+  )
+});
 ```
 
 ## Running Eyes-Storybook in Docker
