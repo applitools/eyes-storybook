@@ -74,7 +74,7 @@ describe('getStories', () => {
           name:
             'this story should not be checked visually by eyes-storybook because of local parameter',
           kind: 'skipped tests',
-          parameters: {eyes: {skip: true}},
+          parameters: {eyes: {include: false}},
         },
         {
           name:

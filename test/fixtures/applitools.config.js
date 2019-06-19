@@ -5,7 +5,7 @@ module.exports = {
   storybookStaticDir: 'test/fixtures',
   storybookPort: 4567,
   puppeteerOptions: {headless: true},
-  filterStories: ({name}) => !/^\[SKIP\]/.test(name),
+  include: ({name}) => !/^\[SKIP\]/.test(name),
   variations: ({name}) => {
     if (/should also do RTL/.test(name)) {
       return ['rtl'];

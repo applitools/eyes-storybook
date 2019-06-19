@@ -30,29 +30,6 @@ describe('eyes-storybook', () => {
     await closeTestServer();
   });
 
-  it('fails on invalid input', async () => {
-    const configPath = path.resolve(__dirname, '../fixtures/applitools.config.js');
-    const defaultConfig = {waitBeforeScreenshots: 50};
-    const config = generateConfig({argv: {conf: configPath}, defaultConfig, externalConfigParams});
-    const [err] = await presult(
-      eyesStorybook({
-        config: {
-          storybookUrl: 'http://localhost:9001',
-          ...config,
-          filterStories: '[',
-        },
-        logger: new Logger(config.showLogs),
-        performance,
-        timeItAsync,
-      }),
-    );
-
-    expect(err).to.be.an.instanceOf(SyntaxError);
-    expect(err.message).to.contain(
-      `Eyes storybook configuration has an invalid value for 'filterStories' - it cannot be interpreted as a regular expression. This is probably an issue in 'applitools.config.js' file. Original error is:`,
-    );
-  });
-
   it('renders test storybook', async () => {
     const configPath = path.resolve(__dirname, '../fixtures/applitools.config.js');
     const defaultConfig = {waitBeforeScreenshots: 50};

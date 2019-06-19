@@ -68,7 +68,7 @@ storiesOf('skipped tests', module)
   .add(
     'this story should not be checked visually by eyes-storybook because of local parameter',
     () => <div>this story should not be checked visually by eyes-storybook because of local parameter</div>,
-    {eyes: {skip: true}}
+    {eyes: {include: false}}
   )
   .add('[SKIP] this story should not be checked visually by eyes-storybook because of global config',
     () => <div>this story should not be checked visually by eyes-storybook because of global config</div>)

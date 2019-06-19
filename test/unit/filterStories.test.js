@@ -4,47 +4,53 @@ const {expect} = require('chai');
 const filterStories = require('../../src/filterStories');
 
 describe('filterStories', () => {
-  it('filters by REGEX in global config', () => {
-    const stories = [{name: 'aaa', bla: 'kuku'}, {name: 'bbb'}];
-    const config = {filterStories: /^a/};
-    expect(filterStories({stories, config})).to.eql([{name: 'aaa', bla: 'kuku'}]);
-  });
-
-  it('filters by string in global config', () => {
-    const stories = [{name: 'aaa', bla: 'kuku'}, {name: 'bbb'}];
-    const config = {filterStories: '^a'};
-    expect(filterStories({stories, config})).to.eql([{name: 'aaa', bla: 'kuku'}]);
-  });
-
   it('filters by function in global config', () => {
     const stories = [{name: 'aaa', bla: 'kuku'}, {name: 'bbb'}];
-    const config = {filterStories: ({bla}) => bla === 'kuku'};
+    const config = {include: ({name}) => name === 'aaa'};
     expect(filterStories({stories, config})).to.eql([{name: 'aaa', bla: 'kuku'}]);
   });
 
-  it('fails when global config has invalid filter', () => {
+  it('filters by truthy value in global config', () => {
     const stories = [{name: 'aaa', bla: 'kuku'}, {name: 'bbb'}];
-    const config = {filterStories: '['};
-    expect(() => filterStories({stories, config})).to.throw(
-      SyntaxError,
-      `Eyes storybook configuration has an invalid value for 'filterStories' - it cannot be interpreted as a regular expression. This is probably an issue in 'applitools.config.js' file. Original error is: `,
-    );
+    const config = {include: true};
+    expect(filterStories({stories, config})).to.eql(stories);
+  });
+
+  it('filters by falsy value in global config', () => {
+    const stories = [{name: 'aaa', bla: 'kuku'}, {name: 'bbb'}];
+    const config = {include: false};
+    expect(filterStories({stories, config})).to.eql([]);
   });
 
   it('filters by local parameter', () => {
-    const stories = [{name: 'aaa', bla: 'kuku'}, {name: 'bbb', parameters: {eyes: {skip: true}}}];
+    const stories = [
+      {name: 'aaa', bla: 'kuku'},
+      {name: 'bbb', parameters: {eyes: {include: false}}},
+    ];
     expect(filterStories({stories, config: {}})).to.eql([{name: 'aaa', bla: 'kuku'}]);
   });
 
-  it('filters with precedence of local over global', () => {
-    const stories = [{name: 'aaa', bla: 'kuku'}, {name: 'bbb', parameters: {eyes: {skip: false}}}];
-    const config = {filterStories: /^a/};
+  it('filters with precedence of local (true) over global (false)', () => {
+    const stories = [
+      {name: 'aaa', bla: 'kuku'},
+      {name: 'bbb', parameters: {eyes: {include: true}}},
+    ];
+    const config = {include: ({name}) => name === 'aaa'};
     expect(filterStories({stories, config})).to.eql(stories);
+  });
+
+  it('filters with precedence of local (false) over global (true)', () => {
+    const stories = [
+      {name: 'aaa', bla: 'kuku'},
+      {name: 'bbb', parameters: {eyes: {include: false}}},
+    ];
+    const config = {include: ({name}) => name === 'bbb'};
+    expect(filterStories({stories, config})).to.eql([]);
   });
 
   it("doesn't fail when parameters are missing the 'eyes' property", () => {
     const stories = [{name: 'bbb', bla: 'kuku', parameters: {}}];
-    const config = {filterStories: /^a/};
+    const config = {include: ({name}) => name === 'aaa'};
     expect(filterStories({stories, config})).to.eql([]);
   });
 });
