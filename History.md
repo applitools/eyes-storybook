@@ -1,4 +1,19 @@
 
+v2.7.5 / 2019-06-23
+===================
+
+* 2.7.5 [[b63f8ee](https://github.com/applitools/eyes-storybook/commit/b63f8ee2b1069c2bd4670e9b39d5c7efde2cc218)]
+
+v2.7.4 / 2019-06-23
+===================
+
+* 2.7.4 [[7a69769](https://github.com/applitools/eyes-storybook/commit/7a69769563ac9f775e8f9f583a5369ccd6ea9c90)]
+* removed raw css text from cdt [[bc0b33e](https://github.com/applitools/eyes-storybook/commit/bc0b33e1d197b0b9bc303163d52bb2564e540dfa)]
+* variations support [[c1737a5](https://github.com/applitools/eyes-storybook/commit/c1737a511e2f91860dff07eed0e3104c9a150f82)]
+* Merge branch 'check-window-arguments' [[8d9e19a](https://github.com/applitools/eyes-storybook/commit/8d9e19ab41d95b69d441c011548aec95c12e999c)]
+* changelog [[79293af](https://github.com/applitools/eyes-storybook/commit/79293af0df4621f435bf1e0b2b4dd172b5550eec)]
+* add check window argument (WIP) [[0949adc](https://github.com/applitools/eyes-storybook/commit/0949adca173773d90d2b8a561366666588b0df6d)]
+
 v2.7.3 / 2019-06-16
 ===================
 
