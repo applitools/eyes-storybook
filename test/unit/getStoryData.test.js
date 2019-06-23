@@ -25,7 +25,11 @@ describe('getStoryData', () => {
       processPageAndSerialize,
       waitBeforeScreenshots: 50,
     });
-    const {resourceUrls, resourceContents, cdt} = await getStoryData({url: 'url', page});
+    const {resourceUrls, resourceContents, cdt} = await getStoryData({
+      story: {},
+      storyUrl: 'url',
+      page,
+    });
 
     expect(resourceUrls).to.eql(['url1']);
     expect(resourceContents).to.eql(expectedResourceContents);
@@ -62,7 +66,8 @@ describe('getStoryData', () => {
     });
 
     const {resourceUrls, resourceContents, cdt} = await getStoryData({
-      url: 'url',
+      story: {},
+      storyUrl: 'url',
       page,
     });
 
@@ -72,14 +77,6 @@ describe('getStoryData', () => {
   });
 
   it('throws when getting a negative waitBeforeScreenshots', async () => {
-    expect(() =>
-      makeGetStoryData({
-        waitBeforeScreenshots: -5,
-      }),
-    ).to.throw('waitBeforeScreenshots');
-  });
-
-  it('throws when not getting waitBeforeScreenshots', async () => {
     expect(() =>
       makeGetStoryData({
         waitBeforeScreenshots: -5,

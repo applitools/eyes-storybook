@@ -12,9 +12,9 @@ function makeRenderStories({getChunks, getStoryData, pages, renderStory, storybo
     await Promise.all(
       chunks.map(async (chunk, i) => {
         for (const story of chunk) {
-          const url = getStoryUrl(story, storybookUrl);
-          const storyDataPromise = getStoryData({url, page: pages[i]}).catch(e => {
-            logger.log('failed to get story data for', url, e);
+          const storyUrl = getStoryUrl(story, storybookUrl);
+          const storyDataPromise = getStoryData({story, storyUrl, page: pages[i]}).catch(e => {
+            logger.log('failed to get story data for', story.kind, story.name, e);
             return {error: `getStoryData failed: ${e}`};
           });
           const storyRenderPromise = storyDataPromise
@@ -26,7 +26,7 @@ function makeRenderStories({getChunks, getStoryData, pages, renderStory, storybo
                     resourceUrls,
                     resourceContents,
                     frames,
-                    url,
+                    url: storyUrl,
                     story,
                   })
                 : [error],

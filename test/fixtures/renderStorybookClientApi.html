@@ -1,0 +1,14 @@
+<body>
+  <div id="story"></div>
+  <script>
+  window.__STORYBOOK_CLIENT_API__ = {
+    _storyStore: {
+      setSelection: story => {
+        document.getElementById('story').textContent = story;
+      }
+    },
+
+    raw: () => ['story1', 'story2']
+  }
+  </script>
+</body>

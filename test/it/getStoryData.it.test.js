@@ -5,6 +5,7 @@ const {expect} = require('chai');
 const testServer = require('../util/testServer');
 const makeGetStoryData = require('../../src/getStoryData');
 const {ptimeoutWithError} = require('@applitools/functional-commons');
+const logger = console;
 
 describe('getStoryData', () => {
   let browser, page, closeTestServer;
@@ -30,7 +31,6 @@ describe('getStoryData', () => {
       cdt: 'cdt',
     });
 
-    const logger = console;
     const getStoryData = makeGetStoryData({
       logger,
       processPageAndSerialize,
@@ -38,7 +38,8 @@ describe('getStoryData', () => {
     });
 
     const getStoryPromise = getStoryData({
-      url: 'http://localhost:7272/renderTimeoutNumber.html',
+      story: {},
+      storyUrl: 'http://localhost:7272/renderTimeoutNumber.html',
       page,
     });
     const {resourceUrls, resourceContents, cdt} = await ptimeoutWithError(
@@ -64,7 +65,6 @@ describe('getStoryData', () => {
       cdt: 'cdt',
     });
 
-    const logger = console;
     const getStoryData = makeGetStoryData({
       logger,
       processPageAndSerialize,
@@ -72,7 +72,8 @@ describe('getStoryData', () => {
     });
 
     const getStoryPromise = getStoryData({
-      url: 'http://localhost:7272/renderTimeoutSelector.html',
+      story: {},
+      storyUrl: 'http://localhost:7272/renderTimeoutSelector.html',
       page,
     });
     const {resourceUrls, resourceContents, cdt} = await ptimeoutWithError(
@@ -95,7 +96,6 @@ describe('getStoryData', () => {
       cdt: 'cdt',
     });
 
-    const logger = console;
     const getStoryData = makeGetStoryData({
       logger,
       processPageAndSerialize,
@@ -103,7 +103,8 @@ describe('getStoryData', () => {
     });
 
     const getStoryPromise = getStoryData({
-      url: 'http://localhost:7272/renderTimeoutFunction.html',
+      story: {},
+      storyUrl: 'http://localhost:7272/renderTimeoutFunction.html',
       page,
     });
     const {resourceUrls, resourceContents, cdt} = await ptimeoutWithError(
@@ -117,5 +118,19 @@ describe('getStoryData', () => {
       {url: 'url2', type: 'type', value: Buffer.from('ss', 'base64')},
     ]);
     expect(cdt).to.equal('cdt');
+  });
+
+  it('uses storybook client API when possible', async () => {
+    const processPageAndSerialize = () => ({
+      resourceUrls: [],
+      blobs: [],
+      cdt: document.getElementById('story').textContent,
+    });
+
+    await page.goto('http://localhost:7272/renderStorybookClientApi.html');
+    const getStoryData = makeGetStoryData({logger, processPageAndSerialize});
+
+    expect((await getStoryData({story: {isApi: true, index: 0}, page})).cdt).to.equal('story1');
+    expect((await getStoryData({story: {isApi: true, index: 1}, page})).cdt).to.equal('story2');
   });
 });

@@ -9,7 +9,6 @@ const path = require('path');
 const {makeTiming} = require('@applitools/monitoring-commons');
 const {performance, timeItAsync} = makeTiming();
 const testServer = require('../util/testServer');
-const {presult} = require('@applitools/functional-commons');
 
 describe('eyes-storybook', () => {
   let closeStorybook;
@@ -17,8 +16,8 @@ describe('eyes-storybook', () => {
     closeStorybook = await testStorybook({port: 9001});
   });
 
-  after(async () => {
-    closeStorybook();
+  after(() => {
+    return closeStorybook();
   });
 
   let closeTestServer;

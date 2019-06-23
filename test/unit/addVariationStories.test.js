@@ -61,4 +61,21 @@ describe('addRTLStories', () => {
       },
     ]);
   });
+
+  // this is important because of the optimization of __STORYBOOK_CLIENT_API__.setSelection, which avoids page reloads
+  it('adds variations contiguously', () => {
+    const stories = [
+      {name: 'aaa', parameters: {eyes: {variations: ['v1', 'v2']}}},
+      {name: 'bbb', parameters: {eyes: {variations: ['v1', 'v2']}}},
+    ];
+
+    expect(addVariationStories({stories, config: {}})).to.eql([
+      {name: 'aaa', parameters: {eyes: {variations: ['v1', 'v2']}}},
+      {name: 'bbb', parameters: {eyes: {variations: ['v1', 'v2']}}},
+      {name: 'aaa', parameters: {eyes: {variations: ['v1', 'v2'], variationUrlParam: 'v1'}}},
+      {name: 'bbb', parameters: {eyes: {variations: ['v1', 'v2'], variationUrlParam: 'v1'}}},
+      {name: 'aaa', parameters: {eyes: {variations: ['v1', 'v2'], variationUrlParam: 'v2'}}},
+      {name: 'bbb', parameters: {eyes: {variations: ['v1', 'v2'], variationUrlParam: 'v2'}}},
+    ]);
+  });
 });

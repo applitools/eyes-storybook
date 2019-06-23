@@ -81,9 +81,11 @@ describe('getStories', () => {
             '[SKIP] this story should not be checked visually by eyes-storybook because of global config',
           kind: 'skipped tests',
         },
-      ].map(({name, kind, parameters}) => ({
+      ].map(({name, kind, parameters}, index) => ({
+        index,
         name,
         kind,
+        isApi: true,
         parameters: {
           fileName: './test/fixtures/appWithStorybook/index.js',
           options: {

@@ -104,7 +104,9 @@ async function getStories() {
   }
 
   function getStoriesThroughClientAPI(clientApi) {
-    return clientApi.raw().map(story => ({
+    return clientApi.raw().map((story, index) => ({
+      isApi: true,
+      index,
       name: story.name,
       kind: story.kind,
       parameters: story.parameters,

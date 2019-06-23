@@ -21,31 +21,12 @@ async function eyesStorybook({config, logger, performance, timeItAsync}) {
   const {storybookUrl, waitBeforeScreenshots} = config;
   const browser = await puppeteer.launch(config.puppeteerOptions);
   logger.log('browser launched');
-  const pages = await Promise.all(new Array(CONCURRENT_PAGES).fill().map(() => browser.newPage()));
-  logger.log(`${CONCURRENT_PAGES} pages open`);
-  const page = pages[0];
+  const page = await browser.newPage();
   const userAgent = await page.evaluate('navigator.userAgent');
   const {openEyes} = makeVisualGridClient({userAgent, ...config, logger: logger.extend('vgc')});
 
   const processPageAndSerialize = `(${await getProcessPageAndSerializeScript()})()`;
   logger.log('got script for processPage');
-  const getStoryData = makeGetStoryData({logger, processPageAndSerialize, waitBeforeScreenshots});
-  const renderStory = makeRenderStory({
-    logger: logger.extend('renderStory'),
-    openEyes,
-    performance,
-    timeItAsync,
-  });
-  const renderStories = makeRenderStories({
-    getChunks,
-    getStoryData,
-    pages,
-    renderStory,
-    storybookUrl,
-    logger,
-  });
-
-  logger.log('finished creating functions');
   try {
     page.on('console', msg => {
       logger.log(msg.args().join(' '));
@@ -71,8 +52,30 @@ async function eyesStorybook({config, logger, performance, timeItAsync}) {
 
     logger.log(`starting to run ${storiesIncludingVariations.length} stories`);
 
+    const pages = await initPagesForBrowser(browser);
+
+    logger.log(`${pages.length} pages open`);
+
+    const getStoryData = makeGetStoryData({logger, processPageAndSerialize, waitBeforeScreenshots});
+    const renderStory = makeRenderStory({
+      logger: logger.extend('renderStory'),
+      openEyes,
+      performance,
+      timeItAsync,
+    });
+    const renderStories = makeRenderStories({
+      getChunks,
+      getStoryData,
+      pages,
+      renderStory,
+      storybookUrl,
+      logger,
+    });
+
+    logger.log('finished creating functions');
+
     const [error, results] = await presult(
-      timeItAsync('renderStories', async () => renderStories(storiesIncludingVariations)),
+      timeItAsync('renderStories', () => renderStories(storiesIncludingVariations)),
     );
 
     if (error) {
@@ -88,7 +91,24 @@ async function eyesStorybook({config, logger, performance, timeItAsync}) {
     }
   } finally {
     logger.log('total time: ', performance['renderStories']);
+    logger.log('perf results', performance);
     await browser.close();
+  }
+
+  async function initPagesForBrowser(browser) {
+    return Promise.all(
+      new Array(CONCURRENT_PAGES).fill().map(async () => {
+        const page = await browser.newPage();
+        const [err] = await presult(
+          page.goto(`${storybookUrl}/iframe.html?eyes-storybook=true`, {timeout: 10000}),
+        );
+        if (err) {
+          logger.log(`error navigating to iframe.html`, err);
+          throw err;
+        }
+        return page;
+      }),
+    );
   }
 }
 
