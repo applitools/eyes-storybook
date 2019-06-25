@@ -9,7 +9,6 @@ const path = require('path');
 const {makeTiming} = require('@applitools/monitoring-commons');
 const {performance, timeItAsync} = makeTiming();
 const testServer = require('../util/testServer');
-const {presult} = require('@applitools/functional-commons');
 
 describe('eyes-storybook', () => {
   let closeStorybook;
