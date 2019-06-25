@@ -1,4 +1,22 @@
 
+v2.7.7 / 2019-06-25
+===================
+
+* 2.7.7 [[a2411f1](https://github.com/applitools/eyes-storybook/commit/a2411f1697ace80fd6a79ba9155128079fee0468)]
+* removed presult [[ded5498](https://github.com/applitools/eyes-storybook/commit/ded549802a9726f947c362b2a592bfcce91612fb)]
+* updated vgc to support renderId [[a08e1b5](https://github.com/applitools/eyes-storybook/commit/a08e1b51d3ada7fc928cf38e868ed0188e1feed4)]
+* 2.7.6 [[60c8e89](https://github.com/applitools/eyes-storybook/commit/60c8e8939471220e49cb88888e07951a17b85b37)]
+* docs for ignore regions [[8fbe2a5](https://github.com/applitools/eyes-storybook/commit/8fbe2a5834981cb46078d6463e7e33f81e7e7eb2)]
+* docs for include and variations [[60debd8](https://github.com/applitools/eyes-storybook/commit/60debd83bd50b64759f4c0d6d12fab08ea7f5570)]
+* support filtering with include param [[81b0bf4](https://github.com/applitools/eyes-storybook/commit/81b0bf46cd079d1a8f6829c0508c05f24f8896fd)]
+
+v2.7.6 / 2019-06-25
+===================
+
+* 2.7.6 [[3d8c1b1](https://github.com/applitools/eyes-storybook/commit/3d8c1b15a5ae61ba97ffc761877ac73eb96bb05f)]
+* updated vgc to support renderId [[5cbde30](https://github.com/applitools/eyes-storybook/commit/5cbde30ac6845530a7a14fcd4ab94b92407afc69)]
+* changelog [[0fc28d7](https://github.com/applitools/eyes-storybook/commit/0fc28d724c4a80f3bbac45efdac25441fa7836c2)]
+
 v2.7.5 / 2019-06-23
 ===================
 
