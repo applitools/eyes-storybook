@@ -1,4 +1,11 @@
 
+v2.7.8 / 2019-06-26
+===================
+
+* 2.7.8 [[dac43d4](https://github.com/applitools/eyes-storybook/commit/dac43d47fbf32c411b30075624f552a5148cf5ad)]
+* updated ds to support shadow dom resource fetching [[9ee06ec](https://github.com/applitools/eyes-storybook/commit/9ee06ecde994e1514a8cbb74fbf5389d9a647a94)]
+* changelog [[52ee91b](https://github.com/applitools/eyes-storybook/commit/52ee91b6de3ec089e1ff1b80beb46cc74130004e)]
+
 v2.7.7 / 2019-06-25
 ===================
 
