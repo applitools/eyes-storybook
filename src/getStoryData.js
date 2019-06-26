@@ -1,7 +1,8 @@
 'use strict';
 const {presult} = require('@applitools/functional-commons');
 const {ArgumentGuard} = require('@applitools/eyes-common');
-const renderStoryWithClientAPI = require('./renderStoryWithClientAPI');
+const renderStoryWithClientAPI = require('./browser/renderStoryWithClientAPI');
+const runRunBeforeScript = require('./browser/runRunBeforeScript');
 
 function makeGetStoryData({logger, processPageAndSerialize, waitBeforeScreenshots}) {
   if (typeof waitBeforeScreenshots === 'number') {
@@ -30,6 +31,12 @@ function makeGetStoryData({logger, processPageAndSerialize, waitBeforeScreenshot
     }
     if (waitBeforeScreenshots !== undefined) {
       await page.waitFor(waitBeforeScreenshots);
+    }
+
+    if (story.parameters && story.parameters.eyes && story.parameters.eyes.runBefore) {
+      await page.evaluate(runRunBeforeScript, story.index).catch(err => {
+        logger.error(`error during runBefore: ${err}`); // it might be good to aggregate these errors and output them at the end of the run
+      });
     }
 
     const {resourceUrls, blobs, frames, cdt} = await page.evaluate(processPageAndSerialize);

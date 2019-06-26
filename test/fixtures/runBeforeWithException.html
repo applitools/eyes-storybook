@@ -1,0 +1,21 @@
+<body>
+    <div id="root"></div>
+    <script>
+    window.__STORYBOOK_CLIENT_API__ = {
+      _storyStore: {
+        setSelection: ({initialText}) => {
+          document.getElementById('root').textContent = initialText;
+        }
+      },
+  
+      raw: () => [{
+        initialText: 'story done',
+        parameters: {
+          eyes: {
+            runBefore: () => Promise.reject(new Error('some error')),
+          }
+        }
+      }]
+    }
+    </script>
+  </body>

@@ -133,4 +133,48 @@ describe('getStoryData', () => {
     expect((await getStoryData({story: {isApi: true, index: 0}, page})).cdt).to.equal('story1');
     expect((await getStoryData({story: {isApi: true, index: 1}, page})).cdt).to.equal('story2');
   });
+
+  it('runs runBefore before extracting story data', async () => {
+    const processPageAndSerialize = () => ({
+      resourceUrls: [],
+      blobs: [],
+      cdt: document.getElementById('root').textContent,
+    });
+
+    await page.goto('http://localhost:7272/runBefore.html');
+    const getStoryData = makeGetStoryData({logger, processPageAndSerialize});
+
+    const {cdt} = await getStoryData({
+      story: {
+        isApi: true,
+        index: 0,
+        parameters: {
+          eyes: {
+            runBefore: {},
+          },
+        },
+      },
+      page,
+    });
+
+    expect(cdt).to.equal('story done');
+  });
+
+  it("doesn't throw on exception in runBefore", async () => {
+    const processPageAndSerialize = () => ({
+      resourceUrls: [],
+      blobs: [],
+      cdt: document.getElementById('root').textContent,
+    });
+
+    await page.goto('http://localhost:7272/runBeforeWithException.html');
+    const getStoryData = makeGetStoryData({logger, processPageAndSerialize});
+
+    const {cdt} = await getStoryData({
+      story: {isApi: true, index: 0, parameters: {eyes: {runBefore: {}}}},
+      page,
+    });
+
+    expect(cdt).to.equal('story done');
+  });
 });

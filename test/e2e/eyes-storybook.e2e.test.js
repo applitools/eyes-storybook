@@ -58,6 +58,7 @@ describe('eyes-storybook', () => {
       {name: 'Button: with some emoji', isPassed: true},
       {name: 'Button: with text', isPassed: true},
       {name: 'Image: image', isPassed: true},
+      {name: 'Interaction: Popover', isPassed: true},
       {name: 'Nested/Component: story 1.1', isPassed: true},
       {name: 'Nested/Component: story 1.2', isPassed: true},
       {name: 'Nested: story 1', isPassed: true},

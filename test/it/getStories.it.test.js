@@ -3,7 +3,7 @@ const {describe, it, before, after} = require('mocha');
 const {expect} = require('chai');
 const testServer = require('../util/testServer');
 const testStorybook = require('../util/testStorybook');
-const getStories = require('../../src/getStories');
+const getStories = require('../../src/browser/getStories');
 
 describe('getStories', () => {
   let closeStorybook;
@@ -80,6 +80,11 @@ describe('getStories', () => {
           name:
             '[SKIP] this story should not be checked visually by eyes-storybook because of global config',
           kind: 'skipped tests',
+        },
+        {
+          name: 'Popover',
+          kind: 'Interaction',
+          parameters: {bgColor: 'lime', eyes: {runBefore: {}}},
         },
       ].map(({name, kind, parameters}, index) => ({
         index,
