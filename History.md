@@ -1,4 +1,12 @@
 
+v2.7.9 / 2019-06-30
+===================
+
+* 2.7.9 [[bb60152](https://github.com/applitools/eyes-storybook/commit/bb60152e5e09c2be4e76ab68d8f0754ba95a5f15)]
+* returned index file [[7aea0bd](https://github.com/applitools/eyes-storybook/commit/7aea0bdd0741725c62b2060848928bf76e5fc0e3)]
+* fixed no error when all stories fail to display in storybook [[9cf3021](https://github.com/applitools/eyes-storybook/commit/9cf3021e6bee5ca23bd0c56f3c9e0da0c5b37a3e)]
+* changelog [[efb2608](https://github.com/applitools/eyes-storybook/commit/efb26089b8d3da9760e175d4b3f6137da223d979)]
+
 v2.7.8 / 2019-06-26
 ===================
 
