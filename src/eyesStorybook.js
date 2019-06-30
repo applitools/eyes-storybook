@@ -47,7 +47,12 @@ async function eyesStorybook({config, logger, performance, timeItAsync}) {
 
   logger.log('finished creating functions');
   try {
+    let hasConsoleErr;
     page.on('console', msg => {
+      hasConsoleErr =
+        msg.args()[0] &&
+        msg.args()[0]._remoteObject &&
+        msg.args()[0]._remoteObject.subtype === 'error';
       logger.log(msg.args().join(' '));
     });
 
@@ -59,8 +64,15 @@ async function eyesStorybook({config, logger, performance, timeItAsync}) {
     logger.log('Getting stories from storybook');
     let stories = await page.evaluate(getStories);
     logger.log(`got ${stories.length} stories:`, JSON.stringify(stories));
-    spinner.succeed();
+    if (!stories.length && hasConsoleErr) {
+      return [
+        new Error(
+          'Could not load stories, make sure your storybook renders correctly. perhaps no stories were rendered ?',
+        ),
+      ];
+    }
 
+    spinner.succeed();
     if (process.env.APPLITOOLS_STORYBOOK_DEBUG) {
       stories = stories.slice(0, 5);
     }
