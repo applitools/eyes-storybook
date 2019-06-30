@@ -35,7 +35,7 @@ describe('eyes-storybook', () => {
     const config = generateConfig({argv: {conf: configPath}, defaultConfig, externalConfigParams});
     const results = await eyesStorybook({
       config: {
-        storybookUrl: 'http://localhost:9001',
+        storybookUrl: 'http://localhost:9001/?path=/story/button--with-text',
         ...config,
         // puppeteerOptions: {headless: false, devtools: true},
       },

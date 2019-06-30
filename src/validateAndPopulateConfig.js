@@ -50,7 +50,7 @@ async function validateAndPopulateConfig({config, packagePath, logger}) {
     }
   }
 
-  config.storybookUrl = config.storybookUrl.replace(/\/$/, '');
+  config.storybookUrl = config.storybookUrl;
 
   config.agentId = `eyes-storybook/${packageVersion}`;
 

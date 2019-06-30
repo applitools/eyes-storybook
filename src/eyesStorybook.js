@@ -13,12 +13,14 @@ const flatten = require('lodash.flatten');
 const chalk = require('chalk');
 const filterStories = require('./filterStories');
 const addVariationStories = require('./addVariationStories');
+const getStorybookBaseUrl = require('./getStorybookBaseUrl');
 
 const CONCURRENT_PAGES = 3;
 
 async function eyesStorybook({config, logger, performance, timeItAsync}) {
   logger.log('eyesStorybook started');
   const {storybookUrl, waitBeforeScreenshots} = config;
+  const storybookBaseUrl = getStorybookBaseUrl(storybookUrl);
   const browser = await puppeteer.launch(config.puppeteerOptions);
   logger.log('browser launched');
   const pages = await Promise.all(new Array(CONCURRENT_PAGES).fill().map(() => browser.newPage()));
@@ -41,7 +43,7 @@ async function eyesStorybook({config, logger, performance, timeItAsync}) {
     getStoryData,
     pages,
     renderStory,
-    storybookUrl,
+    storybookBaseUrl,
     logger,
   });
 

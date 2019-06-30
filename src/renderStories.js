@@ -2,7 +2,14 @@
 const getStoryUrl = require('./getStoryUrl');
 const ora = require('ora');
 
-function makeRenderStories({getChunks, getStoryData, pages, renderStory, storybookUrl, logger}) {
+function makeRenderStories({
+  getChunks,
+  getStoryData,
+  pages,
+  renderStory,
+  storybookBaseUrl,
+  logger,
+}) {
   return async function renderStories(stories) {
     let doneStories = 0;
     const spinner = ora(`Done 0 stories out of ${stories.length}`);
@@ -12,7 +19,7 @@ function makeRenderStories({getChunks, getStoryData, pages, renderStory, storybo
     await Promise.all(
       chunks.map(async (chunk, i) => {
         for (const story of chunk) {
-          const url = getStoryUrl(story, storybookUrl);
+          const url = getStoryUrl(story, storybookBaseUrl);
           const storyDataPromise = getStoryData({url, page: pages[i]}).catch(e => {
             logger.log('failed to get story data for', url, e);
             return {error: `getStoryData failed: ${e}`};
