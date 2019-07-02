@@ -4,6 +4,31 @@ const {expect} = require('chai');
 const addVariationStories = require('../../src/addVariationStories');
 
 describe('addRTLStories', () => {
+  it('adds stories by array in global config', () => {
+    const stories = [{name: 'aaa', kind: 'kuku'}, {name: 'bbb'}];
+    const config = {variations: ['var1']};
+    expect(addVariationStories({stories, config})).to.eql([
+      {name: 'aaa', kind: 'kuku'},
+      {name: 'bbb'},
+      {name: 'aaa', kind: 'kuku', parameters: {eyes: {variationUrlParam: 'var1'}}},
+      {name: 'bbb', parameters: {eyes: {variationUrlParam: 'var1'}}},
+    ]);
+  });
+
+  it('adds stories by array in global config with local override', () => {
+    const stories = [
+      {name: 'aaa', kind: 'kuku'},
+      {name: 'bbb', parameters: {eyes: {variations: ['var2']}}},
+    ];
+    const config = {variations: ['var1']};
+    expect(addVariationStories({stories, config})).to.eql([
+      {name: 'aaa', kind: 'kuku'},
+      {name: 'bbb', parameters: {eyes: {variations: ['var2']}}},
+      {name: 'aaa', kind: 'kuku', parameters: {eyes: {variationUrlParam: 'var1'}}},
+      {name: 'bbb', parameters: {eyes: {variations: ['var2'], variationUrlParam: 'var2'}}},
+    ]);
+  });
+
   it('adds stories by function in global config', () => {
     const stories = [{name: 'aaa', kind: 'kuku'}, {name: 'bbb'}];
     const config = {variations: ({name}) => name === 'aaa' && ['var1', 'var2']};

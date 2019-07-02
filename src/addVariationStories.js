@@ -3,13 +3,13 @@
 function addVariationStories({stories, config}) {
   const storiesWithVariations = [...stories];
 
-  const globalVariationFunc = typeof config.variations === 'function' && config.variations;
-  let storiesToAddVariations = stories.filter(story =>
-    getStoryVariations(story, globalVariationFunc),
-  );
+  const globalVariationFunc =
+    typeof config.variations === 'function' ? config.variations : undefined;
+  const globalVariationArray = Array.isArray(config.variations) ? config.variations : undefined;
+  const storiesToAddVariations = stories.filter(story => getStoryVariations(story));
 
   for (const story of storiesToAddVariations) {
-    const variations = getStoryVariations(story, globalVariationFunc);
+    const variations = getStoryVariations(story);
     if (!Array.isArray(variations)) {
       throw new Error('variations should be an array');
     }
@@ -23,13 +23,18 @@ function addVariationStories({stories, config}) {
   }
 
   return storiesWithVariations;
-}
 
-function getStoryVariations(story, globalVariationFunc) {
-  return (
-    (story.parameters && story.parameters.eyes && story.parameters.eyes.variations) ||
-    (globalVariationFunc && globalVariationFunc(story))
-  );
+  function getStoryVariations(story) {
+    if (story.parameters && story.parameters.eyes && story.parameters.eyes.variations) {
+      return story.parameters.eyes.variations;
+    }
+
+    if (globalVariationFunc) {
+      return globalVariationFunc(story);
+    }
+
+    if (globalVariationArray) return globalVariationArray;
+  }
 }
 
 function addFlagToParameters(parameters, variation) {
