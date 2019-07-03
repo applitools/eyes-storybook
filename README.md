@@ -126,9 +126,10 @@ In addition to command-line arguments, it's possible to define the following con
 | `runInDocker`             | false                       | If you are having issues running the SDK in docker, set this flag to `true`. See more info [below](#running-eyes-storybook-in-docker) |
 | `puppeteerOptions`        | undefined                   | Options to send to `puppeteer.launch`. This is a low-level configuration and should be used with great care. |
 | `tapFilePath`             | undefined                   | Directory path of a results file. If set, then a [TAP](https://en.wikipedia.org/wiki/Test_Anything_Protocol#Specification) file is created in this directory, the file is created with the name eyes.tap and contains the Eyes test results. |
-| `waitBeforeScreenshots`   | undefined                   | Selector, function or timeout. If `waitBeforeScreenshots` is a number then the argument is treated as time in milliseconds to wait before each screenshot is taken. If `waitBeforeScreenshots` is a string then the argument is treated as a selector or xpath, (depending on whether or not it starts with '//') for an element to wait for before each screenshot is taken. If `waitBeforeScreenshots` is a function, then the argument is treated as a predicate to wait for before each screenshot is taken.|
+| `waitBeforeScreenshots`   | undefined                   | Selector, function or timeout.<br/>If ```number``` then the argument is treated as time in milliseconds to wait before each screenshot is taken.<br/><br/>If ```string``` then the argument is treated as a selector or xpath (depending on whether or not it starts with '//') for an element to wait for before each screenshot is taken.<br/><br/>If ```function```, then the argument is treated as a predicate to wait for before each screenshot is taken.|
 | `include`                 | true                        | Specifies which stories should be visually tested. Visual baselines will be created only for the components specified. For more information, see [per component configuration - include](#include). |
 | `variations`              | undefined                   | Specifies additional variations for all or some of the stories. For example, RTL. For more information, see [per component  configuration - variations](#variations).|
+| `ignore`              | undefined                   | Specifies regions to ignore when checking for visual differences. For more information, see [per component  configuration - ignore](#ignore).|
 
 There are 2 ways to specify test configuration:
 
@@ -221,11 +222,11 @@ module.exports = {
 
 There are two ways to provide configuration for a specific story, or a group of stories.
 
-1. **As an argument to the story** - It's possible to pass a third argument to storybook's `.add` function, to customize each story. An `eyes` property on the parameters object can be specified with configuration properties.
+1. **As an argument to the story** - It's possible to pass a third argument to storybook's `.add` function to customize each story. An `eyes` property on the parameters object can be specified with configuration properties.
 
 2. **In the global configuration file, `applitools.config.js`** - If a function is specified for one of the properties below, it will be called for each story, and will be passed the story's metadata, of the structure `{name, kind, parameters}`, where `name` is the name of the component, `kind` is the string built by storybook for the category, e.g. `Forms|Input/Text`, and `parameters` are the third argument to storybook's `.add` function. The function should return the configuration value for the specific property+story.
 
-Specifying a value locally in the story takes precedence over the global config value.
+* Specifying a value locally in the story takes precedence over the global config value.
 
 For example, for the config property `include` (described below), here's how to specify the value for a group of stories in the `applitools.config.js` file:
 
@@ -335,3 +336,4 @@ storiesOf('Some kind', module).add('Date', () => <div>{date}</div>)
 ## Troubleshooting
 
 If issues occur, the `saveDebugData` config property can be set to true in order to save helpful information. The information will be saved under a folder named `.applitools` in the current working directory. This could be then used for getting support on your issue.
+<br/>You can also use [DEBUG=eyes*](https://github.com/visionmedia/debug) for debugging.
