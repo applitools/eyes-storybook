@@ -1,9 +1,9 @@
 'use strict';
-const url = require('url');
+const {URL} = require('url');
 
 function getStorybookBaseUrl(storybookUrl) {
-  const {host, protocol, pathname} = url.parse(storybookUrl);
-  return `${protocol}//${host}${pathname}`.replace(/\/$/, '');
+  const {origin, pathname} = new URL(storybookUrl);
+  return `${origin}${pathname}`.replace(/\/$/, '');
 }
 
 module.exports = getStorybookBaseUrl;
