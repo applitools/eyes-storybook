@@ -1,4 +1,17 @@
 
+v2.7.13 / 2019-07-04
+====================
+
+* 2.7.13 [[b931b98](https://github.com/applitools/eyes-storybook/commit/b931b984a48ea083afead9d3e497a2a99ede7fcc)]
+* using legacy URL parse instead of ctr (for node < 10). [[0cbf12d](https://github.com/applitools/eyes-storybook/commit/0cbf12dc9e59352b69381bbf3c7d8d8f46200e71)]
+* readme changes [[7d4af3a](https://github.com/applitools/eyes-storybook/commit/7d4af3a66277a825206e00d9a2633f717b860358)]
+* 2.7.12 [[742bbad](https://github.com/applitools/eyes-storybook/commit/742bbadd545ae89ffae222f4c577940fd0b4e0ce)]
+* global variations can accept an array [[dfdf0dd](https://github.com/applitools/eyes-storybook/commit/dfdf0dd987e636b6c01481a118a11406d179cbf8)]
+* 2.7.11 [[ebf8bb9](https://github.com/applitools/eyes-storybook/commit/ebf8bb9a6c37711e268a06c87229a2f5fb42dbf0)]
+* 2.7.10 [[dbcfe3a](https://github.com/applitools/eyes-storybook/commit/dbcfe3a5f82445b2ead796186c2c6862781808bb)]
+* support storybookUrl with path/query [[c014bdb](https://github.com/applitools/eyes-storybook/commit/c014bdbe4953f3a2749c7b66bbb382fc73427668)]
+* changelog [[2690144](https://github.com/applitools/eyes-storybook/commit/2690144de3c0c7d808c74a2d6d7994f4ed54d697)]
+
 v2.7.9 / 2019-06-30
 ===================
 
