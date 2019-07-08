@@ -1,4 +1,12 @@
 
+v2.7.14 / 2019-07-08
+====================
+
+* 2.7.14 [[8cc23c5](https://github.com/applitools/eyes-storybook/commit/8cc23c576d1a8249b53747bd3bdf40a97a4e25a9)]
+* switched sizeMode to target [[d2248fb](https://github.com/applitools/eyes-storybook/commit/d2248fb1726e75d477c62987ce3adb207bff4998)]
+* using the URL ctr for node < 10 [[202a64f](https://github.com/applitools/eyes-storybook/commit/202a64f839f56da83b3e4025367d2d5f8bb0581a)]
+* changelog [[8533f0f](https://github.com/applitools/eyes-storybook/commit/8533f0f60971615b8236281581162ae5c5680506)]
+
 v2.7.13 / 2019-07-04
 ====================
 
