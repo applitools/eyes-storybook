@@ -45,6 +45,8 @@ describe('renderStory', () => {
       layout: 'layout',
       scriptHooks: 'scriptHooks',
       sizeMode: 'sizeMode',
+      target: 'target',
+      fully: 'fully',
       selector: 'selector',
       region: 'region',
       tag: 'tag',

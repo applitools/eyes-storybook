@@ -13,10 +13,18 @@ function makeRenderStory({logger, openEyes, performance, timeItAsync}) {
       layout,
       scriptHooks,
       sizeMode,
+      target,
+      fully,
       selector,
       region,
       tag,
     } = eyesOptions;
+
+    if (sizeMode) {
+      console.warn(
+        'WARNING! "sizeMode" is eprecated and will be removed in the future, please use target instead.',
+      );
+    }
 
     logger.log('running story', title);
     return timeItAsync(title, async () => {
@@ -36,6 +44,8 @@ function makeRenderStory({logger, openEyes, performance, timeItAsync}) {
         layout,
         scriptHooks,
         sizeMode,
+        target,
+        fully,
         selector,
         region,
         tag,
