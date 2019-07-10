@@ -1,4 +1,11 @@
 
+v2.7.15 / 2019-07-10
+====================
+
+* 2.7.15 [[95361db](https://github.com/applitools/eyes-storybook/commit/95361dba64015203741f062129cea381ff88cae8)]
+* updated vgc & ds to support canvas [[64595a2](https://github.com/applitools/eyes-storybook/commit/64595a25033eaf41a0973780ca3b7fbc09895e54)]
+* changelog [[953a182](https://github.com/applitools/eyes-storybook/commit/953a182e32b142ffe475893037fe7faf84a52d22)]
+
 v2.7.14 / 2019-07-08
 ====================
 
