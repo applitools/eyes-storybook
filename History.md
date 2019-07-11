@@ -1,4 +1,11 @@
 
+v2.7.16 / 2019-07-11
+====================
+
+* 2.7.16 [[72eacf8](https://github.com/applitools/eyes-storybook/commit/72eacf87132aae592ee802662086422e33646045)]
+* updated ds & to support base tag [[44c4896](https://github.com/applitools/eyes-storybook/commit/44c489679201aad1bdee4dab6f42c76d7a2385cd)]
+* changelog [[93ee60c](https://github.com/applitools/eyes-storybook/commit/93ee60c57360f98b7ad779ed9bc861cacf5f47dd)]
+
 v2.7.15 / 2019-07-10
 ====================
 
