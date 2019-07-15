@@ -1,4 +1,11 @@
 
+v2.7.17 / 2019-07-15
+====================
+
+* 2.7.17 [[cbb8cda](https://github.com/applitools/eyes-storybook/commit/cbb8cdad20727700e9c617ff4829cd864db86b0a)]
+* updated ds: fixed probablyCORS and frame css rules [[05178f3](https://github.com/applitools/eyes-storybook/commit/05178f3538309e0bed2dcfe87fec1f696a85e1b3)]
+* changelog [[4dc10d5](https://github.com/applitools/eyes-storybook/commit/4dc10d579a92bfc855b6a92ef1fbf5ec32571368)]
+
 v2.7.16 / 2019-07-11
 ====================
 
