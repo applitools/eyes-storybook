@@ -1,4 +1,11 @@
 
+v2.7.19 / 2019-07-16
+====================
+
+* 2.7.19 [[038e32f](https://github.com/applitools/eyes-storybook/commit/038e32fb0e61436b34c4ae6dc1f6377b0e81f91e)]
+* updated vgc to support ignore regions errors [[3be214c](https://github.com/applitools/eyes-storybook/commit/3be214c450093e391113fa502aaff337d7378ca9)]
+* changelog [[8173df3](https://github.com/applitools/eyes-storybook/commit/8173df3d402d03c240002e7ef4f39a94967d36fa)]
+
 v2.7.18 / 2019-07-16
 ====================
 
