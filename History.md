@@ -1,4 +1,11 @@
 
+v2.7.18 / 2019-07-16
+====================
+
+* 2.7.18 [[c3c1db0](https://github.com/applitools/eyes-storybook/commit/c3c1db031fa712cad30f2960e287dd15cf3254b6)]
+* fixed exitcode - now default=true, if exitcode=false will always return 0 (success). [[0b50027](https://github.com/applitools/eyes-storybook/commit/0b5002701001eef84a24c7a37884b7e40fc1458a)]
+* changelog [[59aadc5](https://github.com/applitools/eyes-storybook/commit/59aadc5b86a375d0bfbb432dbb1f20dd0260d3af)]
+
 v2.7.17 / 2019-07-15
 ====================
 
