@@ -10,4 +10,5 @@ module.exports = {
   showStorybookOutput: false,
   waitBeforeScreenshots: 50,
   tapFilePath: undefined,
+  exitcode: true,
 };
