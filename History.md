@@ -1,4 +1,11 @@
 
+v2.7.20 / 2019-07-24
+====================
+
+* 2.7.20 [[c4cb73b](https://github.com/applitools/eyes-storybook/commit/c4cb73bee771ac72351d3e9177d6d951df174d41)]
+* updated ds to 1.4.4: supproting inline frames [[e817fae](https://github.com/applitools/eyes-storybook/commit/e817fae48fe48256f3c1d0ade2767541efd0de09)]
+* change [[002f7a6](https://github.com/applitools/eyes-storybook/commit/002f7a6b2d9ef1f028388f0ca9599cd47fc23fa3)]
+
 v2.7.19 / 2019-07-16
 ====================
 
