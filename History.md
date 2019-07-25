@@ -1,4 +1,11 @@
 
+v2.7.21 / 2019-07-25
+====================
+
+* 2.7.21 [[11d390e](https://github.com/applitools/eyes-storybook/commit/11d390ec0aba06da7c9d590b3abd5710b44c7170)]
+* updated vgc to gaurd browser with no size [[8cbaccc](https://github.com/applitools/eyes-storybook/commit/8cbaccc93ddfe5150454168300de372a5d81cea9)]
+* changelog [[5c876af](https://github.com/applitools/eyes-storybook/commit/5c876afdf4e8455c16140b95f20206d8473dba7d)]
+
 v2.7.20 / 2019-07-24
 ====================
 
