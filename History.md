@@ -1,4 +1,11 @@
 
+v2.7.22 / 2019-07-28
+====================
+
+* 2.7.22 [[ead1244](https://github.com/applitools/eyes-storybook/commit/ead124440b557866369e80bdf037222fcce4a01f)]
+* updated ds to support dynamic value inputs [[99ae828](https://github.com/applitools/eyes-storybook/commit/99ae8285ba87cf37c78d5d3554df8f9bfc8f150b)]
+* changelog [[7e33bb0](https://github.com/applitools/eyes-storybook/commit/7e33bb01de932d2f99b9687bd6948587da409679)]
+
 v2.7.21 / 2019-07-25
 ====================
 
