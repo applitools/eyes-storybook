@@ -1,4 +1,11 @@
 
+v2.7.24 / 2019-07-31
+====================
+
+* 2.7.24 [[4c7c37e](https://github.com/applitools/eyes-storybook/commit/4c7c37e867ffa31ff193c08bd4db1bde43bcce7e)]
+* revert css from svg [[fa09995](https://github.com/applitools/eyes-storybook/commit/fa0999593bc13fbd56584a622ff6ce56a294aa1d)]
+* changelog [[5ebedb3](https://github.com/applitools/eyes-storybook/commit/5ebedb3cae51a7590574d96674f7deee5d0de5dc)]
+
 v2.7.23 / 2019-07-31
 ====================
 
