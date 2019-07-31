@@ -1,4 +1,11 @@
 
+v2.7.23 / 2019-07-31
+====================
+
+* 2.7.23 [[7ae4b5c](https://github.com/applitools/eyes-storybook/commit/7ae4b5cf6e41de04372da740d3ec4ed7ff9487eb)]
+* extracting urls from css in svg [[cc394eb](https://github.com/applitools/eyes-storybook/commit/cc394eb61b6cb0d35c1ee9578071a1ba89a46ba4)]
+* changelog [[faf876e](https://github.com/applitools/eyes-storybook/commit/faf876e6985b7ae5b445a2144fbc08b012aef942)]
+
 v2.7.22 / 2019-07-28
 ====================
 
