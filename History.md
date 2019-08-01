@@ -1,4 +1,11 @@
 
+v2.7.25 / 2019-08-01
+====================
+
+* 2.7.25 [[04b830d](https://github.com/applitools/eyes-storybook/commit/04b830d8c5affb3cb1f40046e68d1857d5c0af06)]
+* returned css from svg and with links [[5d279f1](https://github.com/applitools/eyes-storybook/commit/5d279f1fcf93d7f9112ce5870e9f26baea05a213)]
+* changelog [[32aef6a](https://github.com/applitools/eyes-storybook/commit/32aef6a2df887581997d76b65a32c19cffbcdf2d)]
+
 v2.7.24 / 2019-07-31
 ====================
 
