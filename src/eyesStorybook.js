@@ -1,6 +1,6 @@
 'use strict';
 const puppeteer = require('puppeteer');
-const getStories = require('./browser/getStories');
+const getStories = require('../dist/getStories');
 const {makeVisualGridClient} = require('@applitools/visual-grid-client');
 const {getProcessPageAndSerializeScript} = require('@applitools/dom-snapshot');
 const {presult} = require('@applitools/functional-commons');

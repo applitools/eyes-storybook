@@ -3,7 +3,7 @@ const {describe, it, before, after} = require('mocha');
 const {expect} = require('chai');
 const testServer = require('../util/testServer');
 const testStorybook = require('../util/testStorybook');
-const getStories = require('../../src/browser/getStories');
+const getStories = require('../../dist/getStories');
 
 describe('getStories', () => {
   let closeStorybook;

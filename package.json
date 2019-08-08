@@ -1,6 +1,6 @@
 {
   "name": "@applitools/eyes-storybook",
-  "version": "2.7.8-beta.1",
+  "version": "2.7.8-beta.2",
   "description": "",
   "main": "src/eyes-storybook.js",
   "engines": {
@@ -8,17 +8,17 @@
   },
   "files": [
     "src",
-    "bin"
+    "bin",
+    "dist"
   ],
   "bin": {
     "eyes-storybook": "./bin/eyes-storybook.js"
   },
   "scripts": {
-    "test": "npm run test:mocha && npm run eslint && npm run msg:success || npm run msg:failure",
+    "test": "npm run build && npm run test:mocha && npm run eslint && npm run msg:success || npm run msg:failure",
     "test:mocha": "mocha --no-timeouts --trace-warnings 'test/unit/*.test.js' 'test/it/*.test.js' 'test/e2e/*.test.js'",
-    "test:unit": "mocha --no-timeouts --trace-warnings 'test/unit/*.test.js'",
-    "test:it": "mocha --no-timeouts --trace-warnings 'test/it/*.test.js'",
-    "test:e2e": "mocha --no-timeouts --trace-warnings 'test/e2e/*.test.js'",
+    "build": "rollup -c rollup.config.js",
+    "prepublishOnly": "npm run build:ds",
     "msg:success": "notify -t 'Storybook tests Passed !!' -m 'life`s amazeballs !!!'",
     "msg:failure": "notify -t 'Storybook tests Failed !!' -m 'Life`s a bitch !!!'",
     "eslint": "eslint '**/*.js'",
@@ -78,6 +78,8 @@
     "node-notifier-cli": "^1.1.2",
     "prettier": "^1.18.2",
     "react": "^16.8.6",
-    "react-dom": "^16.8.6"
+    "react-dom": "^16.8.6",
+    "rollup": "^1.19.4",
+    "rollup-plugin-commonjs": "^10.0.2"
   }
 }

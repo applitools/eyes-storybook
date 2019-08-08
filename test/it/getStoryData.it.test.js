@@ -10,7 +10,7 @@ const logger = console;
 describe('getStoryData', () => {
   let browser, page, closeTestServer;
   before(async () => {
-    browser = await puppeteer.launch();
+    browser = await puppeteer.launch({headless: true});
     page = await browser.newPage();
     const server = await testServer({port: 7272});
     closeTestServer = server.close;
@@ -120,28 +120,69 @@ describe('getStoryData', () => {
     expect(cdt).to.equal('cdt');
   });
 
-  it('uses storybook client API when possible', async () => {
+  it('uses storybook client API V5 when possible', async () => {
     const processPageAndSerialize = () => ({
       resourceUrls: [],
       blobs: [],
       cdt: document.getElementById('story').textContent,
     });
 
-    await page.goto('http://localhost:7272/renderStorybookClientApi.html');
+    await page.goto('http://localhost:7272/renderStorybookClientApiV5-iframe.html');
     const getStoryData = makeGetStoryData({logger, processPageAndSerialize});
 
     expect((await getStoryData({story: {isApi: true, index: 0}, page})).cdt).to.equal('story1');
     expect((await getStoryData({story: {isApi: true, index: 1}, page})).cdt).to.equal('story2');
   });
 
-  it('runs runBefore before extracting story data', async () => {
+  it('uses storybook client API V4 when possible', async () => {
+    const processPageAndSerialize = () => ({
+      resourceUrls: [],
+      blobs: [],
+      cdt: document.getElementById('story').textContent,
+    });
+
+    await page.goto('http://localhost:7272/renderStorybookClientApiV4-iframe.html');
+    const getStoryData = makeGetStoryData({logger, processPageAndSerialize});
+
+    expect((await getStoryData({story: {isApi: true, index: 0}, page})).cdt).to.equal(
+      'Button-With text',
+    );
+  });
+
+  it('runs runBefore before extracting story data V5', async () => {
     const processPageAndSerialize = () => ({
       resourceUrls: [],
       blobs: [],
       cdt: document.getElementById('root').textContent,
     });
 
-    await page.goto('http://localhost:7272/runBefore.html');
+    await page.goto('http://localhost:7272/runBeforeV5-iframe.html');
+    const getStoryData = makeGetStoryData({logger, processPageAndSerialize});
+
+    const {cdt} = await getStoryData({
+      story: {
+        isApi: true,
+        index: 0,
+        parameters: {
+          eyes: {
+            runBefore: {},
+          },
+        },
+      },
+      page,
+    });
+
+    expect(cdt).to.equal('story done');
+  });
+
+  it('runs runBefore before extracting story data V4', async () => {
+    const processPageAndSerialize = () => ({
+      resourceUrls: [],
+      blobs: [],
+      cdt: document.getElementById('root').textContent,
+    });
+
+    await page.goto('http://localhost:7272/runBeforeV4-iframe.html');
     const getStoryData = makeGetStoryData({logger, processPageAndSerialize});
 
     const {cdt} = await getStoryData({
@@ -167,7 +208,7 @@ describe('getStoryData', () => {
       cdt: document.getElementById('root').textContent,
     });
 
-    await page.goto('http://localhost:7272/runBeforeWithException.html');
+    await page.goto('http://localhost:7272/runBeforeWithException-iframe.html');
     const getStoryData = makeGetStoryData({logger, processPageAndSerialize});
 
     const {cdt} = await getStoryData({

@@ -1,4 +1,5 @@
-/* global window,document */
+/* global document */
+const getClientAPI = require('./storybookApi');
 
 async function getStories() {
   const Stories = {
@@ -104,7 +105,7 @@ async function getStories() {
   }
 
   function getStoriesThroughClientAPI(clientApi) {
-    return clientApi.raw().map((story, index) => ({
+    return clientApi.getStories().map((story, index) => ({
       isApi: true,
       index,
       name: story.name,
@@ -123,25 +124,6 @@ async function getStories() {
     } else {
       return 'V2';
     }
-  }
-
-  function getClientAPI() {
-    const frameWindow = getFrameWindow();
-    if (
-      frameWindow &&
-      frameWindow.__STORYBOOK_CLIENT_API__ &&
-      frameWindow.__STORYBOOK_CLIENT_API__.raw
-    ) {
-      return frameWindow.__STORYBOOK_CLIENT_API__;
-    }
-  }
-
-  function getFrameWindow() {
-    return Array.prototype.filter.call(window.frames, frame => {
-      try {
-        return /\/iframe.html/.test(frame.location.href);
-      } catch (e) {}
-    })[0];
   }
 
   function isStoryBookLoading() {

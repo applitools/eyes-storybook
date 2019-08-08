@@ -129,6 +129,8 @@ In addition to command-line arguments, it's possible to define the following con
 | `waitBeforeScreenshots`   | undefined                   | Selector, function or timeout. If `waitBeforeScreenshots` is a number then the argument is treated as time in milliseconds to wait before each screenshot is taken. If `waitBeforeScreenshots` is a string then the argument is treated as a selector or xpath, (depending on whether or not it starts with '//') for an element to wait for before each screenshot is taken. If `waitBeforeScreenshots` is a function, then the argument is treated as a predicate to wait for before each screenshot is taken.|
 | `include`                 | true                        | Specifies which stories should be visually tested. Visual baselines will be created only for the components specified. For more information, see [per component configuration - include](#include). |
 | `variations`              | undefined                   | Specifies additional variations for all or some of the stories. For example, RTL. For more information, see [per component  configuration - variations](#variations).|
+| `concurrency`             | 10                          | The maximum number of tests that can run concurrently. The default value is the allowed amount for free accounts. For paid accounts, set this number to the quota set for your account. |
+
 
 There are 2 ways to specify test configuration:
 

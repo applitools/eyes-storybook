@@ -1,7 +1,17 @@
-/* global document, __STORYBOOK_CLIENT_API__ */
+/* global document */
+const getClientAPI = require('./storybookApi');
 
 function runRunBeforeScript(index) {
-  const story = __STORYBOOK_CLIENT_API__.raw()[index];
+  const api = getClientAPI();
+  if (!api) {
+    console.log('error cannot get client api');
+    return;
+  }
+  const story = api.getStories()[index];
+  if (!story) {
+    console.log('error cannot get story', index);
+    return;
+  }
   return story.parameters.eyes.runBefore({rootEl: document.getElementById('root'), story});
 }
 

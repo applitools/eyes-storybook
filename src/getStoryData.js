@@ -1,8 +1,8 @@
 'use strict';
 const {presult} = require('@applitools/functional-commons');
 const {ArgumentGuard} = require('@applitools/eyes-common');
-const renderStoryWithClientAPI = require('./browser/renderStoryWithClientAPI');
-const runRunBeforeScript = require('./browser/runRunBeforeScript');
+const renderStoryWithClientAPI = require('../dist/renderStoryWithClientAPI');
+const runRunBeforeScript = require('../dist/runRunBeforeScript');
 
 function makeGetStoryData({logger, processPageAndSerialize, waitBeforeScreenshots}) {
   if (typeof waitBeforeScreenshots === 'number') {
@@ -35,7 +35,7 @@ function makeGetStoryData({logger, processPageAndSerialize, waitBeforeScreenshot
 
     if (story.parameters && story.parameters.eyes && story.parameters.eyes.runBefore) {
       await page.evaluate(runRunBeforeScript, story.index).catch(err => {
-        logger.error(`error during runBefore: ${err}`); // it might be good to aggregate these errors and output them at the end of the run
+        logger.log(`error during runBefore: ${err}`); // it might be good to aggregate these errors and output them at the end of the run
       });
     }
 
@@ -45,7 +45,8 @@ function makeGetStoryData({logger, processPageAndSerialize, waitBeforeScreenshot
       type,
       value: Buffer.from(value, 'base64'),
     }));
-    logger.log(`done getting data from story ${storyUrl}`);
+    const storyStr = story.isApi ? `${story.kind} ${story.name}` : storyUrl;
+    logger.log(`done getting data from story '${storyStr}'`);
     return {resourceUrls, resourceContents, cdt, frames};
 
     async function renderStoryLegacy() {
