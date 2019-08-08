@@ -1,4 +1,11 @@
 
+v2.7.26 / 2019-08-08
+====================
+
+* 2.7.26 [[818b7ee](https://github.com/applitools/eyes-storybook/commit/818b7ee2aa3dcdaa39d469855be5da160829c011)]
+* updated VGC to better error handeling and BLOCKING react updates [[b7899cc](https://github.com/applitools/eyes-storybook/commit/b7899cc204c0ca1ea430477bd61e8a0e455d6e3f)]
+* changelog [[5df9259](https://github.com/applitools/eyes-storybook/commit/5df92590b8ba4fa57718289fa4ad24e36f45293f)]
+
 v2.7.25 / 2019-08-01
 ====================
 
@@ -90,8 +97,16 @@ v2.7.13 / 2019-07-04
 * 2.7.13 [[b931b98](https://github.com/applitools/eyes-storybook/commit/b931b984a48ea083afead9d3e497a2a99ede7fcc)]
 * using legacy URL parse instead of ctr (for node < 10). [[0cbf12d](https://github.com/applitools/eyes-storybook/commit/0cbf12dc9e59352b69381bbf3c7d8d8f46200e71)]
 * readme changes [[7d4af3a](https://github.com/applitools/eyes-storybook/commit/7d4af3a66277a825206e00d9a2633f717b860358)]
+
+v2.7.12 / 2019-07-02
+====================
+
 * 2.7.12 [[742bbad](https://github.com/applitools/eyes-storybook/commit/742bbadd545ae89ffae222f4c577940fd0b4e0ce)]
 * global variations can accept an array [[dfdf0dd](https://github.com/applitools/eyes-storybook/commit/dfdf0dd987e636b6c01481a118a11406d179cbf8)]
+
+v2.7.11 / 2019-06-30
+====================
+
 * 2.7.11 [[ebf8bb9](https://github.com/applitools/eyes-storybook/commit/ebf8bb9a6c37711e268a06c87229a2f5fb42dbf0)]
 * 2.7.10 [[dbcfe3a](https://github.com/applitools/eyes-storybook/commit/dbcfe3a5f82445b2ead796186c2c6862781808bb)]
 * support storybookUrl with path/query [[c014bdb](https://github.com/applitools/eyes-storybook/commit/c014bdbe4953f3a2749c7b66bbb382fc73427668)]
@@ -118,7 +133,26 @@ v2.7.7 / 2019-06-25
 * 2.7.7 [[a2411f1](https://github.com/applitools/eyes-storybook/commit/a2411f1697ace80fd6a79ba9155128079fee0468)]
 * removed presult [[ded5498](https://github.com/applitools/eyes-storybook/commit/ded549802a9726f947c362b2a592bfcce91612fb)]
 * updated vgc to support renderId [[a08e1b5](https://github.com/applitools/eyes-storybook/commit/a08e1b51d3ada7fc928cf38e868ed0188e1feed4)]
+
+v2.7.8-beta.1 / 2019-06-26
+==========================
+
+* 2.7.8-beta.1 [[2d8c3bb](https://github.com/applitools/eyes-storybook/commit/2d8c3bb5f0d165468a97efd3e215658b0a812b9e)]
+* support interactions in storybook! [[04d1c25](https://github.com/applitools/eyes-storybook/commit/04d1c25f42e6bdef2f8414d4e4e0228df9a9bfed)]
+* remove prepublishOnly [[726b4a5](https://github.com/applitools/eyes-storybook/commit/726b4a5f75c03ddaf245721dee85768ff6e6ac84)]
+
+v2.7.8-beta / 2019-06-24
+========================
+
+* 2.7.8-beta [[49d1737](https://github.com/applitools/eyes-storybook/commit/49d173720b4ecbbfc4d44321753cc799c2308f19)]
+
+v2.7.7-beta / 2019-06-24
+========================
+
+* 2.7.7-beta [[4328afa](https://github.com/applitools/eyes-storybook/commit/4328afa7c87f97e3849114f685575ec74933ac4c)]
+* Merge branch 'master' into perf-storybook-api [[4742dd8](https://github.com/applitools/eyes-storybook/commit/4742dd817881cf8fa63a30cd14c52c05eb20f619)]
 * 2.7.6 [[60c8e89](https://github.com/applitools/eyes-storybook/commit/60c8e8939471220e49cb88888e07951a17b85b37)]
+* use storybook api instead of navigation [[85e9d4f](https://github.com/applitools/eyes-storybook/commit/85e9d4f51a4932e0d775db402cf952f0ee404c93)]
 * docs for ignore regions [[8fbe2a5](https://github.com/applitools/eyes-storybook/commit/8fbe2a5834981cb46078d6463e7e33f81e7e7eb2)]
 * docs for include and variations [[60debd8](https://github.com/applitools/eyes-storybook/commit/60debd83bd50b64759f4c0d6d12fab08ea7f5570)]
 * support filtering with include param [[81b0bf4](https://github.com/applitools/eyes-storybook/commit/81b0bf46cd079d1a8f6829c0508c05f24f8896fd)]
@@ -150,11 +184,27 @@ v2.7.3 / 2019-06-16
 
 * 2.7.3 [[bc470a8](https://github.com/applitools/eyes-storybook/commit/bc470a8e34f89af658c835b7ced7bd034cda5264)]
 * updated vgc and ds: agentId fix and not fetching status != 200 [[334e925](https://github.com/applitools/eyes-storybook/commit/334e92514f109179dabdf062f9b527a3060db6d7)]
+
+v2.7.2 / 2019-06-15
+===================
+
 * 2.7.2 [[2a2b956](https://github.com/applitools/eyes-storybook/commit/2a2b95619fc0a810a4f867428d947735d093bf35)]
 * support RTL stories [[289b910](https://github.com/applitools/eyes-storybook/commit/289b91050ea56672399c98ccfe7f788e19a9afe0)]
+
+v2.7.1 / 2019-06-15
+===================
+
 * 2.7.1 [[3fb9a45](https://github.com/applitools/eyes-storybook/commit/3fb9a45f17ebb1841479b0cb1f2e8aca134e1419)]
+
+v2.7.0 / 2019-06-15
+===================
+
 * 2.7.0 [[83e13ac](https://github.com/applitools/eyes-storybook/commit/83e13ac598aa6c01367fce581081411a23ab3d7e)]
 * docs for filterStories and per component configuration [[b6c06ec](https://github.com/applitools/eyes-storybook/commit/b6c06ec64d8001237dc63af1ba0063b3c80b8d84)]
+
+v2.6.29 / 2019-06-13
+====================
+
 * 2.6.29 [[e2ea05c](https://github.com/applitools/eyes-storybook/commit/e2ea05c2f5a70dc3faa19d859a996ec0a56b2619)]
 * add ability to filter out stories [[34bd1e5](https://github.com/applitools/eyes-storybook/commit/34bd1e5d7d45f857cc606716b52cd6affd605f19)]
 * css tokenizer v2 [[10ebf48](https://github.com/applitools/eyes-storybook/commit/10ebf48813fbaad1ae812172d909bf39fe17fe21)]
