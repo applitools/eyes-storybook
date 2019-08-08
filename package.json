@@ -18,7 +18,7 @@
     "test": "npm run build && npm run test:mocha && npm run eslint && npm run msg:success || npm run msg:failure",
     "test:mocha": "mocha --no-timeouts --trace-warnings 'test/unit/*.test.js' 'test/it/*.test.js' 'test/e2e/*.test.js'",
     "build": "rollup -c rollup.config.js",
-    "prepublishOnly": "npm run build:ds",
+    "prepublishOnly": "npm run build",
     "msg:success": "notify -t 'Storybook tests Passed !!' -m 'life`s amazeballs !!!'",
     "msg:failure": "notify -t 'Storybook tests Failed !!' -m 'Life`s a bitch !!!'",
     "eslint": "eslint '**/*.js'",
