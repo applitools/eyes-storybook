@@ -107,7 +107,7 @@ async function getStories() {
     return clientApi.raw().map(story => ({
       name: story.name,
       kind: story.kind,
-      parameters: story.parameters,
+      parameters: JSON.parse(JSON.stringify(story.parameters)),
     }));
   }
 
