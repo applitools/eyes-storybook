@@ -15,7 +15,7 @@ const filterStories = require('./filterStories');
 const addVariationStories = require('./addVariationStories');
 const getStorybookBaseUrl = require('./getStorybookBaseUrl');
 
-const CONCURRENT_PAGES = 3;
+const CONCURRENT_PAGES = 1;
 
 async function eyesStorybook({config, logger, performance, timeItAsync}) {
   logger.log('eyesStorybook started');
