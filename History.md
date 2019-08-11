@@ -1,4 +1,11 @@
 
+v2.7.27 / 2019-08-11
+====================
+
+* 2.7.27 [[8b69eee](https://github.com/applitools/eyes-storybook/commit/8b69eee342c37ca996a84fb9f026ca0809b79739)]
+* updated ds to remove anchors from css resources [[5fb4a5e](https://github.com/applitools/eyes-storybook/commit/5fb4a5e47eec62d2c54b168192936154d3611ab5)]
+* changelog [[4d874f3](https://github.com/applitools/eyes-storybook/commit/4d874f3a98de9d9d06e89ec22219cd8b4176dff4)]
+
 v2.7.26 / 2019-08-08
 ====================
 
