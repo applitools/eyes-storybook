@@ -3,7 +3,7 @@
 function wrapBundle(filename) {
   return {
     generateBundle: function(_outputOptions, bundle) {
-      const bundleFile = bundle[filename];
+      const bundleFile = bundle[`${filename}.js`];
 
       bundleFile.code = `
 function __${filename}(...args) {

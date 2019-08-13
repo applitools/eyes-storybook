@@ -5,9 +5,9 @@ module.exports = ['getStories', 'renderStoryWithClientAPI', 'runRunBeforeScript'
 
 function config(fileName) {
   return {
-    input: `src/browser/${fileName}`,
+    input: `src/browser/${fileName}.js`,
     output: {
-      file: `dist/${fileName}`,
+      file: `dist/${fileName}.js`,
       format: 'iife',
       name: fileName,
     },
