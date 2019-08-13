@@ -95,12 +95,13 @@ async function getStories() {
   const clientApi = await waitForClientAPI();
 
   if (clientApi) {
+    console.log(`getting stories from storybook via API. ${clientApi.version}`);
     return getStoriesThroughClientAPI(clientApi);
   } else if (isStoryBookLoading()) {
     throw new Error('storybook is loading for too long');
   } else {
     const storybookVersion = getVersion();
-    console.log(`getting stories from storybook through scraping. ${storybookVersion}`);
+    console.log(`getting stories from storybook via scraping. ${storybookVersion}`);
     return Stories[`_getStories${storybookVersion}`]();
   }
 
