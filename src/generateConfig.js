@@ -16,6 +16,9 @@ function generateConfig({argv = {}, defaultConfig = {}, externalConfigParams = [
   ) {
     result.waitBeforeScreenshots = Number(result.waitBeforeScreenshots);
   }
+  if (result.showLogs === '1') {
+    result.showLogs = true;
+  }
   return result;
 }
 
