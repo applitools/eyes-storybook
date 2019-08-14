@@ -1,4 +1,11 @@
 
+v2.7.28 / 2019-08-14
+====================
+
+* 2.7.28 [[44ab61c](https://github.com/applitools/eyes-storybook/commit/44ab61cdf207ff73ca5524bf171ef622ad37a0e6)]
+* fixed showLogs not working in config [[c05d9d0](https://github.com/applitools/eyes-storybook/commit/c05d9d0622986dece2025066998c69348c10bb2f)]
+* changelog [[1208d5b](https://github.com/applitools/eyes-storybook/commit/1208d5b4f17fd8aecd2b2285fd7993ce187eca46)]
+
 v2.7.27 / 2019-08-11
 ====================
 
