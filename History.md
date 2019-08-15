@@ -1,4 +1,11 @@
 
+v2.7.29 / 2019-08-15
+====================
+
+* 2.7.29 [[5e97bb0](https://github.com/applitools/eyes-storybook/commit/5e97bb08e20abbb615096a60a623f6f465b1f591)]
+* updated ds and sb/ react - supporting input type=image [[6376543](https://github.com/applitools/eyes-storybook/commit/6376543c11ca7c8182ff914529e84585242f9740)]
+* changelog [[dc0f7e5](https://github.com/applitools/eyes-storybook/commit/dc0f7e5f92f3f40d879570236b368714f53b484a)]
+
 v2.7.28 / 2019-08-14
 ====================
 
