@@ -1,4 +1,11 @@
 
+v2.7.31 / 2019-08-19
+====================
+
+* 2.7.31 [[bd38a73](https://github.com/applitools/eyes-storybook/commit/bd38a73418ac9e2693111186d55c19e3c6c8ae65)]
+* requiring SB package json for version instead of cwd/node_modules [[5689451](https://github.com/applitools/eyes-storybook/commit/5689451b2b01eeba1a6727ef2a6e698b9abb6f74)]
+* changelog [[32be49d](https://github.com/applitools/eyes-storybook/commit/32be49d6e6b43d3d7287f5f274d974700bcb5cbc)]
+
 v2.7.30 / 2019-08-19
 ====================
 
