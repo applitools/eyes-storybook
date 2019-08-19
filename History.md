@@ -1,4 +1,11 @@
 
+v2.7.30 / 2019-08-19
+====================
+
+* 2.7.30 [[2da301c](https://github.com/applitools/eyes-storybook/commit/2da301cd48293a7642928da8828a708e9a22e8b5)]
+* updated ds to support about:blank inline frames [[0abbd69](https://github.com/applitools/eyes-storybook/commit/0abbd694cf6275579ca68b84820d0f9065069c9d)]
+* changelog [[06e5d06](https://github.com/applitools/eyes-storybook/commit/06e5d06fdbd075e6c4a7b3a5ea77123d1ae77727)]
+
 v2.7.29 / 2019-08-15
 ====================
 
