@@ -2,8 +2,8 @@
 const {resolve} = require('path');
 const {spawn} = require('child_process');
 const ora = require('ora');
-const fs = require('fs');
-const path = require('path');
+// eslint-disable-next-line node/no-extraneous-require
+const {version} = require('@storybook/core/package.json');
 
 async function startStorybookServer({
   packagePath,
@@ -19,17 +19,8 @@ async function startStorybookServer({
     packagePath,
     `node_modules/.bin/start-storybook${isWindows ? '.cmd' : ''}`,
   );
-  const storybookPackage = fs.readFileSync(
-    path.resolve(packagePath, 'node_modules/@storybook/core/package.json'),
-    'utf8',
-  );
-  const storybookVersion = JSON.parse(storybookPackage).version;
 
-  const args = getVersionContext(storybookVersion).args(
-    storybookPort,
-    storybookHost,
-    storybookConfigDir,
-  );
+  const args = getVersionContext(version).args(storybookPort, storybookHost, storybookConfigDir);
   if (storybookStaticDir) {
     args.push('-s');
     args.push(storybookStaticDir);
@@ -73,7 +64,7 @@ async function startStorybookServer({
   process.on('SIGTERM', () => process.exit());
   process.on('uncaughtException', () => process.exit(1));
 
-  await waitForStorybook(childProcess, storybookVersion);
+  await waitForStorybook(childProcess, version);
   spinner.succeed('Storybook was started');
   return `http://${storybookHost}:${storybookPort}`;
 }
