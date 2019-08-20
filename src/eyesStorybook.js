@@ -16,7 +16,13 @@ const addVariationStories = require('./addVariationStories');
 
 const CONCURRENT_PAGES = 3;
 
+function toMB(size) {
+  return Math.round((size / 1024 / 1024) * 100) / 100;
+}
+
 async function eyesStorybook({config, logger, performance, timeItAsync}) {
+  let memoryTimeout;
+  takeMemLoop();
   logger.log('eyesStorybook started');
   const {storybookUrl, waitBeforeScreenshots} = config;
   const browser = await puppeteer.launch(config.puppeteerOptions);
@@ -93,6 +99,7 @@ async function eyesStorybook({config, logger, performance, timeItAsync}) {
     logger.log('total time: ', performance['renderStories']);
     logger.log('perf results', performance);
     await browser.close();
+    clearTimeout(memoryTimeout);
   }
 
   async function initPagesForBrowser(browser) {
@@ -109,6 +116,16 @@ async function eyesStorybook({config, logger, performance, timeItAsync}) {
         return page;
       }),
     );
+  }
+
+  function takeMemLoop() {
+    const usage = process.memoryUsage();
+    logger.log(
+      `Memory usage: ${Object.keys(usage)
+        .map(key => `${key}: ${toMB(usage[key])} MB`)
+        .join(', ')}`,
+    );
+    memoryTimeout = setTimeout(takeMemLoop, 30000);
   }
 }
 
