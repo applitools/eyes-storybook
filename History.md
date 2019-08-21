@@ -1,4 +1,11 @@
 
+v2.7.32 / 2019-08-21
+====================
+
+* 2.7.32 [[fb9fc04](https://github.com/applitools/eyes-storybook/commit/fb9fc040e3e1130a15b33d4808bf2c4e685edb59)]
+* ignoring story parameters that cant be serialized [[82f3238](https://github.com/applitools/eyes-storybook/commit/82f3238166a9664887e5710feb663ab27af1afa2)]
+* changelog [[d85ee10](https://github.com/applitools/eyes-storybook/commit/d85ee10ce25da8765ab3849ba23774c7d5f431ef)]
+
 v2.7.31 / 2019-08-19
 ====================
 
