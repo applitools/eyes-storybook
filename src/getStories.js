@@ -104,11 +104,21 @@ async function getStories() {
   }
 
   function getStoriesThroughClientAPI(clientApi) {
-    return clientApi.raw().map(story => ({
-      name: story.name,
-      kind: story.kind,
-      parameters: story.parameters,
-    }));
+    return clientApi.raw().map(({name, kind, parameters}) => {
+      let parametersIfSerialized, error;
+      try {
+        parametersIfSerialized = JSON.parse(JSON.stringify(parameters));
+      } catch (e) {
+        error = `Ignoring parameters for story: "${name} ${kind}" ! since they are not serilizable, error: "${e.message}"`;
+      }
+
+      return {
+        name,
+        kind,
+        parameters: parametersIfSerialized,
+        error,
+      };
+    });
   }
 
   function getAllMenuItems() {

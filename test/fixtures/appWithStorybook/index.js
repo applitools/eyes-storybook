@@ -9,6 +9,9 @@ if (isRTL) {
   document.documentElement.setAttribute('dir', 'rtl')
 }
 
+const circular = {param: true}
+circular.inner = circular
+
 storiesOf('Button', module)
   .add('with text', () => (
     <div style={{position: 'relative'}}>with text <span style={{position: 'absolute', top: -20}} className="ignore-this">{Date.now()}</span></div>
@@ -20,7 +23,7 @@ storiesOf('Button', module)
   })
   .add('with some emoji', () => (
     <div style={{position: 'relative'}} className="amit">😀 😎 👍 💯</div>
-  ));
+  ), { eyes: {circular} }); // do not fail this
 
 storiesOf('Image', module)
   .add('image', () => (<React.Fragment>

@@ -74,6 +74,14 @@ async function eyesStorybook({config, logger, performance, timeItAsync}) {
       ];
     }
 
+    const badParamsError = stories
+      .map(s => s.error)
+      .filter(Boolean)
+      .join('\n');
+    if (badParamsError) {
+      console.log(chalk.red(`\n${badParamsError}`));
+    }
+
     spinner.succeed();
     if (process.env.APPLITOOLS_STORYBOOK_DEBUG) {
       stories = stories.slice(0, 5);

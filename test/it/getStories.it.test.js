@@ -51,7 +51,11 @@ describe('getStories', () => {
             eyes: {ignore: [{selector: '.ignore-this'}]},
           },
         },
-        {name: 'with some emoji', kind: 'Button'},
+        {
+          name: 'with some emoji',
+          kind: 'Button',
+          error: `Ignoring parameters for story: "with some emoji Button" ! since they are not serilizable, error: "Converting circular structure to JSON\n    --> starting at object with constructor 'Object'\n    --- property 'inner' closes the circle"`,
+        },
         {name: 'image', kind: 'Image'},
         {name: 'story 1', kind: 'Nested'},
         {name: 'story 1.1', kind: 'Nested/Component'},
@@ -81,18 +85,26 @@ describe('getStories', () => {
             '[SKIP] this story should not be checked visually by eyes-storybook because of global config',
           kind: 'skipped tests',
         },
-      ].map(({name, kind, parameters}) => ({
-        name,
-        kind,
-        parameters: {
-          fileName: './test/fixtures/appWithStorybook/index.js',
-          options: {
-            hierarchyRootSeparator: '|',
-            hierarchySeparator: {},
-          },
-          ...parameters,
-        },
-      })),
+      ].map(({name, kind, parameters, error}) => {
+        const res = {
+          name,
+          kind,
+        };
+        if (!error) {
+          res.parameters = {
+            fileName: './test/fixtures/appWithStorybook/index.js',
+            options: {
+              hierarchyRootSeparator: '|',
+              hierarchySeparator: {},
+            },
+            ...parameters,
+          };
+        } else {
+          res.error = error;
+        }
+
+        return res;
+      }),
     );
   });
 });
