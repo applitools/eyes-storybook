@@ -1,4 +1,11 @@
 
+v2.7.33 / 2019-08-25
+====================
+
+* 2.7.33 [[f38ac14](https://github.com/applitools/eyes-storybook/commit/f38ac1426a5ed38d2bf579a01cbc35ab1f763cd9)]
+* updated ds: fixed iframe with base tag url [[bc36bfd](https://github.com/applitools/eyes-storybook/commit/bc36bfd58f7887268f4348be4e2f6999664f3128)]
+* changelog [[81d0191](https://github.com/applitools/eyes-storybook/commit/81d0191906a420fd96c7a66c2b31aebc87bd423b)]
+
 v2.7.32 / 2019-08-21
 ====================
 
