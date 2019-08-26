@@ -1,4 +1,11 @@
 
+v2.7.34 / 2019-08-26
+====================
+
+* 2.7.34 [[3fe5da8](https://github.com/applitools/eyes-storybook/commit/3fe5da8ffc3eea4a14d2937789e2ca446c238414)]
+* updated ds: srcset fix [[e921970](https://github.com/applitools/eyes-storybook/commit/e921970224e6c65577201f0f54883297aad9c80c)]
+* changelog [[ff43c7f](https://github.com/applitools/eyes-storybook/commit/ff43c7fcfe86d22525fc0b67192a8ee7bcd862ce)]
+
 v2.7.33 / 2019-08-25
 ====================
 
