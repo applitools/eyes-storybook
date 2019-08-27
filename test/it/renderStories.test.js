@@ -1,6 +1,6 @@
 'use strict';
 
-const {describe, it, before, after} = require('mocha');
+const {describe, it} = require('mocha');
 const {expect} = require('chai');
 const makeRenderStories = require('../../src/renderStories');
 const getChunks = require('../../src/getChunks');
@@ -26,7 +26,7 @@ const testStream = () => {
   };
 };
 
-describe.only('renderStories', () => {
+describe('renderStories', () => {
   it('returns empty array for 0 stories', async () => {
     const {stream, getEvents} = testStream();
     const renderStories = makeRenderStories({
