@@ -1,5 +1,6 @@
 'use strict';
 const getStoryUrl = require('./getStoryUrl');
+const getStoryTitle = require('./getStoryTitle');
 const ora = require('ora');
 
 function makeRenderStories({
@@ -9,10 +10,11 @@ function makeRenderStories({
   renderStory,
   storybookBaseUrl,
   logger,
+  stream = process.stderr,
 }) {
   return async function renderStories(stories) {
     let doneStories = 0;
-    const spinner = ora(`Done 0 stories out of ${stories.length}`);
+    const spinner = ora({text: `Done 0 stories out of ${stories.length}`, stream});
     spinner.start();
     const storyPromises = [];
     const chunks = getChunks(stories, pages.length);
@@ -21,8 +23,9 @@ function makeRenderStories({
         for (const story of chunk) {
           const url = getStoryUrl(story, storybookBaseUrl);
           const storyDataPromise = getStoryData({url, page: pages[i]}).catch(e => {
-            logger.log('failed to get story data for', url, e);
-            return {error: `getStoryData failed: ${e}`};
+            const errMsg = `Failed to get story data for "${getStoryTitle(story)}". ${e}`;
+            logger.log(errMsg, e);
+            return {error: new Error(errMsg)};
           });
           const storyRenderPromise = storyDataPromise
             .then(updateRunning)
@@ -36,7 +39,7 @@ function makeRenderStories({
                     url,
                     story,
                   })
-                : [error],
+                : error,
             )
             .then(onDoneStory, onDoneStory);
           storyPromises.push(storyRenderPromise);
@@ -51,9 +54,12 @@ function makeRenderStories({
     );
     return renderStoriesPromise;
 
-    function didTestPass(testResults) {
-      return testResults.every(
-        r => !(r instanceof Error) && r.getStatus && r.getStatus() === 'Passed',
+    function didTestPass(testResultsOrErr) {
+      return (
+        !(testResultsOrErr instanceof Error) &&
+        testResultsOrErr.every(
+          r => !(r instanceof Error) && r.getStatus && r.getStatus() === 'Passed',
+        )
       );
     }
 
