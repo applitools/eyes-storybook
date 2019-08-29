@@ -31,7 +31,9 @@ async function eyesStorybook({config, logger, performance, timeItAsync}) {
   const userAgent = await page.evaluate('navigator.userAgent');
   const {openEyes} = makeVisualGridClient({userAgent, ...config, logger: logger.extend('vgc')});
 
-  const processPageAndSerialize = `(${await getProcessPageAndSerializeScript()})()`;
+  const processPageAndSerialize = `(${await getProcessPageAndSerializeScript()})(document, {useSessionCache: true, showLogs: ${
+    config.showLogs
+  }})`;
   logger.log('got script for processPage');
   try {
     page.on('console', msg => {
@@ -104,8 +106,20 @@ async function eyesStorybook({config, logger, performance, timeItAsync}) {
 
   async function initPagesForBrowser(browser) {
     return Promise.all(
-      new Array(CONCURRENT_PAGES).fill().map(async () => {
+      new Array(CONCURRENT_PAGES).fill().map(async (_x, i) => {
         const page = await browser.newPage();
+        if (config.showLogs) {
+          let logPromise = Promise.resolve();
+          page.on('console', msg => {
+            logPromise = logPromise.then(async () => {
+              const args = msg.args();
+              if (args[0] && (await args[0].jsonValue()).match(/\[dom-snapshot\]/)) {
+                const values = await Promise.all(msg.args().map(arg => arg.jsonValue()));
+                logger.log(`tab ${i}: ${values.join(' ')}`);
+              }
+            });
+          });
+        }
         const [err] = await presult(
           page.goto(`${storybookUrl}/iframe.html?eyes-storybook=true`, {timeout: 10000}),
         );

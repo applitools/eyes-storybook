@@ -3,6 +3,7 @@ const {presult} = require('@applitools/functional-commons');
 const {ArgumentGuard} = require('@applitools/eyes-common');
 const renderStoryWithClientAPI = require('../dist/renderStoryWithClientAPI');
 const runRunBeforeScript = require('../dist/runRunBeforeScript');
+const getStoryTitle = require('./getStoryTitle');
 
 function makeGetStoryData({logger, processPageAndSerialize, waitBeforeScreenshots}) {
   if (typeof waitBeforeScreenshots === 'number') {
@@ -10,7 +11,8 @@ function makeGetStoryData({logger, processPageAndSerialize, waitBeforeScreenshot
   }
 
   return async function getStoryData({story, storyUrl, page}) {
-    logger.log(`getting data from story ${story.kind}: ${story.name} (index=${story.index})`);
+    const title = getStoryTitle(story);
+    logger.log(`getting data from story`, title);
 
     if (story.isApi) {
       const actualVariationParam = await getEyesVariationParam(page);
@@ -45,8 +47,7 @@ function makeGetStoryData({logger, processPageAndSerialize, waitBeforeScreenshot
       type,
       value: Buffer.from(value, 'base64'),
     }));
-    const storyStr = story.isApi ? `${story.kind} ${story.name}` : storyUrl;
-    logger.log(`done getting data from story '${storyStr}'`);
+    logger.log(`done getting data from story`, title);
     return {resourceUrls, resourceContents, cdt, frames};
 
     async function renderStoryLegacy() {

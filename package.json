@@ -44,7 +44,7 @@
     "type": "git"
   },
   "dependencies": {
-    "@applitools/dom-snapshot": "^3.0.1",
+    "@applitools/dom-snapshot": "^2.2.1",
     "@applitools/eyes-common": "^3.8.3",
     "@applitools/eyes-sdk-core": "^5.12.3",
     "@applitools/functional-commons": "^1.4.1",
