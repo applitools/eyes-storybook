@@ -29,7 +29,7 @@ describe('eyes-storybook', () => {
     await closeTestServer();
   });
 
-  it.only('renders test storybook', async () => {
+  it('renders test storybook', async () => {
     const configPath = path.resolve(__dirname, '../fixtures/applitools.config.js');
     const defaultConfig = {waitBeforeScreenshots: 50};
     const config = generateConfig({argv: {conf: configPath}, defaultConfig, externalConfigParams});
