@@ -24,7 +24,10 @@
     "eslint": "eslint '**/*.js'",
     "prepublishOnly": "npm version patch",
     "storybook": "start-storybook -c test/fixtures/appWithStorybook -p 9001 -s test/fixtures",
+    "storybook:heavy": "start-storybook -c test/fixtures/heavyStorybook -p 9002 -s test/fixtures",
+    "generate-heavy-images": "node scripts/bitmap.js",
     "eyes-storybook": "node bin/eyes-storybook.js -f test/fixtures/applitools.config.js",
+    "eyes-storybook:heavy": "node bin/eyes-storybook.js -f test/fixtures/heavyStorybook/applitools.config.js",
     "changelog": "git changelog -p -f v$npm_package_version",
     "changelog:init": "git config changelog.format \"* %s [[%h]($(echo $npm_package_repository_url|cut -d+ -f2|cut -d. -f1-2)/commit/%H)]\"",
     "changelog:install": "sudo apt-get install git-extras"
@@ -66,6 +69,7 @@
     "babel-loader": "^8.0.6",
     "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
+    "bitmap-manipulation": "^2.0.0",
     "chai": "^4.2.0",
     "core-js": "^3.2.1",
     "eslint": "^5.16.0",

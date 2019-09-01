@@ -5,3 +5,5 @@ eyes.tap
 .idea/
 .history
 .vscode/
+test/fixtures/images/
+/logs/
