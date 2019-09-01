@@ -4,4 +4,6 @@ eyes.tap
 .applitools
 .idea/
 .history
-/logs
+.vscode/
+test/fixtures/images/
+/logs/
