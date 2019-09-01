@@ -13,6 +13,7 @@ const flatten = require('lodash.flatten');
 const chalk = require('chalk');
 const filterStories = require('./filterStories');
 const addVariationStories = require('./addVariationStories');
+const browserLog = require('./browserLog');
 
 const CONCURRENT_PAGES = 3;
 
@@ -109,15 +110,11 @@ async function eyesStorybook({config, logger, performance, timeItAsync}) {
       new Array(CONCURRENT_PAGES).fill().map(async (_x, i) => {
         const page = await browser.newPage();
         if (config.showLogs) {
-          let logPromise = Promise.resolve();
-          page.on('console', msg => {
-            logPromise = logPromise.then(async () => {
-              const args = msg.args();
-              if (args[0] && (await args[0].jsonValue()).match(/\[dom-snapshot\]/)) {
-                const values = await Promise.all(msg.args().map(arg => arg.jsonValue()));
-                logger.log(`tab ${i}: ${values.join(' ')}`);
-              }
-            });
+          browserLog({
+            page,
+            onLog: text => {
+              logger.log(`tab ${i}: ${text}`);
+            },
           });
         }
         const [err] = await presult(
