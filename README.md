@@ -117,7 +117,7 @@ In addition to command-line arguments, it's possible to define the following con
 | `branchName`              | undefined                   | The name of the branch. |
 | `baselineBranchName`      | undefined                   | The name of the baseline branch. |
 | `parentBranchName`        | undefined                   | Sets the branch under which new branches are created. |
-| `proxy`                   | undefined                   | Sets the proxy settings to be used in network requests to Eyes server. |
+| `proxy`                   | undefined                   | Sets the proxy settings to be used in network requests to Eyes server. This can be either a string to the proxy URI, or an object containing the URI, username and password.<br/><br/>For example:<br/>`{uri: 'https://myproxy', username: 'my_user', password: 'my_password'}`<br/>Or:<br/>`https://username:password@myproxy` |
 | `saveFailedTests`         | false                       | Set whether or not failed tests are saved by default (saved as baseline). |
 | `saveNewTests`            | false                       | Set whether or not new tests are saved by default (saved as baseline). |
 | `serverUrl`               | Default Eyes server URL     | The URL of Eyes server |
@@ -148,8 +148,9 @@ APPLITOOLS_SHOW_LOGS
 APPLITOOLS_BATCH_ID
 APPLITOOLS_BATCH_NAME
 APPLITOOLS_BATCH_SEQUENCE_NAME
+APPLITOOLS_PROXY
 ...
-// all other configuration variables apply
+// all other configuration variables apply as well..
 ```
 
 ### Method 2: The `applitools.config.js` file
