@@ -2,7 +2,7 @@
 const puppeteer = require('puppeteer');
 const getStories = require('./getStories');
 const {makeVisualGridClient} = require('@applitools/visual-grid-client');
-const {getProcessPageAndSerializeScript} = require('@applitools/dom-snapshot');
+const {getProcessPageAndSerialize} = require('@applitools/dom-snapshot');
 const {presult} = require('@applitools/functional-commons');
 const makeRenderStory = require('./renderStory');
 const makeRenderStories = require('./renderStories');
@@ -29,7 +29,7 @@ async function eyesStorybook({config, logger, performance, timeItAsync}) {
   const userAgent = await page.evaluate('navigator.userAgent');
   const {openEyes} = makeVisualGridClient({userAgent, ...config, logger: logger.extend('vgc')});
 
-  const processPageAndSerialize = `(${await getProcessPageAndSerializeScript()})()`;
+  const processPageAndSerialize = `(${await getProcessPageAndSerialize()})()`;
   logger.log('got script for processPage');
   const getStoryData = makeGetStoryData({logger, processPageAndSerialize, waitBeforeScreenshots});
   const renderStory = makeRenderStory({
