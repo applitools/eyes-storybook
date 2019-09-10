@@ -1,4 +1,19 @@
 
+v2.7.36 / 2019-09-10
+====================
+
+* 2.7.36 [[b942486](https://github.com/applitools/eyes-storybook/commit/b9424866053c2076409a480e4d12e4ecff03d56c)]
+
+v2.7.35 / 2019-09-10
+====================
+
+* 2.7.35 [[2670f81](https://github.com/applitools/eyes-storybook/commit/2670f812db583516368861bef8a6312f1c197b70)]
+* updated ds to new api names [[b89b9c9](https://github.com/applitools/eyes-storybook/commit/b89b9c9ee907cdbd7f3d857ea0d4361837042f41)]
+* fix exception in processResults and add tests for renderStories [[c070381](https://github.com/applitools/eyes-storybook/commit/c0703810d6f34a1b41e9f17eb273f4281f7a5105)]
+* heavy storybook [[bc6d9a7](https://github.com/applitools/eyes-storybook/commit/bc6d9a776b3610dc5faf9438da95999e28e382ff)]
+* better readme for proxy [[7d955e7](https://github.com/applitools/eyes-storybook/commit/7d955e7fb9caf8acd4f7f4f6605d63b328cfc8aa)]
+* changelog [[4d2521c](https://github.com/applitools/eyes-storybook/commit/4d2521c31c88ea73f6d4bd0ec5c996ccb72bec53)]
+
 v2.7.34 / 2019-08-26
 ====================
 
