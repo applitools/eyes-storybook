@@ -1,4 +1,11 @@
 
+v2.8.1 / 2019-09-22
+===================
+
+* 2.8.1 [[1f3f810](https://github.com/applitools/eyes-storybook/commit/1f3f810785e5f41eacf95d086ff3a7f263d8df17)]
+* added accessibility and notifyOnCompletion [[a0a820e](https://github.com/applitools/eyes-storybook/commit/a0a820e64c0deddd75c8cff61e340d8d631c2d13)]
+* changelog [[aae8517](https://github.com/applitools/eyes-storybook/commit/aae8517a5d7a4e6cd8148edc0a24f7b4e208dc90)]
+
 v2.7.36 / 2019-09-10
 ====================
 
