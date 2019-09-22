@@ -41,6 +41,7 @@ describe('renderStory', () => {
     const eyesOptions = {
       ignore: ['ignore'],
       floating: 'floating',
+      accessibility: 'accessibility',
       strict: 'strict',
       layout: 'layout',
       scriptHooks: 'scriptHooks',

@@ -8,6 +8,7 @@ function makeRenderStory({logger, openEyes, performance, timeItAsync}) {
     const eyesOptions = (parameters && parameters.eyes) || {};
     const {
       ignore,
+      accessibility,
       floating,
       strict,
       layout,
@@ -39,6 +40,7 @@ function makeRenderStory({logger, openEyes, performance, timeItAsync}) {
         url,
         frames,
         ignore,
+        accessibility,
         floating,
         strict,
         layout,

@@ -93,6 +93,7 @@ describe('getStories', () => {
         if (!error) {
           res.parameters = {
             fileName: './test/fixtures/appWithStorybook/index.js',
+            framework: 'react',
             options: {
               hierarchyRootSeparator: '|',
               hierarchySeparator: {},

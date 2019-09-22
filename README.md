@@ -129,7 +129,11 @@ In addition to command-line arguments, it's possible to define the following con
 | `waitBeforeScreenshots`   | undefined                   | Selector, function or timeout.<br/>If ```number``` then the argument is treated as time in milliseconds to wait before each screenshot is taken.<br/><br/>If ```string``` then the argument is treated as a selector or xpath (depending on whether or not it starts with '//') for an element to wait for before each screenshot is taken.<br/><br/>If ```function```, then the argument is treated as a predicate to wait for before each screenshot is taken.|
 | `include`                 | true                        | Specifies which stories should be visually tested. Visual baselines will be created only for the components specified. For more information, see [per component configuration - include](#include). |
 | `variations`              | undefined                   | Specifies additional variations for all or some of the stories. For example, RTL. For more information, see [per component  configuration - variations](#variations).|
-| `ignore`              | undefined                   | Specifies regions to ignore when checking for visual differences. For more information, see [per component  configuration - ignore](#ignore).|
+| `ignore`              | undefined                   | Specifies regions to ignore when checking for visual differences. For more information, see [per component configuration - ignore](#ignore).|
+
+<!-- | `accessibility`              | undefined                   | Specifies regions for checking accessibility. For more information, see [per component configuration - accessibility](#accessibility).|
+| `accessibilityLevel` | None | The accessibility level to use for the screenshots. Possible values are `None`, `AA` and `AAA`. |
+| `notifyOnCompletion`  | false | If `true` batch completion notifications are sent. | -->
 
 There are 2 ways to specify test configuration:
 
@@ -152,6 +156,8 @@ APPLITOOLS_PROXY
 ...
 // all other configuration variables apply as well..
 ```
+<!-- APPLITOOLS_ACCESSIBILITY_LEVEL
+APPLITOOLS_NOTIFY_ON_COMPLETION -->
 
 ### Method 2: The `applitools.config.js` file
 
@@ -300,6 +306,28 @@ storiesOf('Components with ignored region', module)
   )
 });
 ```
+
+<!-- ### `accessibility`
+
+A single or an array of regions for accessibility checking. For example:
+
+```js
+storiesOf('Components with accessibility regions', module)
+  .add(
+    'Some story',
+    () => <div>
+      <span>I am visually perfect!<span>
+      <span className="check-me">this should be tested for accessibility</span>
+    {eyes: {
+      accessibility: [
+        {accessibilityType: 'RegularText', selector: '.check-me'},
+      ]
+    }}
+  )
+});
+```
+
+Possible accessibilityType values are: `None`,`IgnoreContrast`,`RegularText`,`LargeText`,`BoldText` and `GraphicalObject`. -->
 
 ## Running Eyes-Storybook in Docker
 

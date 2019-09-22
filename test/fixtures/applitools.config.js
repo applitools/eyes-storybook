@@ -11,6 +11,8 @@ module.exports = {
       return ['rtl'];
     }
   },
+  // notifyOnCompletion: true,
+  // accessibilityLevel: 'AA',
   // browser: [{width: 1000, height: 600, name: 'edge'}],
   // tapFilePath: './',
 };
