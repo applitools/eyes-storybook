@@ -327,7 +327,7 @@ storiesOf('Components with accessibility regions', module)
 });
 ```
 
-Possible accessibilityType values are: `None`,`IgnoreContrast`,`RegularText`,`LargeText`,`BoldText` and `GraphicalObject`. -->
+Possible accessibilityType values are: `IgnoreContrast`,`RegularText`,`LargeText`,`BoldText` and `GraphicalObject`. -->
 
 ## Running Eyes-Storybook in Docker
 
