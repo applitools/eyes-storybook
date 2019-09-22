@@ -1,4 +1,11 @@
 
+v2.8.2 / 2019-09-22
+===================
+
+* 2.8.2 [[8fac302](https://github.com/applitools/eyes-storybook/commit/8fac302e91213bf149a2e88ced36520e4e54d040)]
+* removed None from accessibility [[1b65f83](https://github.com/applitools/eyes-storybook/commit/1b65f8316618281f166d2eddab785bec6901e499)]
+* changelog [[9749e8b](https://github.com/applitools/eyes-storybook/commit/9749e8bad7797bc71e531bcef4531f83c8b8143c)]
+
 v2.8.1 / 2019-09-22
 ===================
 
