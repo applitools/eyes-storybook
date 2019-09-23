@@ -1,4 +1,11 @@
 
+v2.8.3 / 2019-09-23
+===================
+
+* 2.8.3 [[93f92d5](https://github.com/applitools/eyes-storybook/commit/93f92d52f23bf48c375add83f51e4b3fb3942bdc)]
+* changed concurrency message [[677d8ce](https://github.com/applitools/eyes-storybook/commit/677d8ce8c3072b509012761c872002c4376de291)]
+* changelog [[c803446](https://github.com/applitools/eyes-storybook/commit/c803446ffa5851b85b3fe5f8d24475a826436f21)]
+
 v2.8.2 / 2019-09-22
 ===================
 
