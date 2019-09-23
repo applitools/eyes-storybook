@@ -1,9 +1,9 @@
 'use strict';
 
-function browserLog({page, onLog}) {
+function browserLog({page, onLog, filter}) {
   page.on('console', msg => {
     const text = msg.text();
-    if (text.match(/\[dom-snapshot\]/)) {
+    if (!filter || filter(text)) {
       onLog(text);
     }
   });

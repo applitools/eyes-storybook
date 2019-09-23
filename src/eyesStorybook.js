@@ -115,6 +115,7 @@ async function eyesStorybook({config, logger, performance, timeItAsync}) {
             onLog: text => {
               logger.log(`tab ${i}: ${text}`);
             },
+            filter: text => text.match(/\[dom-snapshot\]/),
           });
         }
         const [err] = await presult(
