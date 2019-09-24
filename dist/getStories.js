@@ -66,10 +66,12 @@ function __getStories(...args) {
   /* global document */
 
 
-  async function getStories() {
+  const DEFAULT_TIMEOUT = 60000;
+
+  async function getStories({timeout = DEFAULT_TIMEOUT} = {timeout: DEFAULT_TIMEOUT}) {
     const Stories = {
       _getStoriesV2: () => {
-        let categories = getCategories();
+        let categories = getCategoriesV2();
         console.log(`got ${categories.length} categories`);
         let stories = [];
 
@@ -90,12 +92,6 @@ function __getStories(...args) {
 
         return stories;
 
-        function getCategories() {
-          return Array.from(document.querySelector('.Pane.vertical.Pane1 ul').children).map(li =>
-            li.querySelector('a'),
-          );
-        }
-
         function verifyOpen(anchor) {
           if (!anchor.nextElementSibling) {
             anchor.click();
@@ -104,7 +100,7 @@ function __getStories(...args) {
       },
 
       _getStoriesV3: () => {
-        let menuItems = getAllMenuItems();
+        let menuItems = getAllMenuItemsV3();
         console.log(`got ${menuItems.length} menu items`);
 
         let closedMenuItems = getClosedMenus(menuItems);
@@ -115,7 +111,7 @@ function __getStories(...args) {
         while (closedMenuItems.length) {
           console.log(`opening ${closedMenuItems.length} closed menu items`);
           openMenus(closedMenuItems);
-          menuItems = getAllMenuItems();
+          menuItems = getAllMenuItemsV3();
           closedMenuItems = getClosedMenus(menuItems);
           console.log(`after opening menus, got ${menuItems.length} menu items`);
           console.log(
@@ -166,8 +162,12 @@ function __getStories(...args) {
       throw new Error('storybook is loading for too long');
     } else {
       const storybookVersion = getVersion();
-      console.log(`getting stories from storybook via scraping. ${storybookVersion}`);
-      return Stories[`_getStories${storybookVersion}`]();
+      if (storybookVersion) {
+        console.log(`getting stories from storybook via scraping. ${storybookVersion}`);
+        return Stories[`_getStories${storybookVersion}`]();
+      } else {
+        return Promise.reject('could not determine storybook version in order to extract stories');
+      }
     }
 
     function getStoriesThroughClientAPI(clientApi) {
@@ -180,14 +180,19 @@ function __getStories(...args) {
       }));
     }
 
-    function getAllMenuItems() {
+    function getAllMenuItemsV3() {
       return Array.from(document.querySelectorAll('.Pane.vertical.Pane1 [role="menuitem"]'));
     }
 
+    function getCategoriesV2() {
+      const ul = document.querySelector('.Pane.vertical.Pane1 ul');
+      return ul && Array.from(ul.children).map(li => li.querySelector('a'));
+    }
+
     function getVersion() {
-      if (getAllMenuItems().length !== 0) {
+      if (getAllMenuItemsV3().length !== 0) {
         return 'V3';
-      } else {
+      } else if (getCategoriesV2()) {
         return 'V2';
       }
     }
@@ -199,9 +204,9 @@ function __getStories(...args) {
     }
 
     function waitForClientAPI() {
-      const WAIT_FOR_SB_TIMEOUT = 10000;
+      return ptimeoutWithValue(_waitForClientAPI, timeout, undefined);
 
-      const _waitForClientAPI = async () => {
+      async function _waitForClientAPI() {
         const clientApi = storybookApi();
         if (clientApi) {
           return clientApi;
@@ -209,9 +214,7 @@ function __getStories(...args) {
           await delay(100);
           return _waitForClientAPI();
         }
-      };
-
-      return ptimeoutWithValue(_waitForClientAPI, WAIT_FOR_SB_TIMEOUT, undefined);
+      }
     }
 
     async function delay(time) {

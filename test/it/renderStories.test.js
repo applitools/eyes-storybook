@@ -5,26 +5,7 @@ const {expect} = require('chai');
 const makeRenderStories = require('../../src/renderStories');
 const getChunks = require('../../src/getChunks');
 const getStoryTitle = require('../../src/getStoryTitle');
-const {PassThrough} = require('stream');
-const stripAnsi = require('strip-ansi');
-
-const testStream = () => {
-  const events = [];
-  const noop = () => {};
-  const stream = new PassThrough();
-  stream.clearLine = noop;
-  stream.cursorTo = noop;
-  stream.moveCursor = noop;
-  stream.on('data', data => {
-    events.push(stripAnsi(data.toString()));
-  });
-  return {
-    stream,
-    getEvents() {
-      return events;
-    },
-  };
-};
+const testStream = require('../util/testStream');
 
 describe('renderStories', () => {
   it('returns empty array for 0 stories', async () => {

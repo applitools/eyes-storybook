@@ -63,6 +63,7 @@
     "yargs": "^12.0.5"
   },
   "devDependencies": {
+    "@applitools/process-commons": "^2.1.0",
     "@storybook/react": "5.1.9",
     "@testing-library/dom": "^5.6.1",
     "babel-core": "^6.26.3",

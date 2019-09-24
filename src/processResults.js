@@ -13,7 +13,8 @@ function processResults({results = [], totalTime, concurrency}) {
   let exitCode = errors.length ? 1 : 0;
   if (testResults.length > 0) {
     outputStr += '[EYES: TEST RESULTS]:\n';
-    testResults.forEach(result => {
+    const sortedTestResults = testResults.sort((a, b) => a.getName().localeCompare(b.getName()));
+    sortedTestResults.forEach(result => {
       formatter.addTestResults(result);
 
       const storyTitle = `${result.getName()} [${result.getHostDisplaySize().toString()}] - `;

@@ -10,7 +10,7 @@ function makeRenderStories({
   renderStory,
   storybookUrl,
   logger,
-  stream = process.stderr,
+  stream,
 }) {
   return async function renderStories(stories) {
     let doneStories = 0;

@@ -1,14 +1,11 @@
 const {describe, it, before, after} = require('mocha');
 const {expect} = require('chai');
 const testStorybook = require('../util/testStorybook');
-const eyesStorybook = require('../../src/eyesStorybook');
-const generateConfig = require('../../src/generateConfig');
-const {configParams: externalConfigParams} = require('@applitools/visual-grid-client');
-const {Logger} = require('@applitools/eyes-common');
 const path = require('path');
-const {makeTiming} = require('@applitools/monitoring-commons');
-const {performance, timeItAsync} = makeTiming();
 const testServer = require('../util/testServer');
+const {delay: psetTimeout, presult} = require('@applitools/functional-commons');
+const {sh} = require('@applitools/process-commons');
+const {version} = require('../../package.json');
 
 describe('eyes-storybook', () => {
   let closeStorybook;
@@ -30,50 +27,84 @@ describe('eyes-storybook', () => {
   });
 
   it('renders test storybook', async () => {
-    const configPath = path.resolve(__dirname, '../fixtures/applitools.config.js');
-    const defaultConfig = {waitBeforeScreenshots: 50};
-    const config = generateConfig({argv: {conf: configPath}, defaultConfig, externalConfigParams});
-    const logger = new Logger(config.showLogs);
-    logger.setIncludeTime(true);
-    const results = await eyesStorybook({
-      config: {
-        storybookUrl: 'http://localhost:9001',
-        ...config,
-        // puppeteerOptions: {headless: false, devtools: true},
-      },
-      logger,
-      performance,
-      timeItAsync,
-    });
+    const {stdout, stderr} = await sh(
+      `npx eyes-storybook -f ${path.resolve(__dirname, 'happy-config/applitools.config.js')}`,
+      {spawnOptions: {stdio: 'pipe'}},
+    );
 
-    expect(
-      results
-        .map(r => ({name: r.getName(), isPassed: r.isPassed()}))
-        .sort((a, b) => (a.name < b.name ? -1 : 1)),
-    ).to.eql([
-      {
-        name: 'Button with-space yes-indeed/nested with-space yes/nested again-yes a: c yes-a b',
-        isPassed: true,
-      },
-      {name: 'Button with-space yes-indeed/nested with-space yes: b yes-a b', isPassed: true},
-      {name: 'Button with-space yes-indeed: a yes-a b', isPassed: true},
-      {name: 'Button: with some emoji', isPassed: true},
-      {name: 'Button: with text', isPassed: true},
-      {name: 'Image: image', isPassed: true},
-      {name: 'Interaction: Popover', isPassed: true},
-      {name: 'Nested/Component: story 1.1', isPassed: true},
-      {name: 'Nested/Component: story 1.2', isPassed: true},
-      {name: 'Nested: story 1', isPassed: true},
-      {name: 'RTL: local RTL config', isPassed: true},
-      {name: 'RTL: local RTL config [rtl]', isPassed: true},
-      {name: 'RTL: should also do RTL', isPassed: true},
-      {name: 'RTL: should also do RTL [rtl]', isPassed: true},
-      {name: 'SOME section|Nested/Component: story 1.1', isPassed: true},
-      {name: 'SOME section|Nested/Component: story 1.2', isPassed: true},
-      {
-        name: 'Wow|one with-space yes-indeed/nested with-space yes/nested again-yes a: c yes-a b',
-        isPassed: true,
-      },
-    ]);
+    const normalizedStdout = stdout
+      .replace(
+        /See details at https\:\/\/eyes.applitools.com\/app\/test-results\/.+/,
+        'See details at <some_url>',
+      )
+      .replace(/Total time\: \d+ seconds/, 'Total time: <some_time> seconds');
+
+    expect(normalizedStdout).to.equal(`Using @applitools/eyes-storybook version ${version}.
+
+
+[EYES: TEST RESULTS]:
+Button with-space yes-indeed: a yes-a b [1024x768] - Passed
+Button with-space yes-indeed/nested with-space yes: b yes-a b [1024x768] - Passed
+Button with-space yes-indeed/nested with-space yes/nested again-yes a: c yes-a b [1024x768] - Passed
+Button: with some emoji [1024x768] - Passed
+Button: with text [1024x768] - Passed
+Image: image [1024x768] - Passed
+Interaction: Popover [1024x768] - Passed
+Nested: story 1 [1024x768] - Passed
+Nested/Component: story 1.1 [1024x768] - Passed
+Nested/Component: story 1.2 [1024x768] - Passed
+RTL: local RTL config [1024x768] - Passed
+RTL: local RTL config [rtl] [1024x768] - Passed
+RTL: should also do RTL [1024x768] - Passed
+RTL: should also do RTL [rtl] [1024x768] - Passed
+SOME section|Nested/Component: story 1.1 [1024x768] - Passed
+SOME section|Nested/Component: story 1.2 [1024x768] - Passed
+Wow|one with-space yes-indeed/nested with-space yes/nested again-yes a: c yes-a b [1024x768] - Passed
+
+No differences were found!
+
+See details at <some_url>
+Total time: <some_time> seconds
+
+
+Important notice: the Applitools visual tests are currently running with a concurrency value of 10.
+This means that only up to 10 visual tests can run in parallel, and therefore the execution might be slow. This is the default behavior for free accounts.
+If your account does support a higher level of concurrency, it's possible to pass a different value by specifying \`concurrency:X\` in the applitools.config.js file.
+For more information on how to configure the concurrency level, visit the following link: https://www.npmjs.com/package/@applitools/eyes-storybook#concurrency.
+If you are interested in speeding up your visual tests, contact sdr@applitools.com to get a trial account and a higher level of concurrency.
+
+`);
+
+    expect(stderr).to.equal(`- Reading stories
+✔ Reading stories
+- Done 0 stories out of 17
+✔ Done 17 stories out of 17
+`);
+  });
+
+  it('fails with proper message and timeout when failing to get stories', async () => {
+    const promise = presult(
+      sh(
+        `node ./bin/eyes-storybook -f ${path.resolve(
+          __dirname,
+          'fail-config/applitools.config.js',
+        )}`,
+        {
+          spawnOptions: {stdio: 'pipe'},
+        },
+      ),
+    );
+    const results = await Promise.race([promise, psetTimeout(3000).then(() => 'not ok')]);
+
+    expect(results).not.to.equal('not ok');
+
+    expect(results[0].stdout).to.equal(`Using @applitools/eyes-storybook version ${version}.
+
+
+`);
+
+    expect(results[0].stderr).to.equal(`- Reading stories
+✖ Error when reading stories: could not determine storybook version in order to extract stories
+`);
   });
 });

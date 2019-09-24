@@ -4,7 +4,7 @@ module.exports = {
   storybookConfigDir: 'test/fixtures/appWithStorybook/',
   storybookStaticDir: 'test/fixtures',
   storybookPort: 4567,
-  puppeteerOptions: {headless: true},
+  // puppeteerOptions: {headless: false, devtools: true},
   include: ({name}) => !/^\[SKIP\]/.test(name),
   variations: ({name}) => {
     if (/should also do RTL/.test(name)) {

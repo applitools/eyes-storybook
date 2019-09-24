@@ -10,7 +10,6 @@ const makeGetStoryData = require('./getStoryData');
 const getChunks = require('./getChunks');
 const ora = require('ora');
 const flatten = require('lodash.flatten');
-const chalk = require('chalk');
 const filterStories = require('./filterStories');
 const addVariationStories = require('./addVariationStories');
 const browserLog = require('./browserLog');
@@ -21,11 +20,17 @@ function toMB(size) {
   return Math.round((size / 1024 / 1024) * 100) / 100;
 }
 
-async function eyesStorybook({config, logger, performance, timeItAsync}) {
+async function eyesStorybook({
+  config,
+  logger,
+  performance,
+  timeItAsync,
+  outputStream = process.stderr,
+}) {
   let memoryTimeout;
   takeMemLoop();
   logger.log('eyesStorybook started');
-  const {storybookUrl, waitBeforeScreenshots} = config;
+  const {storybookUrl, waitBeforeScreenshots, readStoriesTimeout} = config;
   const browser = await puppeteer.launch(config.puppeteerOptions);
   logger.log('browser launched');
   const page = await browser.newPage();
@@ -36,20 +41,15 @@ async function eyesStorybook({config, logger, performance, timeItAsync}) {
     config.showLogs
   }})`;
   logger.log('got script for processPage');
+  browserLog({
+    page,
+    onLog: text => {
+      logger.log(`master tab: ${text}`);
+    },
+  });
+
   try {
-    page.on('console', msg => {
-      logger.log(msg.args().join(' '));
-    });
-
-    const spinner = ora('Reading stories');
-    spinner.start();
-    logger.log('navigating to storybook url:', storybookUrl);
-    await page.goto(storybookUrl);
-
-    logger.log('Getting stories from storybook');
-    let stories = await page.evaluate(getStories);
-    logger.log(`got ${stories.length} stories:`, JSON.stringify(stories));
-    spinner.succeed();
+    let stories = await getStoriesWithSpinner();
 
     if (process.env.APPLITOOLS_STORYBOOK_DEBUG) {
       stories = stories.slice(0, 5);
@@ -79,6 +79,7 @@ async function eyesStorybook({config, logger, performance, timeItAsync}) {
       renderStory,
       storybookUrl,
       logger,
+      stream: outputStream,
     });
 
     logger.log('finished creating functions');
@@ -88,15 +89,11 @@ async function eyesStorybook({config, logger, performance, timeItAsync}) {
     );
 
     if (error) {
-      console.log(chalk.red(`Error when rendering stories: ${error}`));
-      return [];
+      const msg = refineErrorMessage({prefix: 'Error in renderStories:', error});
+      logger.log(error);
+      throw new Error(msg);
     } else {
       return flatten(results);
-    }
-  } catch (ex) {
-    logger.log(ex);
-    if (ex instanceof SyntaxError) {
-      throw ex;
     }
   } finally {
     logger.log('total time: ', performance['renderStories']);
@@ -138,6 +135,33 @@ async function eyesStorybook({config, logger, performance, timeItAsync}) {
         .join(', ')}`,
     );
     memoryTimeout = setTimeout(takeMemLoop, 30000);
+  }
+
+  async function getStoriesWithSpinner() {
+    logger.log('Getting stories from storybook');
+    const spinner = ora({text: 'Reading stories', stream: outputStream});
+    spinner.start();
+    logger.log('navigating to storybook url:', storybookUrl);
+    await page.goto(storybookUrl);
+    const [getStoriesErr, stories] = await presult(
+      page.evaluate(getStories, {timeout: readStoriesTimeout}),
+    );
+    if (getStoriesErr) {
+      logger.log('Error in getStories:', getStoriesErr);
+      const failMsg = refineErrorMessage({
+        prefix: 'Error when reading stories',
+        error: getStoriesErr,
+      });
+      spinner.fail(failMsg);
+      throw new Error();
+    }
+    spinner.succeed();
+    logger.log(`got ${stories.length} stories:`, JSON.stringify(stories));
+    return stories;
+  }
+
+  function refineErrorMessage({prefix, error}) {
+    return `${prefix}: ${error.message.replace('Evaluation failed: ', '')}`;
   }
 }
 
