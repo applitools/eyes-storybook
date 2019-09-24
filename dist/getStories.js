@@ -159,7 +159,7 @@ function __getStories(...args) {
       console.log(`getting stories from storybook via API. ${clientApi.version}`);
       return getStoriesThroughClientAPI(clientApi);
     } else if (isStoryBookLoading()) {
-      throw new Error('storybook is loading for too long');
+      return Promise.reject('storybook is loading for too long');
     } else {
       const storybookVersion = getVersion();
       if (storybookVersion) {

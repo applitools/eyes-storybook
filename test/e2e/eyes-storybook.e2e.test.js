@@ -82,7 +82,7 @@ If you are interested in speeding up your visual tests, contact sdr@applitools.c
 `);
   });
 
-  it('fails with proper message and timeout when failing to get stories', async () => {
+  it('fails with proper message when failing to get stories', async () => {
     const promise = presult(
       sh(
         `node ./bin/eyes-storybook -f ${path.resolve(
@@ -105,6 +105,32 @@ If you are interested in speeding up your visual tests, contact sdr@applitools.c
 
     expect(results[0].stderr).to.equal(`- Reading stories
 ✖ Error when reading stories: could not determine storybook version in order to extract stories
+`);
+  });
+
+  it('fails with proper message when failing to get stories because of timeout', async () => {
+    const promise = presult(
+      sh(
+        `node ./bin/eyes-storybook -f ${path.resolve(
+          __dirname,
+          'fail-config/applitools.config.js',
+        )} --read-stories-timeout=10 -u http://localhost:9001`,
+        {
+          spawnOptions: {stdio: 'pipe'},
+        },
+      ),
+    );
+    const results = await Promise.race([promise, psetTimeout(3000).then(() => 'not ok')]);
+
+    expect(results).not.to.equal('not ok');
+
+    expect(results[0].stdout).to.equal(`Using @applitools/eyes-storybook version ${version}.
+
+
+`);
+
+    expect(results[0].stderr).to.equal(`- Reading stories
+✖ Error when reading stories: storybook is loading for too long
 `);
   });
 });
