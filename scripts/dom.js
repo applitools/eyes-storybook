@@ -11,7 +11,14 @@ async function main() {
   const processPageAndSerialize = await getProcessPageAndSerializeScript();
   const browser = await puppeteer.launch(); // {headless: false}
   const page = await browser.newPage();
-  browserLog({page, onLog: console.log, filter: text => text.match(/\[dom-snapshot\]/)});
+  browserLog({
+    page,
+    onLog: text => {
+      if (text.match(/\[dom-snapshot\]/)) {
+        console.log(text);
+      }
+    },
+  });
   await page.goto(url);
   await new Promise(r => setTimeout(r, 4000));
   const start = Date.now();

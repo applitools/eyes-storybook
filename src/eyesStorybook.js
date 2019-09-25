@@ -118,9 +118,10 @@ async function eyesStorybook({
           browserLog({
             page,
             onLog: text => {
-              logger.log(`tab ${i}: ${text}`);
+              if (text.match(/\[dom-snapshot\]/)) {
+                logger.log(`tab ${i}: ${text}`);
+              }
             },
-            filter: text => text.match(/\[dom-snapshot\]/),
           });
         }
         const [err] = await presult(page.goto(iframeUrl, {timeout: readStoriesTimeout}));

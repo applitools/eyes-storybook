@@ -1,11 +1,8 @@
 'use strict';
 
-function browserLog({page, onLog, filter}) {
+function browserLog({page, onLog}) {
   page.on('console', msg => {
-    const text = msg.text();
-    if (!filter || filter(text)) {
-      onLog(text);
-    }
+    onLog(msg.text());
   });
 }
 
