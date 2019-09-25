@@ -133,7 +133,8 @@ In addition to command-line arguments, it's possible to define the following con
 
 <!-- | `accessibility`              | undefined                   | Specifies regions for checking accessibility. For more information, see [per component configuration - accessibility](#accessibility).|
 | `accessibilityLevel` | None | The accessibility level to use for the screenshots. Possible values are `None`, `AA` and `AAA`. |
-| `notifyOnCompletion`  | false | If `true` batch completion notifications are sent. | -->
+| `notifyOnCompletion`  | false | If `true` batch completion notifications are sent. |
+|`dontCloseBatches`| false | If true, batches are not closed for  [notifyOnCompletion](#advanced-configuration).|-->
 
 There are 2 ways to specify test configuration:
 

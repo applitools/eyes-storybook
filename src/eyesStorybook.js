@@ -27,7 +27,11 @@ async function eyesStorybook({config, logger, performance, timeItAsync}) {
   logger.log(`${CONCURRENT_PAGES} pages open`);
   const page = pages[0];
   const userAgent = await page.evaluate('navigator.userAgent');
-  const {openEyes} = makeVisualGridClient({userAgent, ...config, logger: logger.extend('vgc')});
+  const {openEyes, closeBatch} = makeVisualGridClient({
+    userAgent,
+    ...config,
+    logger: logger.extend('vgc'),
+  });
 
   const processPageAndSerialize = `(${await getProcessPageAndSerialize()})()`;
   logger.log('got script for processPage');
@@ -94,7 +98,11 @@ async function eyesStorybook({config, logger, performance, timeItAsync}) {
     logger.log(`starting to run ${storiesIncludingVariations.length} stories`);
 
     const [error, results] = await presult(
-      timeItAsync('renderStories', async () => renderStories(storiesIncludingVariations)),
+      timeItAsync('renderStories', async () => {
+        const res = await renderStories(storiesIncludingVariations);
+        await closeBatch();
+        return res;
+      }),
     );
 
     if (error) {
