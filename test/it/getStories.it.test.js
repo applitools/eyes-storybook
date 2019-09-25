@@ -23,6 +23,7 @@ describe('getStories', () => {
   it('gets stories', async () => {
     const page = await browser.newPage();
     const closeStorybook = await testStorybook({port: 9001});
+    browserLog({page, onLog: text => console.log(`[browser] ${text}`)});
     try {
       await page.goto('http://localhost:9001');
       const stories = await page.evaluate(getStories);
@@ -78,6 +79,7 @@ describe('getStories', () => {
           isApi: true,
           parameters: {
             fileName: './test/fixtures/appWithStorybook/index.js',
+            framework: 'react',
             options: {
               hierarchyRootSeparator: '|',
               hierarchySeparator: {},
@@ -93,12 +95,8 @@ describe('getStories', () => {
 
   it('fails on timeout', async () => {
     const page = await browser.newPage();
-    browserLog({
-      page,
-      onLog: text => {
-        console.log(`[browser] ${text}`);
-      },
-    });
+    browserLog({page, onLog: text => console.log(`[browser] ${text}`)});
+
     await page.goto('http://localhost:7272');
 
     const result = await Promise.race([

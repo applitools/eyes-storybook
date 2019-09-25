@@ -5,60 +5,100 @@ function __getStories(...args) {
 
   /* global window */
 
+  const API_VERSIONS = {
+    v4: 'v4',
+    v5: 'v5',
+    v5_2: 'v5_2',
+  };
+
   function getClientAPI() {
     const frameWindow = getFrameWindow();
-    const api = frameWindow && frameWindow.__STORYBOOK_CLIENT_API__;
+    const clientAPI = frameWindow && frameWindow.__STORYBOOK_CLIENT_API__;
     const addons = frameWindow && frameWindow.__STORYBOOK_ADDONS;
 
-    const v5Api = {
-      getStories: () => {
-        return api.raw();
-      },
-      selectStory: i => {
-        api._storyStore.setSelection(api.raw()[i]);
-      },
-      version: 5,
-    };
+    return getAPI(getStorybookVersion());
 
-    const v4Api = {
-      getStories: () => {
-        if (!frameWindow.__APPLITOOLS_STORIES) {
-          frameWindow.__APPLITOOLS_STORIES = Object.values(api._storyStore._data)
-            .map(({stories, kind}) => Object.values(stories).map(s => ({...s, kind})))
-            .flat();
+    function getStorybookVersion() {
+      if (frameWindow) {
+        const addons = frameWindow.__STORYBOOK_ADDONS;
+
+        if (frameWindow.__STORYBOOK_STORY_STORE__) {
+          return API_VERSIONS.v5_2;
+        } else if (frameWindow.__STORYBOOK_CLIENT_API__ && frameWindow.__STORYBOOK_CLIENT_API__.raw) {
+          return API_VERSIONS.v5;
+        } else if (
+          addons &&
+          addons.channel &&
+          addons.channel._listeners &&
+          addons.channel._listeners.setCurrentStory &&
+          addons.channel._listeners.setCurrentStory[0]
+        ) {
+          return API_VERSIONS.v4;
         }
-        return frameWindow.__APPLITOOLS_STORIES;
-      },
-      selectStory: i => {
-        const {kind, name: story} = v4Api.getStories()[i];
-        addons.channel._listeners.setCurrentStory[0]({kind, story});
-      },
-      version: 4,
-    };
-
-    const v5 = api && api.raw;
-    const v4 =
-      addons &&
-      addons.channel &&
-      addons.channel._listeners &&
-      addons.channel._listeners.setCurrentStory &&
-      addons.channel._listeners.setCurrentStory[0];
-    if (v5) {
-      return v5Api;
-    } else if (v4) {
-      return v4Api;
-    }
-
-    function getFrameWindow() {
-      if (/iframe.html/.test(window.location.href)) {
-        return window;
       }
-      return Array.prototype.filter.call(window.frames, frame => {
-        try {
-          return /\/iframe.html/.test(frame.location.href);
-        } catch (e) {}
-      })[0];
     }
+
+    function getAPI(version) {
+      if (version) {
+        let api;
+        switch (version) {
+          case API_VERSIONS.v4: {
+            api = {
+              getStories: () => {
+                if (!frameWindow.__APPLITOOLS_STORIES) {
+                  frameWindow.__APPLITOOLS_STORIES = Object.values(clientAPI._storyStore._data)
+                    .map(({stories, kind}) => Object.values(stories).map(s => ({...s, kind})))
+                    .flat();
+                }
+                return frameWindow.__APPLITOOLS_STORIES;
+              },
+              selectStory: i => {
+                const {kind, name: story} = api.getStories()[i];
+                addons.channel._listeners.setCurrentStory[0]({kind, story});
+              },
+            };
+            break;
+          }
+
+          case API_VERSIONS.v5: {
+            api = {
+              getStories: () => {
+                return clientAPI.raw();
+              },
+              selectStory: i => {
+                clientAPI._storyStore.setSelection(clientAPI.raw()[i]);
+              },
+            };
+            break;
+          }
+
+          case API_VERSIONS.v5_2: {
+            api = {
+              getStories: () => {
+                return clientAPI.raw();
+              },
+              selectStory: i => {
+                frameWindow.__STORYBOOK_STORY_STORE__.setSelection({storyId: clientAPI.raw()[i].id});
+              },
+            };
+            break;
+          }
+        }
+
+        return {version, ...api};
+      }
+    }
+  }
+
+  function getFrameWindow() {
+    if (/iframe.html/.test(window.location.href)) {
+      return window;
+    }
+    return Array.prototype.filter.call(window.frames, frame => {
+      try {
+        return /\/iframe.html/.test(frame.location.href);
+      } catch (e) {}
+    })[0];
   }
 
   var storybookApi = getClientAPI;

@@ -5,6 +5,7 @@ const {expect} = require('chai');
 const testServer = require('../util/testServer');
 const makeGetStoryData = require('../../src/getStoryData');
 const {ptimeoutWithError} = require('@applitools/functional-commons');
+const browserLog = require('../../src/browserLog');
 const logger = console;
 
 describe('getStoryData', () => {
@@ -14,9 +15,7 @@ describe('getStoryData', () => {
     page = await browser.newPage();
     const server = await testServer({port: 7272});
     closeTestServer = server.close;
-    // page.on('console', msg => {
-    //   console.log(msg.args().join(' '));
-    // });
+    browserLog({page, onLog: text => console.log(`[browser] ${text}`)});
   });
 
   after(async () => {
@@ -118,6 +117,20 @@ describe('getStoryData', () => {
       {url: 'url2', type: 'type', value: Buffer.from('ss', 'base64')},
     ]);
     expect(cdt).to.equal('cdt');
+  });
+
+  it('uses storybook client API V5 when possible', async () => {
+    const processPageAndSerialize = () => ({
+      resourceUrls: [],
+      blobs: [],
+      cdt: document.getElementById('story').textContent,
+    });
+
+    await page.goto('http://localhost:7272/renderStorybookClientApiV5_2-iframe.html');
+    const getStoryData = makeGetStoryData({logger, processPageAndSerialize});
+
+    expect((await getStoryData({story: {isApi: true, index: 0}, page})).cdt).to.equal('story1');
+    expect((await getStoryData({story: {isApi: true, index: 1}, page})).cdt).to.equal('story2');
   });
 
   it('uses storybook client API V5 when possible', async () => {
