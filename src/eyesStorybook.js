@@ -13,6 +13,7 @@ const flatten = require('lodash.flatten');
 const filterStories = require('./filterStories');
 const addVariationStories = require('./addVariationStories');
 const browserLog = require('./browserLog');
+const getIframeUrl = require('./getIframeUrl');
 
 const CONCURRENT_PAGES = 3;
 
@@ -103,6 +104,13 @@ async function eyesStorybook({
   }
 
   async function initPagesForBrowser(browser) {
+    let iframeUrl;
+    try {
+      iframeUrl = getIframeUrl(storybookUrl);
+    } catch (ex) {
+      throw new Error(`Storybook URL is not valid: ${storybookUrl}`);
+    }
+
     return Promise.all(
       new Array(CONCURRENT_PAGES).fill().map(async (_x, i) => {
         const page = await browser.newPage();
@@ -115,9 +123,7 @@ async function eyesStorybook({
             filter: text => text.match(/\[dom-snapshot\]/),
           });
         }
-        const [err] = await presult(
-          page.goto(`${storybookUrl}/iframe.html?eyes-storybook=true`, {timeout: 10000}),
-        );
+        const [err] = await presult(page.goto(iframeUrl, {timeout: readStoriesTimeout}));
         if (err) {
           logger.log(`error navigating to iframe.html`, err);
           throw err;
@@ -142,14 +148,23 @@ async function eyesStorybook({
     const spinner = ora({text: 'Reading stories', stream: outputStream});
     spinner.start();
     logger.log('navigating to storybook url:', storybookUrl);
-    await page.goto(storybookUrl);
+    const [navigateErr] = await presult(page.goto(storybookUrl, {timeout: readStoriesTimeout}));
+    if (navigateErr) {
+      logger.log('Error when loading storybook', navigateErr);
+      const failMsg = refineErrorMessage({
+        prefix: 'Error when loading storybook.',
+        error: navigateErr,
+      });
+      spinner.fail(failMsg);
+      throw new Error();
+    }
     const [getStoriesErr, stories] = await presult(
       page.evaluate(getStories, {timeout: readStoriesTimeout}),
     );
     if (getStoriesErr) {
       logger.log('Error in getStories:', getStoriesErr);
       const failMsg = refineErrorMessage({
-        prefix: 'Error when reading stories',
+        prefix: 'Error when reading stories:',
         error: getStoriesErr,
       });
       spinner.fail(failMsg);
@@ -161,7 +176,7 @@ async function eyesStorybook({
   }
 
   function refineErrorMessage({prefix, error}) {
-    return `${prefix}: ${error.message.replace('Evaluation failed: ', '')}`;
+    return `${prefix} ${error.message.replace('Evaluation failed: ', '')}`;
   }
 }
 

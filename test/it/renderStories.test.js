@@ -55,15 +55,15 @@ describe('renderStories', () => {
           {
             arg: {
               cdt:
-                'cdt_s1_k1_http://something/iframe.html?selectedKind=k1&selectedStory=s1&eyes-storybook=true_1',
+                'cdt_s1_k1_http://something/iframe.html?eyes-storybook=true&selectedKind=k1&selectedStory=s1_1',
               resourceUrls:
-                'resourceUrls_s1_k1_http://something/iframe.html?selectedKind=k1&selectedStory=s1&eyes-storybook=true_1',
+                'resourceUrls_s1_k1_http://something/iframe.html?eyes-storybook=true&selectedKind=k1&selectedStory=s1_1',
               resourceContents:
-                'resourceContents_s1_k1_http://something/iframe.html?selectedKind=k1&selectedStory=s1&eyes-storybook=true_1',
+                'resourceContents_s1_k1_http://something/iframe.html?eyes-storybook=true&selectedKind=k1&selectedStory=s1_1',
               frames:
-                'frames_s1_k1_http://something/iframe.html?selectedKind=k1&selectedStory=s1&eyes-storybook=true_1',
+                'frames_s1_k1_http://something/iframe.html?eyes-storybook=true&selectedKind=k1&selectedStory=s1_1',
               url:
-                'http://something/iframe.html?selectedKind=k1&selectedStory=s1&eyes-storybook=true',
+                'http://something/iframe.html?eyes-storybook=true&selectedKind=k1&selectedStory=s1',
               story: {name: 's1', kind: 'k1'},
             },
           },

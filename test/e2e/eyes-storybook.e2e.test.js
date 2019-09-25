@@ -27,10 +27,14 @@ describe('eyes-storybook', () => {
   });
 
   it('renders test storybook', async () => {
-    const {stdout, stderr} = await sh(
-      `npx eyes-storybook -f ${path.resolve(__dirname, 'happy-config/applitools.config.js')}`,
-      {spawnOptions: {stdio: 'pipe'}},
+    const [err, result] = await presult(
+      sh(`npx eyes-storybook -f ${path.resolve(__dirname, 'happy-config/applitools.config.js')}`, {
+        spawnOptions: {stdio: 'pipe'},
+      }),
     );
+
+    const stdout = err ? err.stdout : result.stdout;
+    const stderr = err ? err.stderr : result.stderr;
 
     const normalizedStdout = stdout
       .replace(
@@ -82,17 +86,11 @@ If you are interested in speeding up your visual tests, contact sdr@applitools.c
 `);
   });
 
-  it('fails with proper message when failing to get stories', async () => {
+  it('fails with proper message when failing to get stories because of undetermined version', async () => {
     const promise = presult(
-      sh(
-        `node ./bin/eyes-storybook -f ${path.resolve(
-          __dirname,
-          'fail-config/applitools.config.js',
-        )}`,
-        {
-          spawnOptions: {stdio: 'pipe'},
-        },
-      ),
+      sh(`node ./bin/eyes-storybook -u http://localhost:7272 --read-stories-timeout=100`, {
+        spawnOptions: {stdio: 'pipe'},
+      }),
     );
     const results = await Promise.race([promise, psetTimeout(3000).then(() => 'not ok')]);
 
@@ -108,13 +106,30 @@ If you are interested in speeding up your visual tests, contact sdr@applitools.c
 `);
   });
 
-  it('fails with proper message when failing to get stories because of timeout', async () => {
+  it('fails with proper message when failing to get stories because of navigation timeout', async () => {
+    const promise = presult(
+      sh(`node ./bin/eyes-storybook --read-stories-timeout=10 -u http://localhost:9001`, {
+        spawnOptions: {stdio: 'pipe'},
+      }),
+    );
+    const results = await Promise.race([promise, psetTimeout(3000).then(() => 'not ok')]);
+
+    expect(results).not.to.equal('not ok');
+
+    expect(results[0].stdout).to.equal(`Using @applitools/eyes-storybook version ${version}.
+
+
+`);
+
+    expect(results[0].stderr).to.equal(`- Reading stories
+✖ Error when loading storybook. Navigation Timeout Exceeded: 10ms exceeded
+`);
+  });
+
+  it('fails with proper message when failing to get stories because storybook is loading too slowly', async () => {
     const promise = presult(
       sh(
-        `node ./bin/eyes-storybook -f ${path.resolve(
-          __dirname,
-          'fail-config/applitools.config.js',
-        )} --read-stories-timeout=10 -u http://localhost:9001`,
+        `node ./bin/eyes-storybook --read-stories-timeout=1000 -u http://localhost:7272/storybook-loading.html`,
         {
           spawnOptions: {stdio: 'pipe'},
         },
