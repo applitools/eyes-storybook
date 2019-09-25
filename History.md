@@ -1,4 +1,12 @@
 
+v2.8.5 / 2019-09-25
+===================
+
+* 2.8.5 [[a980de6](https://github.com/applitools/eyes-storybook/commit/a980de6937d6fb2258a3e7cadcb66eb2676f41a3)]
+* err handleing for closeBatch [[a2dbac2](https://github.com/applitools/eyes-storybook/commit/a2dbac2c3907e2dd43dcad89180544ee88fa55c1)]
+* readme change [[587fc67](https://github.com/applitools/eyes-storybook/commit/587fc67674688c5f6c3fae8e878a3653679785e4)]
+* changelog [[2c6f52c](https://github.com/applitools/eyes-storybook/commit/2c6f52cd5d1b844790a08c5254dc0a7169c6a071)]
+
 v2.8.4 / 2019-09-25
 ===================
 
