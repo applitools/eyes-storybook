@@ -98,12 +98,12 @@ async function eyesStorybook({config, logger, performance, timeItAsync}) {
     logger.log(`starting to run ${storiesIncludingVariations.length} stories`);
 
     const [error, results] = await presult(
-      timeItAsync('renderStories', async () => {
-        const res = await renderStories(storiesIncludingVariations);
-        await closeBatch();
-        return res;
-      }),
+      timeItAsync('renderStories', async () => renderStories(storiesIncludingVariations)),
     );
+    const [closeBatchErr] = await presult(closeBatch());
+    if (closeBatchErr) {
+      logger.log('failed to close batch', closeBatchErr);
+    }
 
     if (error) {
       console.log(chalk.red(`Error when rendering stories: ${error}`));
