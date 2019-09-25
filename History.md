@@ -1,4 +1,14 @@
 
+v2.8.4 / 2019-09-25
+===================
+
+* 2.8.4 [[94d62af](https://github.com/applitools/eyes-storybook/commit/94d62af4bd34e9f63cea392b9ff024b65b68803f)]
+* added closeBatch [[8e065aa](https://github.com/applitools/eyes-storybook/commit/8e065aa8696658957d286abf47c57f8c5dd94d84)]
+* changelog [[ed41519](https://github.com/applitools/eyes-storybook/commit/ed41519ff79b6b7d8fd67900c4fb0192e17fd8a0)]
+* 2.8.3 [[8e56728](https://github.com/applitools/eyes-storybook/commit/8e56728a2e08c07b010182072bfcaa1508ff75fd)]
+* changed concurrency message [[9ff6108](https://github.com/applitools/eyes-storybook/commit/9ff6108fc8775ef357149df815c08a8396e376d5)]
+* heavy storybook stuff [[d9c3460](https://github.com/applitools/eyes-storybook/commit/d9c34607fce0aeba689fa495bcb6e69bd102d160)]
+
 v2.8.3 / 2019-09-23
 ===================
 
