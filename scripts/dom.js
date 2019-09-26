@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const {getProcessPageAndSerializeScript} = require('@applitools/dom-snapshot');
+const {getProcessPageAndSerialize} = require('@applitools/dom-snapshot');
 const puppeteer = require('puppeteer');
 const browserLog = require('../src/browserLog');
 
@@ -8,7 +8,7 @@ const url = process.argv[2];
 const outFilepath = path.resolve(__dirname, '../logs/dom.json');
 
 async function main() {
-  const processPageAndSerialize = await getProcessPageAndSerializeScript();
+  const processPageAndSerialize = await getProcessPageAndSerialize();
   const browser = await puppeteer.launch(); // {headless: false}
   const page = await browser.newPage();
   browserLog({
