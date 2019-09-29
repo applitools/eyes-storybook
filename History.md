@@ -1,4 +1,11 @@
 
+v2.8.6 / 2019-09-29
+===================
+
+* 2.8.6 [[2081e18](https://github.com/applitools/eyes-storybook/commit/2081e1836cfdf56c2703c5a2daeaf32c6805ec49)]
+* removed version dependency from the stroybook launching process [[67d2210](https://github.com/applitools/eyes-storybook/commit/67d221004a31e242b11d983aff9ac3240599df36)]
+* changelog [[3b841eb](https://github.com/applitools/eyes-storybook/commit/3b841ebb1af85628417c44ca4574c02d12f9eff1)]
+
 v2.8.5 / 2019-09-25
 ===================
 
