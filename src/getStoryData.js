@@ -4,6 +4,7 @@ const {ArgumentGuard} = require('@applitools/eyes-common');
 const renderStoryWithClientAPI = require('../dist/renderStoryWithClientAPI');
 const runRunBeforeScript = require('../dist/runRunBeforeScript');
 const getStoryTitle = require('./getStoryTitle');
+const {URL} = require('url');
 
 function makeGetStoryData({logger, processPageAndSerialize, waitBeforeScreenshots}) {
   if (typeof waitBeforeScreenshots === 'number') {
