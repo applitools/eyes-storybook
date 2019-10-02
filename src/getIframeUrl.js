@@ -1,8 +1,7 @@
 'use strict';
 
 function getIframeUrl(baseUrl) {
-  const baseUrlWithTrailingSlash = /\/$/.test(baseUrl) ? baseUrl : baseUrl + '/';
-  return new URL(`iframe.html?eyes-storybook=true`, baseUrlWithTrailingSlash).href;
+  return new URL(`iframe.html?eyes-storybook=true`, baseUrl).href;
 }
 
 module.exports = getIframeUrl;

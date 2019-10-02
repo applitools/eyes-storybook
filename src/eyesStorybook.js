@@ -108,6 +108,7 @@ async function eyesStorybook({
     try {
       iframeUrl = getIframeUrl(storybookUrl);
     } catch (ex) {
+      logger.log(ex);
       throw new Error(`Storybook URL is not valid: ${storybookUrl}`);
     }
 
