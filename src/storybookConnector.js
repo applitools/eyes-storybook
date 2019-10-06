@@ -13,7 +13,7 @@ class StorybookConnector extends EventEmitter {
     logger,
   }) {
     super();
-    this._storybookPath = storybookPath;
+    this._storybookPath = `${storybookPath}${isWindows ? '.cmd' : ''}`;
     this._storybookPort = storybookPort;
     this._storybookHost = storybookHost;
     this._storybookConfigDir = storybookConfigDir;

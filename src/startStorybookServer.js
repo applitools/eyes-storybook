@@ -14,10 +14,7 @@ async function startStorybookServer({
   logger,
 }) {
   const isWindows = process.platform.startsWith('win');
-  const storybookPath = resolve(
-    packagePath,
-    `node_modules/.bin/start-storybook${isWindows ? '.cmd' : ''}`,
-  );
+  const storybookPath = resolve(packagePath, 'node_modules/.bin/start-storybook');
 
   const storybookConnector = new StorybookConnector({
     storybookPath,
