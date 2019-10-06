@@ -16,7 +16,8 @@ function makeRenderStories({
     let doneStories = 0;
     const spinner = ora({text: `Done 0 stories out of ${stories.length}`, stream});
     spinner.start();
-    const storyPromises = [];
+    const allTestResults = [];
+    let allStoriesPromise = Promise.resolve();
     const chunks = getChunks(stories, pages.length);
     await Promise.all(
       chunks.map(async (chunk, i) => {
@@ -42,17 +43,16 @@ function makeRenderStories({
                 : error,
             )
             .then(onDoneStory, onDoneStory);
-          storyPromises.push(storyRenderPromise);
+
+          allStoriesPromise = allStoriesPromise.then(() => storyRenderPromise);
           await storyDataPromise;
         }
       }),
     );
 
-    const renderStoriesPromise = Promise.all(storyPromises);
-    renderStoriesPromise.then(results =>
-      results.every(didTestPass) ? stopSpinnerSuccess() : stopSpinnerFail(),
-    );
-    return renderStoriesPromise;
+    return new Promise(resolve => {
+      allStoriesPromise.then(updateSpinnerEnd).then(() => resolve(allTestResults));
+    });
 
     function didTestPass(testResultsOrErr) {
       return (
@@ -63,21 +63,18 @@ function makeRenderStories({
       );
     }
 
+    function updateSpinnerEnd() {
+      allTestResults.every(didTestPass) ? spinner.succeed() : spinner.fail();
+    }
+
     function updateRunning(data) {
       spinner.text = `Done ${doneStories} stories out of ${stories.length}`;
       return data;
     }
 
-    function stopSpinnerSuccess() {
-      spinner.succeed();
-    }
-
-    function stopSpinnerFail() {
-      spinner.fail();
-    }
-
     function onDoneStory(resultsOrErr) {
       spinner.text = `Done ${++doneStories} stories out of ${stories.length}`;
+      allTestResults.push(resultsOrErr);
       return resultsOrErr;
     }
   };
