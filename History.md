@@ -1,4 +1,13 @@
 
+v2.9.1 / 2019-10-10
+===================
+
+* 2.9.1 [[ad85dd9](https://github.com/applitools/eyes-storybook/commit/ad85dd95452e497e1d08985b3ee2be587e60a18d)]
+* added waitBeforeScreenshot to per component configuration [[96e67e1](https://github.com/applitools/eyes-storybook/commit/96e67e10012e67775242eb3aff8caed29cc2cced)]
+* adding cmd suffix in StorybookConnector [[2ad758c](https://github.com/applitools/eyes-storybook/commit/2ad758cb7ad2018350a11c9f6c0dd6fdc6fe10a1)]
+* updated vgc to have test results with accessibility [[6610b16](https://github.com/applitools/eyes-storybook/commit/6610b16c83b74d361a3df05119ae33bd6b9fb926)]
+* changelog [[f683e24](https://github.com/applitools/eyes-storybook/commit/f683e247f24cf4604bd80a3743323abdee56b279)]
+
 v2.8.6 / 2019-09-29
 ===================
 
