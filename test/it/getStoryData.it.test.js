@@ -23,7 +23,7 @@ describe('getStoryData', () => {
     await closeTestServer();
   });
 
-  it('works with waitBeforeScreenshots as a number', async () => {
+  it('works with waitBeforeScreenshot as a number', async () => {
     const processPageAndSerialize = () => ({
       resourceUrls: ['url1', window.timeout],
       blobs: [{url: 'url2', type: 'type', value: 'ss'}],
@@ -34,7 +34,7 @@ describe('getStoryData', () => {
     const getStoryData = makeGetStoryData({
       logger,
       processPageAndSerialize,
-      waitBeforeScreenshots: 2000,
+      waitBeforeScreenshot: 2000,
     });
 
     const getStoryPromise = getStoryData({
@@ -54,7 +54,7 @@ describe('getStoryData', () => {
     expect(cdt).to.equal('cdt');
   });
 
-  it('works with waitBeforeScreenshots as a css selector', async () => {
+  it('works with waitBeforeScreenshot as a css selector', async () => {
     const processPageAndSerialize = () => ({
       resourceUrls: [
         'url1',
@@ -68,7 +68,7 @@ describe('getStoryData', () => {
     const getStoryData = makeGetStoryData({
       logger,
       processPageAndSerialize,
-      waitBeforeScreenshots: '#newDiv',
+      waitBeforeScreenshot: '#newDiv',
     });
 
     const getStoryPromise = getStoryData({
@@ -88,7 +88,7 @@ describe('getStoryData', () => {
     expect(cdt).to.equal('cdt');
   });
 
-  it('works with waitBeforeScreenshots as a function', async () => {
+  it('works with waitBeforeScreenshot as a function', async () => {
     const processPageAndSerialize = () => ({
       resourceUrls: ['url1', document.getElementById('changeME').innerText],
       blobs: [{url: 'url2', type: 'type', value: 'ss'}],
@@ -99,7 +99,7 @@ describe('getStoryData', () => {
     const getStoryData = makeGetStoryData({
       logger,
       processPageAndSerialize,
-      waitBeforeScreenshots: () => window.ready === 'ok',
+      waitBeforeScreenshot: () => window.ready === 'ok',
     });
 
     const getStoryPromise = getStoryData({

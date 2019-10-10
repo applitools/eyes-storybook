@@ -93,6 +93,42 @@ describe('renderStories', () => {
     expect(getEvents()).to.eql(['- Done 0 stories out of 1\n', '✔ Done 1 stories out of 1\n']);
   });
 
+  it('passes waitBeforeScreenshot to getStoryData', async () => {
+    let _waitBeforeScreenshot;
+    const getStoryData = async ({url: _url, page: _page, waitBeforeStory}) => {
+      _waitBeforeScreenshot = waitBeforeStory;
+      return {};
+    };
+
+    const renderStory = async arg => [{arg, getStatus: () => 'Passed'}];
+
+    const pages = [1, 2, 3];
+    const storybookBaseUrl = 'http://something';
+    const logger = console;
+
+    const renderStories = makeRenderStories({
+      getChunks,
+      getStoryData,
+      pages,
+      renderStory,
+      storybookBaseUrl,
+      logger,
+    });
+
+    const results = await renderStories([
+      {name: 's1', kind: 'k1', parameters: {eyes: {waitBeforeScreenshot: 'wait_some_value'}}},
+    ]);
+
+    expect(_waitBeforeScreenshot).to.eql('wait_some_value');
+    expect(JSON.stringify(results[0][0].arg.story)).to.eql(
+      JSON.stringify({
+        name: 's1',
+        kind: 'k1',
+        parameters: {eyes: {waitBeforeScreenshot: 'wait_some_value'}},
+      }),
+    );
+  });
+
   it('returns errors from getStoryData', async () => {
     const getStoryData = async () => {
       throw new Error('bla');

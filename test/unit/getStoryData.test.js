@@ -23,7 +23,7 @@ describe('getStoryData', () => {
     const getStoryData = makeGetStoryData({
       logger,
       processPageAndSerialize,
-      waitBeforeScreenshots: 50,
+      waitBeforeScreenshot: 50,
     });
     const {resourceUrls, resourceContents, cdt} = await getStoryData({url: 'url', page});
 
@@ -32,16 +32,16 @@ describe('getStoryData', () => {
     expect(cdt).to.equal('cdt');
   });
 
-  it('waitsFor correctly with waitBeforeScreenshots before taking the screen shot', async () => {
+  it('waitsFor correctly with waitBeforeScreenshot before taking the screenshot', async () => {
     let waitedValue;
-    const waitBeforeScreenshots = 'someValue';
+    const waitBeforeScreenshot = 'someValue';
     const page = {
       goto: async () => {},
       waitFor: async value => {
         waitedValue = value;
       },
       evaluate: func =>
-        waitedValue === waitBeforeScreenshots
+        waitedValue === waitBeforeScreenshot
           ? Promise.resolve(func())
           : Promise.reject('did not wait enough before taking snapshot'),
     };
@@ -58,7 +58,7 @@ describe('getStoryData', () => {
     const getStoryData = makeGetStoryData({
       logger,
       processPageAndSerialize,
-      waitBeforeScreenshots: waitBeforeScreenshots,
+      waitBeforeScreenshot,
     });
 
     const {resourceUrls, resourceContents, cdt} = await getStoryData({
@@ -71,19 +71,101 @@ describe('getStoryData', () => {
     expect(cdt).to.equal('cdt');
   });
 
-  it('throws when getting a negative waitBeforeScreenshots', async () => {
-    expect(() =>
-      makeGetStoryData({
-        waitBeforeScreenshots: -5,
-      }),
-    ).to.throw('waitBeforeScreenshots');
+  it('waitsFor correctly with waitBeforeScreenshot before taking a component screenshot', async () => {
+    let waitedValue;
+    const waitBeforeScreenshot = 'someValue';
+    const page = {
+      goto: async () => {},
+      waitFor: async value => {
+        waitedValue = value;
+      },
+      evaluate: func =>
+        waitedValue === waitBeforeScreenshot
+          ? Promise.resolve(func())
+          : Promise.reject('did not wait enough before taking snapshot'),
+    };
+
+    const valueBuffer = Buffer.from('value');
+    const blobs = [{url: 'url2', type: 'type', value: valueBuffer.toString('base64')}];
+    const expectedResourceContents = [{url: 'url2', type: 'type', value: valueBuffer}];
+    const processPageAndSerialize = () => ({
+      resourceUrls: ['url1'],
+      blobs,
+      cdt: 'cdt',
+    });
+    const logger = console;
+    const getStoryData = makeGetStoryData({
+      logger,
+      processPageAndSerialize,
+      waitBeforeScreenshot: 2000,
+    });
+
+    const {resourceUrls, resourceContents, cdt} = await getStoryData({
+      url: 'url',
+      page,
+      waitBeforeStory: waitBeforeScreenshot,
+    });
+
+    expect(resourceUrls).to.eql(['url1']);
+    expect(resourceContents).to.eql(expectedResourceContents);
+    expect(cdt).to.equal('cdt');
   });
 
-  it('throws when not getting waitBeforeScreenshots', async () => {
-    expect(() =>
-      makeGetStoryData({
-        waitBeforeScreenshots: -5,
-      }),
-    ).to.throw('waitBeforeScreenshots');
+  it('throws when getting a negative waitBeforeScreenshot', async () => {
+    const page = {
+      goto: async () => {},
+      waitFor: async () => {},
+      evaluate: func => Promise.resolve(func()),
+    };
+    const valueBuffer = Buffer.from('value');
+    const blobs = [{url: 'url2', type: 'type', value: valueBuffer.toString('base64')}];
+    const processPageAndSerialize = () => ({
+      resourceUrls: ['url1'],
+      blobs,
+      cdt: 'cdt',
+    });
+
+    const logger = console;
+    const getStoryData = makeGetStoryData({
+      logger,
+      processPageAndSerialize,
+      waitBeforeScreenshot: 50,
+    });
+    let err;
+    try {
+      await getStoryData({url: 'url', page, waitBeforeStory: -5});
+    } catch (e) {
+      err = e;
+    }
+    expect(err.message).to.eql('IllegalArgument: waitBeforeScreenshot < 0');
+  });
+
+  it('throws when getting a negative waitBeforeScreenshot', async () => {
+    const page = {
+      goto: async () => {},
+      waitFor: async () => {},
+      evaluate: func => Promise.resolve(func()),
+    };
+    const valueBuffer = Buffer.from('value');
+    const blobs = [{url: 'url2', type: 'type', value: valueBuffer.toString('base64')}];
+    const processPageAndSerialize = () => ({
+      resourceUrls: ['url1'],
+      blobs,
+      cdt: 'cdt',
+    });
+
+    const logger = console;
+    const getStoryData = makeGetStoryData({
+      logger,
+      processPageAndSerialize,
+      waitBeforeScreenshot: -50,
+    });
+    let err;
+    try {
+      await getStoryData({url: 'url', page});
+    } catch (e) {
+      err = e;
+    }
+    expect(err.message).to.eql('IllegalArgument: waitBeforeScreenshot < 0');
   });
 });

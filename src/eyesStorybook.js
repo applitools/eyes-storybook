@@ -19,7 +19,7 @@ const CONCURRENT_PAGES = 3;
 
 async function eyesStorybook({config, logger, performance, timeItAsync}) {
   logger.log('eyesStorybook started');
-  const {storybookUrl, waitBeforeScreenshots} = config;
+  const {storybookUrl, waitBeforeScreenshot} = config;
   const storybookBaseUrl = getStorybookBaseUrl(storybookUrl);
   const browser = await puppeteer.launch(config.puppeteerOptions);
   logger.log('browser launched');
@@ -35,7 +35,7 @@ async function eyesStorybook({config, logger, performance, timeItAsync}) {
 
   const processPageAndSerialize = `(${await getProcessPageAndSerialize()})()`;
   logger.log('got script for processPage');
-  const getStoryData = makeGetStoryData({logger, processPageAndSerialize, waitBeforeScreenshots});
+  const getStoryData = makeGetStoryData({logger, processPageAndSerialize, waitBeforeScreenshot});
   const renderStory = makeRenderStory({
     logger: logger.extend('renderStory'),
     openEyes,

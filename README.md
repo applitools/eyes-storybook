@@ -126,7 +126,7 @@ In addition to command-line arguments, it's possible to define the following con
 | `runInDocker`             | false                       | If you are having issues running the SDK in docker, set this flag to `true`. See more info [below](#running-eyes-storybook-in-docker) |
 | `puppeteerOptions`        | undefined                   | Options to send to `puppeteer.launch`. This is a low-level configuration and should be used with great care. |
 | `tapFilePath`             | undefined                   | Directory path of a results file. If set, then a [TAP](https://en.wikipedia.org/wiki/Test_Anything_Protocol#Specification) file is created in this directory, the file is created with the name eyes.tap and contains the Eyes test results. |
-| `waitBeforeScreenshots`   | undefined                   | Selector, function or timeout.<br/>If ```number``` then the argument is treated as time in milliseconds to wait before each screenshot is taken.<br/><br/>If ```string``` then the argument is treated as a selector or xpath (depending on whether or not it starts with '//') for an element to wait for before each screenshot is taken.<br/><br/>If ```function```, then the argument is treated as a predicate to wait for before each screenshot is taken.|
+| `waitBeforeScreenshot`   | undefined                   | Selector, function or timeout.<br/>If ```number``` then the argument is treated as time in milliseconds to wait before all screenshots.<br/>If ```string``` then the argument is treated as a selector for elements to wait for before all screenshots.<br/>If ```function```, then the argument is treated as a predicate to wait for before all screenshots.<br/><hr/>For per component configuration see [waitBeforeScreenshot.](#waitBeforeScreenshot)<br/>Note that we use Puppeteer's [page.waitFor()](https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#pagewaitforselectororfunctionortimeout-options-args), checkout it's API for more details. |
 | `include`                 | true                        | Specifies which stories should be visually tested. Visual baselines will be created only for the components specified. For more information, see [per component configuration - include](#include). |
 | `variations`              | undefined                   | Specifies additional variations for all or some of the stories. For example, RTL. For more information, see [per component  configuration - variations](#variations).|
 | `ignore`              | undefined                   | Specifies regions to ignore when checking for visual differences. For more information, see [per component configuration - ignore](#ignore).|
@@ -281,10 +281,11 @@ if (isRTL) {
 storiesOf('Components that support RTL', module)
   .add(
     'Some story',
-    () => <div>
-      <span>I am visually perfect!<span>
-      <span>{isRTL ? ' and rendered right to left as well :)' : ''}</span>
-    </div>,
+    () => 
+      <div>
+        <span>I am visually perfect!<span>
+        <span>{isRTL ? ' and rendered right to left as well :)' : ''}</span>
+      </div>,
     {eyes: {variations: ['RTL']}}
   )
 ```
@@ -297,16 +298,28 @@ A single or an array of regions to ignore when checking for visual differences. 
 storiesOf('Components with ignored region', module)
   .add(
     'Some story',
-    () => <div>
-      <span>I am visually perfect!<span>
-      <span className="ignore-this">this should be ignored</span>
-    </div>,
-    {eyes: {
-      ignore: [{selector: '.ignore-this'}]
-    }}
+    () => 
+      <div>
+        <span>I am visually perfect!</span>
+        <span className="ignore-this">this should be ignored</span>
+      </div>,
+    {eyes: { ignore: [{selector: '.ignore-this'}] }}
   )
-});
 ```
+
+### `waitBeforeScreenshot`
+
+Selector or timeout, see [advanced configuration](#advanced-configuration) for more details.
+
+```js
+storiesOf('Components with a waitBeforeScreenshot', module)
+  .add(
+    'Some story',
+    () => <span id="container" class="loading"></span>,
+    {eyes: { waitBeforeScreenshot: '#container.ready' }}
+  );
+```
+* _Note that the predicate option for `waitBeforeScreenshot` is currently not available in the per component configuration._
 
 <!-- ### `accessibility`
 

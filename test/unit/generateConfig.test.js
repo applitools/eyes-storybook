@@ -68,11 +68,18 @@ describe('generateConfig', function() {
     expect(config).to.eql({bla: 'bla from argv'});
   });
 
-  it('handles number waitBeforeScreenshots from env variable', () => {
-    process.env.APPLITOOLS_WAIT_BEFORE_SCREENSHOTS = '1234';
+  it('handles number waitBeforeScreenshot from env variable', () => {
+    process.env.APPLITOOLS_WAIT_BEFORE_SCREENSHOT = '1234';
     const config = generateConfig({
-      externalConfigParams: ['waitBeforeScreenshots'],
+      externalConfigParams: ['waitBeforeScreenshot'],
     });
-    expect(config).to.eql({waitBeforeScreenshots: 1234});
+    expect(config).to.eql({waitBeforeScreenshot: 1234});
+  });
+
+  it('backward compatible for waitBeforeScreenshots', () => {
+    process.env.APPLITOOLS_WAIT_BEFORE_SCREENSHOTS = '.someClass';
+    const defaultConfig = {waitBeforeScreenshot: 50, waitBeforeScreenshots: 50};
+    const config = generateConfig({defaultConfig});
+    expect(config.waitBeforeScreenshot).to.eql('.someClass');
   });
 });

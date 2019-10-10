@@ -22,11 +22,17 @@ function makeRenderStories({
       chunks.map(async (chunk, i) => {
         for (const story of chunk) {
           const url = getStoryUrl(story, storybookBaseUrl);
-          const storyDataPromise = getStoryData({url, page: pages[i]}).catch(e => {
+          const {waitBeforeScreenshot} = (story.parameters && story.parameters.eyes) || {};
+          const storyDataPromise = getStoryData({
+            url,
+            page: pages[i],
+            waitBeforeStory: waitBeforeScreenshot,
+          }).catch(e => {
             const errMsg = `Failed to get story data for "${getStoryTitle(story)}". ${e}`;
             logger.log(errMsg, e);
             return {error: new Error(errMsg)};
           });
+
           const storyRenderPromise = storyDataPromise
             .then(updateRunning)
             .then(({cdt, resourceUrls, resourceContents, frames, error}) =>
