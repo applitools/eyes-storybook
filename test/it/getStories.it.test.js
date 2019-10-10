@@ -85,6 +85,15 @@ describe('getStories', () => {
             '[SKIP] this story should not be checked visually by eyes-storybook because of global config',
           kind: 'skipped tests',
         },
+        {
+          kind: 'Text',
+          name: 'appears after a delay',
+          parameters: {
+            eyes: {
+              waitBeforeScreenshot: '.ready',
+            },
+          },
+        },
       ].map(({name, kind, parameters, error}) => {
         const res = {
           name,

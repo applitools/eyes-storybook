@@ -14,7 +14,7 @@ function generateConfig({argv = {}, defaultConfig = {}, externalConfigParams = [
 
   // backward compatibility
   if (
-    result.waitBeforeScreenshots &&
+    result.waitBeforeScreenshots !== defaultConfig.waitBeforeScreenshots &&
     result.waitBeforeScreenshot === defaultConfig.waitBeforeScreenshot
   ) {
     const msg = chalk.yellow(

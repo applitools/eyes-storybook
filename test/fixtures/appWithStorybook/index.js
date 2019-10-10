@@ -1,5 +1,6 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
+import WithScript from './withScript';
 import './storybook.css';
 import smurfs from '../smurfs.jpg';
 
@@ -75,3 +76,19 @@ storiesOf('skipped tests', module)
   )
   .add('[SKIP] this story should not be checked visually by eyes-storybook because of global config',
     () => <div>this story should not be checked visually by eyes-storybook because of global config</div>)
+
+storiesOf('Text', module)
+  .add(
+    'appears after a delay',
+    () => 
+      <WithScript script={() => { 
+          window.setTimeout(() => {
+            document.getElementById('delay').innerText = 'Now Ready - snapshot me!'
+            document.getElementById('delay').className = 'ready' 
+          }, 1000)
+        }}
+      >
+        <div id="delay">Not Ready - do not take snapshot!</div>
+      </WithScript>,
+    {eyes: {waitBeforeScreenshot: '.ready'}}
+  )
