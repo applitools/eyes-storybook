@@ -3,56 +3,54 @@ const getStoryUrl = require('./getStoryUrl');
 const getStoryTitle = require('./getStoryTitle');
 const ora = require('ora');
 
-function makeRenderStories({
-  getChunks,
-  getStoryData,
-  pages,
-  renderStory,
-  storybookUrl,
-  logger,
-  stream,
-}) {
+function makeRenderStories({getStoryData, pages, renderStory, storybookUrl, logger, stream}) {
   return async function renderStories(stories) {
     let doneStories = 0;
+
     const spinner = ora({text: `Done 0 stories out of ${stories.length}`, stream});
     spinner.start();
+
     const allTestResults = [];
     let allStoriesPromise = Promise.resolve();
-    const chunks = getChunks(stories, pages.length);
-    await Promise.all(
-      chunks.map(async (chunk, i) => {
-        for (const story of chunk) {
-          const storyUrl = getStoryUrl(story, storybookUrl);
-          const storyDataPromise = getStoryData({story, storyUrl, page: pages[i]}).catch(e => {
-            const errMsg = `Failed to get story data for "${getStoryTitle(story)}". ${e}`;
-            logger.log(errMsg);
-            return {error: new Error(errMsg)};
-          });
-          const storyRenderPromise = storyDataPromise
-            .then(updateRunning)
-            .then(({cdt, resourceUrls, resourceContents, frames, error}) =>
-              !error
-                ? renderStory({
-                    cdt,
-                    resourceUrls,
-                    resourceContents,
-                    frames,
-                    url: storyUrl,
-                    story,
-                  })
-                : error,
-            )
-            .then(onDoneStory, onDoneStory);
+    let currIndex = 0;
 
-          allStoriesPromise = allStoriesPromise.then(() => storyRenderPromise);
-          await storyDataPromise;
-        }
-      }),
-    );
+    await Promise.all(pages.map(processStory));
+    await allStoriesPromise;
+    updateSpinnerEnd();
+    return allTestResults;
 
-    return new Promise(resolve => {
-      allStoriesPromise.then(updateSpinnerEnd).then(() => resolve(allTestResults));
-    });
+    async function processStory(page) {
+      if (currIndex === stories.length) return;
+
+      const story = stories[currIndex++];
+      const storyUrl = getStoryUrl(story, storybookUrl);
+      const storyDataPromise = getStoryData({story, storyUrl, page}).catch(e => {
+        const errMsg = `Failed to get story data for "${getStoryTitle(story)}". ${e}`;
+        logger.log(errMsg);
+        return {error: new Error(errMsg)};
+      });
+
+      const storyRenderPromise = storyDataPromise
+        .then(updateRunning)
+        .then(
+          ({cdt, resourceUrls, resourceContents, frames, error}) =>
+            error ||
+            renderStory({
+              cdt,
+              resourceUrls,
+              resourceContents,
+              frames,
+              url: storyUrl,
+              story,
+            }),
+        )
+        .then(onDoneStory, onDoneStory);
+
+      allStoriesPromise = allStoriesPromise.then(() => storyRenderPromise);
+
+      await storyDataPromise;
+      return processStory(page);
+    }
 
     function didTestPass(testResultsOrErr) {
       return (

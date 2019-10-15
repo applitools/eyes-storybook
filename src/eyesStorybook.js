@@ -7,19 +7,15 @@ const {presult} = require('@applitools/functional-commons');
 const makeRenderStory = require('./renderStory');
 const makeRenderStories = require('./renderStories');
 const makeGetStoryData = require('./getStoryData');
-const getChunks = require('./getChunks');
 const ora = require('ora');
 const flatten = require('lodash.flatten');
 const filterStories = require('./filterStories');
 const addVariationStories = require('./addVariationStories');
 const browserLog = require('./browserLog');
+const memoryLog = require('./memoryLog');
 const getIframeUrl = require('./getIframeUrl');
 
 const CONCURRENT_PAGES = 3;
-
-function toMB(size) {
-  return Math.round((size / 1024 / 1024) * 100) / 100;
-}
 
 async function eyesStorybook({
   config,
@@ -74,7 +70,6 @@ async function eyesStorybook({
       timeItAsync,
     });
     const renderStories = makeRenderStories({
-      getChunks,
       getStoryData,
       pages,
       renderStory,
@@ -136,12 +131,7 @@ async function eyesStorybook({
   }
 
   function takeMemLoop() {
-    const usage = process.memoryUsage();
-    logger.log(
-      `Memory usage: ${Object.keys(usage)
-        .map(key => `${key}: ${toMB(usage[key])} MB`)
-        .join(', ')}`,
-    );
+    logger.log(memoryLog(process.memoryUsage()));
     memoryTimeout = setTimeout(takeMemLoop, 30000);
   }
 

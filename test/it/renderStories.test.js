@@ -3,18 +3,13 @@
 const {describe, it} = require('mocha');
 const {expect} = require('chai');
 const makeRenderStories = require('../../src/renderStories');
-const getChunks = require('../../src/getChunks');
 const getStoryTitle = require('../../src/getStoryTitle');
 const testStream = require('../util/testStream');
 
 describe('renderStories', () => {
   it('returns empty array for 0 stories', async () => {
     const {stream, getEvents} = testStream();
-    const renderStories = makeRenderStories({
-      getChunks,
-      pages: [1],
-      stream,
-    });
+    const renderStories = makeRenderStories({pages: [1], stream});
 
     const results = await renderStories([]);
 
@@ -38,7 +33,6 @@ describe('renderStories', () => {
     const {stream, getEvents} = testStream();
 
     const renderStories = makeRenderStories({
-      getChunks,
       getStoryData,
       pages,
       renderStory,
@@ -65,7 +59,7 @@ describe('renderStories', () => {
         const storyData = await getStoryData({
           story,
           storyUrl,
-          page: i > 4 ? 3 : i > 2 ? 2 : 1,
+          page: i % 3 === 0 ? 1 : i % 3 === 1 ? 2 : 3,
         });
         return {
           ...storyData,
@@ -95,7 +89,6 @@ describe('renderStories', () => {
     const {stream, getEvents} = testStream();
 
     const renderStories = makeRenderStories({
-      getChunks,
       getStoryData,
       pages,
       renderStory,
@@ -128,7 +121,6 @@ describe('renderStories', () => {
     const {stream, getEvents} = testStream();
 
     const renderStories = makeRenderStories({
-      getChunks,
       getStoryData,
       pages,
       renderStory,
@@ -144,5 +136,63 @@ describe('renderStories', () => {
     expect(results[0].message).to.equal('bla');
 
     expect(getEvents()).to.eql(['- Done 0 stories out of 1\n', '✖ Done 1 stories out of 1\n']);
+  });
+
+  it("doesn't have memory issues", async () => {
+    const length = 1000;
+    const stories = new Array(length);
+    for (let i = 0; i < length; i++) {
+      stories[i] = {name: `s${i}`, kind: `k${i}`};
+    }
+
+    const heavySnapshot = allocObjectBuffer(1024 * 1024 * 1); // 1 MB
+    const getStoryData = async () => JSON.parse(heavySnapshot);
+
+    const renderStory = async ({cdt}) => {
+      await new Promise(r => setTimeout(r, 0));
+      return [
+        {
+          arg: JSON.stringify(cdt).length,
+          getStatus: () => 'Passed',
+        },
+      ];
+    };
+
+    const pages = [1];
+    const storybookUrl = 'http://something';
+    const logger = console;
+    const {stream, getEvents} = testStream();
+
+    const renderStories = makeRenderStories({
+      getStoryData,
+      pages,
+      renderStory,
+      storybookUrl,
+      logger,
+      stream,
+    });
+
+    const results = await renderStories(stories);
+    const usage = process.memoryUsage();
+
+    expect(results.map(result => result[0].arg)).to.eql(
+      new Array(length).fill(JSON.stringify(JSON.parse(heavySnapshot).cdt).length),
+    );
+
+    expect(getEvents()).to.eql([
+      `- Done 0 stories out of ${length}\n`,
+      `✔ Done ${length} stories out of ${length}\n`,
+    ]);
+
+    expect(usage.heapUsed).to.be.lessThan(1024 * 1024 * 80); // 80 MB
+
+    // allocates a buffer containing '{"cdt":[{"x":"qqqqqqqqqqqqqqq"}]}'
+    function allocObjectBuffer(size) {
+      const buff = Buffer.alloc(size);
+      buff.fill(String(Math.random()).slice(2));
+      buff.write('{"cdt":[{"x":"');
+      buff.write('"}]}', size - 4);
+      return buff;
+    }
   });
 });
