@@ -1,6 +1,7 @@
 'use strict';
 const {describe, it} = require('mocha');
 const {expect} = require('chai');
+const {presult} = require('@applitools/functional-commons');
 const makeGetStoryData = require('../../src/getStoryData');
 
 describe('getStoryData', () => {
@@ -82,5 +83,36 @@ describe('getStoryData', () => {
         waitBeforeScreenshots: -5,
       }),
     ).to.throw('waitBeforeScreenshots');
+  });
+
+  it('throws when fails to render a story with api', async () => {
+    const page = {
+      goto: async () => {},
+      waitFor: async () => {},
+      evaluate: func => {
+        if (func.name === '__renderStoryWithClientAPI') {
+          return {message: 'some render story error', version: 'some api version'};
+        } else {
+          return Promise.resolve(func());
+        }
+      },
+    };
+    const logger = console;
+    const getStoryData = makeGetStoryData({
+      logger,
+      processPageAndSerialize: () => {},
+      waitBeforeScreenshots: 50,
+    });
+    const [err] = await presult(
+      getStoryData({
+        story: {isApi: true},
+        storyUrl: 'url',
+        page,
+      }),
+    );
+
+    expect(err.message).to.eql(
+      'Eyes could not render stories properly. The detected version of storybook is some api version. Contact support@applitools.com for troubleshooting.',
+    );
   });
 });

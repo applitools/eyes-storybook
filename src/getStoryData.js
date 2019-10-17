@@ -25,7 +25,8 @@ function makeGetStoryData({logger, processPageAndSerialize, waitBeforeScreenshot
         (!actualVariationParam && !expectedVariationUrlParam) ||
         actualVariationParam === expectedVariationUrlParam
       ) {
-        await page.evaluate(renderStoryWithClientAPI, story.index);
+        const err = await page.evaluate(renderStoryWithClientAPI, story.index);
+        err && handleRenderStoryError(err);
       } else {
         await renderStoryLegacy();
       }
@@ -66,6 +67,16 @@ function makeGetStoryData({logger, processPageAndSerialize, waitBeforeScreenshot
       } catch (ex) {
         logger.log('failed to get url from page (in need of eyes-variation param)');
       }
+    }
+
+    function handleRenderStoryError(error) {
+      logger.log(error.message);
+      const versionMsg = error.version
+        ? ` The detected version of storybook is ${error.version}.`
+        : '';
+      throw new Error(
+        `Eyes could not render stories properly.${versionMsg} Contact support@applitools.com for troubleshooting.`,
+      );
     }
   };
 }

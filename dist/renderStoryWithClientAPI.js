@@ -106,10 +106,14 @@ function __renderStoryWithClientAPI(...args) {
   function renderStoryWithClientAPI(index) {
     const api = storybookApi();
     if (!api) {
-      console.log('error cannot get client api');
-      return;
+      return {message: 'error cannot get client api'};
     }
-    api.selectStory(index);
+
+    try {
+      api.selectStory(index);
+    } catch (e) {
+      return {message: `error cannot select story ${e.message}`, version: api.version};
+    }
   }
 
   var renderStoryWithClientAPI_1 = renderStoryWithClientAPI;

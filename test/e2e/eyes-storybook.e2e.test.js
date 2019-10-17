@@ -28,9 +28,15 @@ describe('eyes-storybook', () => {
 
   it('renders test storybook', async () => {
     const [err, result] = await presult(
-      sh(`npx eyes-storybook -f ${path.resolve(__dirname, 'happy-config/applitools.config.js')}`, {
-        spawnOptions: {stdio: 'pipe'},
-      }),
+      sh(
+        `node ${path.resolve(__dirname, '../../bin/eyes-storybook')} -f ${path.resolve(
+          __dirname,
+          'happy-config/applitools.config.js',
+        )}`,
+        {
+          spawnOptions: {stdio: 'pipe'},
+        },
+      ),
     );
 
     const stdout = err ? err.stdout : result.stdout;
