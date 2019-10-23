@@ -5,11 +5,14 @@ const convert = require('./convert');
 
 function createTiming(logStr) {
   const {lines} = convert(logStr);
+  // const lines = logStr.split('\n');
 
   const reGettingData = /\(\):.+getting data from story (.+)/;
   const reStart = /running story (.+)$/;
   const reEnd = /finished story (.+) in .+$/;
   const reTimestamp = /\[\+(\d+)s\]/;
+  const reRenderComplete = /render request complete for (.+)\. test=(.+) stepCount/;
+  const reScreenshotAvailable = /screenshot available for (.+) at http/;
   const timing = {};
 
   lines.forEach(line => {
@@ -19,6 +22,8 @@ function createTiming(logStr) {
       const matchStart = line.match(reStart);
       const matchEnd = line.match(reEnd);
       const matchGettingData = line.match(reGettingData);
+      const matchRenderComplete = line.match(reRenderComplete);
+      const matchScreenshotAvailable = line.match(reScreenshotAvailable);
 
       if (matchStart) {
         const storyName = matchStart[1];
@@ -30,6 +35,20 @@ function createTiming(logStr) {
       } else if (matchGettingData) {
         const storyName = matchGettingData[1];
         timing[storyName] = {gettingData: ts};
+      } else if (matchRenderComplete) {
+        const storyName = matchRenderComplete[2];
+        timing[storyName].renderId = matchRenderComplete[1];
+      } else if (matchScreenshotAvailable) {
+        const renderId = matchScreenshotAvailable[1];
+        const story = Object.keys(timing).find(name => timing[name].renderId === renderId);
+        if (!story) {
+          console.log('missing render:', renderId);
+        }
+        if (!timing[story]) {
+          console.log('missing:', story);
+          return;
+        }
+        timing[story].screenshotAvailable = ts;
       }
     } else {
       // console.log('no timestamp found for line', line)
