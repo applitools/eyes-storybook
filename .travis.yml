@@ -1,0 +1,12 @@
+sudo: true
+
+language: node_js
+
+node_js:
+  - node
+
+install:
+  - npm ci
+
+script:
+  - npm run eyes-storybook:configured --configFile
