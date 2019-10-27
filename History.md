@@ -1,4 +1,20 @@
 
+v2.9.5 / 2019-10-27
+===================
+
+* 2.9.5 [[82c9525](https://github.com/applitools/eyes-storybook/commit/82c952594fe3aa66d32984d638d2c2c599d44e9a)]
+
+v2.9.4 / 2019-10-27
+===================
+
+* 2.9.4 [[d9f9583](https://github.com/applitools/eyes-storybook/commit/d9f9583806a99ca2aa785944701f0635aa667216)]
+* updated vgc to not parse blobs [[87ac81c](https://github.com/applitools/eyes-storybook/commit/87ac81cf0b3a815b288bdc9e624b03cf02a6106f)]
+* 2.9.3 [[bc009cb](https://github.com/applitools/eyes-storybook/commit/bc009cbc055ecd6a05ff2184fecea1c546fff6c8)]
+* 2.9.2 [[eadce6b](https://github.com/applitools/eyes-storybook/commit/eadce6b557b27a37138b1deedde788f2394c4b7e)]
+* changed test messages [[46d1186](https://github.com/applitools/eyes-storybook/commit/46d1186f200a3833581e588f2338103f19958aff)]
+* added e2e test for component waitBeforeScreenshot [[fe366a0](https://github.com/applitools/eyes-storybook/commit/fe366a03cb6369192b11fe955aada1997589339c)]
+* changelog [[5a61bb1](https://github.com/applitools/eyes-storybook/commit/5a61bb151b3222cc4bc4c4a18c1f04012f491572)]
+
 v2.9.1 / 2019-10-10
 ===================
 
