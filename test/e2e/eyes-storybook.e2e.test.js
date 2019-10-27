@@ -4,7 +4,7 @@ const testStorybook = require('../util/testStorybook');
 const path = require('path');
 const testServer = require('../util/testServer');
 const {delay: psetTimeout, presult} = require('@applitools/functional-commons');
-const {sh} = require('@applitools/process-commons');
+const {sh} = require('../../src/__process-commons');
 const {version} = require('../../package.json');
 
 describe('eyes-storybook', () => {
