@@ -27,6 +27,7 @@
     "generate-heavy-images": "node scripts/bitmap.js",
     "eyes-storybook": "node bin/eyes-storybook.js -f test/fixtures/applitools.config.js",
     "eyes-storybook:heavy": "node bin/eyes-storybook.js -f test/fixtures/heavyStorybook/applitools.config.js",
+    "eyes-storybook:configured": "node bin/eyes-storybook.js -f",
     "changelog": "git changelog -p -f v$npm_package_version",
     "changelog:init": "git config changelog.format \"* %s [[%h]($(echo $npm_package_repository_url|cut -d+ -f2|cut -d. -f1-2)/commit/%H)]\"",
     "changelog:install": "sudo apt-get install git-extras"
