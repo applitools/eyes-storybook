@@ -16,6 +16,14 @@ function generateConfig({argv = {}, defaultConfig = {}, externalConfigParams = [
   ) {
     result.waitBeforeScreenshots = Number(result.waitBeforeScreenshots);
   }
+
+  if (
+    result.storyDataGap === undefined &&
+    result.concurrency !== undefined &&
+    result.renderConcurrencyFactor !== undefined
+  ) {
+    result.storyDataGap = result.concurrency * result.renderConcurrencyFactor;
+  }
   return result;
 }
 

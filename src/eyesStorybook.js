@@ -32,7 +32,11 @@ async function eyesStorybook({
   logger.log('browser launched');
   const page = await browser.newPage();
   const userAgent = await page.evaluate('navigator.userAgent');
-  const {openEyes} = makeVisualGridClient({userAgent, ...config, logger: logger.extend('vgc')});
+  const {openEyes, globalState} = makeVisualGridClient({
+    userAgent,
+    ...config,
+    logger: logger.extend('vgc'),
+  });
 
   const processPageAndSerialize = `(${await getProcessPageAndSerialize()})(document, {useSessionCache: true, showLogs: ${
     config.showLogs
@@ -69,6 +73,7 @@ async function eyesStorybook({
       performance,
       timeItAsync,
     });
+
     const renderStories = makeRenderStories({
       getStoryData,
       pages,
@@ -76,6 +81,8 @@ async function eyesStorybook({
       storybookUrl,
       logger,
       stream: outputStream,
+      waitForQueuedRenders: globalState.waitForQueuedRenders,
+      storyDataGap: config.storyDataGap,
     });
 
     logger.log('finished creating functions');

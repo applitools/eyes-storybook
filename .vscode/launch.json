@@ -10,8 +10,8 @@
       "name": "Launch Program",
       "program": "${workspaceFolder}/bin/eyes-storybook.js",
       "args": [
-        "-u",
-        "http://react.carbondesignsystem.com"
+        "-f",
+        "test/fixtures/applitools.config.js"
       ],
       "console": "integratedTerminal",
       "showAsyncStacks": true,

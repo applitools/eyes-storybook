@@ -6,10 +6,12 @@ const makeRenderStories = require('../../src/renderStories');
 const getStoryTitle = require('../../src/getStoryTitle');
 const testStream = require('../util/testStream');
 
+const waitForQueuedRenders = () => {};
+
 describe('renderStories', () => {
   it('returns empty array for 0 stories', async () => {
     const {stream, getEvents} = testStream();
-    const renderStories = makeRenderStories({pages: [1], stream});
+    const renderStories = makeRenderStories({pages: [1], stream, waitForQueuedRenders});
 
     const results = await renderStories([]);
 
@@ -34,6 +36,7 @@ describe('renderStories', () => {
 
     const renderStories = makeRenderStories({
       getStoryData,
+      waitForQueuedRenders,
       pages,
       renderStory,
       storybookUrl,
@@ -90,6 +93,7 @@ describe('renderStories', () => {
 
     const renderStories = makeRenderStories({
       getStoryData,
+      waitForQueuedRenders,
       pages,
       renderStory,
       storybookUrl,
@@ -122,6 +126,7 @@ describe('renderStories', () => {
 
     const renderStories = makeRenderStories({
       getStoryData,
+      waitForQueuedRenders,
       pages,
       renderStory,
       storybookUrl,
@@ -165,6 +170,7 @@ describe('renderStories', () => {
 
     const renderStories = makeRenderStories({
       getStoryData,
+      waitForQueuedRenders,
       pages,
       renderStory,
       storybookUrl,
@@ -185,14 +191,14 @@ describe('renderStories', () => {
     ]);
 
     expect(usage.heapUsed).to.be.lessThan(1024 * 1024 * 80); // 80 MB
-
-    // allocates a buffer containing '{"cdt":[{"x":"qqqqqqqqqqqqqqq"}]}'
-    function allocObjectBuffer(size) {
-      const buff = Buffer.alloc(size);
-      buff.fill(String(Math.random()).slice(2));
-      buff.write('{"cdt":[{"x":"');
-      buff.write('"}]}', size - 4);
-      return buff;
-    }
   });
 });
+
+// allocates a buffer containing '{"cdt":[{"x":"qqqqqqqqqqqqqqq"}]}'
+function allocObjectBuffer(size) {
+  const buff = Buffer.alloc(size);
+  buff.fill(String(Math.random()).slice(2));
+  buff.write('{"cdt":[{"x":"');
+  buff.write('"}]}', size - 4);
+  return buff;
+}

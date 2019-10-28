@@ -3,7 +3,16 @@ const getStoryUrl = require('./getStoryUrl');
 const getStoryTitle = require('./getStoryTitle');
 const ora = require('ora');
 
-function makeRenderStories({getStoryData, pages, renderStory, storybookUrl, logger, stream}) {
+function makeRenderStories({
+  getStoryData,
+  pages,
+  renderStory,
+  storybookUrl,
+  logger,
+  stream,
+  waitForQueuedRenders,
+  storyDataGap,
+}) {
   return async function renderStories(stories) {
     let doneStories = 0;
 
@@ -24,6 +33,9 @@ function makeRenderStories({getStoryData, pages, renderStory, storybookUrl, logg
 
       const story = stories[currIndex++];
       const storyUrl = getStoryUrl(story, storybookUrl);
+      logger.log('waiting for queued renders');
+      await waitForQueuedRenders(storyDataGap);
+      logger.log('done waiting for queued renders');
       const storyDataPromise = getStoryData({story, storyUrl, page}).catch(e => {
         const errMsg = `Failed to get story data for "${getStoryTitle(story)}". ${e}`;
         logger.log(errMsg);
