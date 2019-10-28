@@ -41,7 +41,11 @@ function convertTimeline(logLines) {
       } else if (matchScreenshotAvailable) {
         const renderId = matchScreenshotAvailable[1];
         const story = storiesByRenderId[renderId];
-        story.screenshotAvailable = ts;
+        if (story) {
+          story.screenshotAvailable = ts;
+        } else {
+          console.log('missing renderId for available screenshot:', renderId);
+        }
       } else if (matchCheckWindow) {
         const storyName = matchCheckWindow[1];
         timing[storyName].checkWindowStart = ts;
