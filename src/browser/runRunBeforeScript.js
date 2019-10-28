@@ -2,17 +2,18 @@
 const getClientAPI = require('./storybookApi');
 
 function runRunBeforeScript(index) {
-  const api = getClientAPI();
-  if (!api) {
-    console.log('error cannot get client api');
-    return;
+  let api;
+  try {
+    api = getClientAPI();
+    const story = api.getStories()[index];
+    if (!story) {
+      console.log('error cannot get story', index);
+      return;
+    }
+    return story.parameters.eyes.runBefore({rootEl: document.getElementById('root'), story});
+  } catch (ex) {
+    return {message: ex.message, version: api ? api.version : undefined};
   }
-  const story = api.getStories()[index];
-  if (!story) {
-    console.log('error cannot get story', index);
-    return;
-  }
-  return story.parameters.eyes.runBefore({rootEl: document.getElementById('root'), story});
 }
 
 module.exports = runRunBeforeScript;

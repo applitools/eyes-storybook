@@ -30,7 +30,11 @@ function getClientAPI() {
         addons.channel._listeners.setCurrentStory[0]
       ) {
         return API_VERSIONS.v4;
+      } else {
+        throw new Error("Cannot get client API: couldn't detect storybook version");
       }
+    } else {
+      throw new Error('Cannot get client API: no frameWindow');
     }
   }
 

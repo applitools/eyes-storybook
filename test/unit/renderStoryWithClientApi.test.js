@@ -11,7 +11,7 @@ describe('renderStoryWithClientAPI', () => {
     const page = await browser.newPage();
     try {
       const err = await page.evaluate(renderStoryWithClientAPI);
-      expect(err.message).to.eql('error cannot get client api');
+      expect(err.message).to.equal('Cannot get client API: no frameWindow');
     } finally {
       await browser.close();
     }

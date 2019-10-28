@@ -34,7 +34,11 @@ function __renderStoryWithClientAPI(...args) {
           addons.channel._listeners.setCurrentStory[0]
         ) {
           return API_VERSIONS.v4;
+        } else {
+          throw new Error("Cannot get client API: couldn't detect storybook version");
         }
+      } else {
+        throw new Error('Cannot get client API: no frameWindow');
       }
     }
 
@@ -104,15 +108,12 @@ function __renderStoryWithClientAPI(...args) {
   var storybookApi = getClientAPI;
 
   function renderStoryWithClientAPI(index) {
-    const api = storybookApi();
-    if (!api) {
-      return {message: 'error cannot get client api'};
-    }
-
+    let api;
     try {
+      api = storybookApi();
       api.selectStory(index);
-    } catch (e) {
-      return {message: `error cannot select story ${e.message}`, version: api.version};
+    } catch (ex) {
+      return {message: ex.message, version: api ? api.version : undefined};
     }
   }
 

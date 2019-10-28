@@ -1,15 +1,12 @@
 const getClientAPI = require('./storybookApi');
 
 function renderStoryWithClientAPI(index) {
-  const api = getClientAPI();
-  if (!api) {
-    return {message: 'error cannot get client api'};
-  }
-
+  let api;
   try {
+    api = getClientAPI();
     api.selectStory(index);
-  } catch (e) {
-    return {message: `error cannot select story ${e.message}`, version: api.version};
+  } catch (ex) {
+    return {message: ex.message, version: api ? api.version : undefined};
   }
 }
 

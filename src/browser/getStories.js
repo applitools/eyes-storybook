@@ -142,10 +142,9 @@ async function getStories({timeout = DEFAULT_TIMEOUT} = {timeout: DEFAULT_TIMEOU
     return ptimeoutWithValue(_waitForClientAPI, timeout, undefined);
 
     async function _waitForClientAPI() {
-      const clientApi = getClientAPI();
-      if (clientApi) {
-        return clientApi;
-      } else {
+      try {
+        return getClientAPI();
+      } catch (ex) {
         await delay(100);
         return _waitForClientAPI();
       }
