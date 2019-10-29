@@ -1,5 +1,5 @@
 module.exports = {
-  concurrency: 100,
+  concurrency: 10,
   showLogs: process.env.APPLITOOLS_SHOW_LOGS === 'true',
   appName: process.env.APPLITOOLS_APP_NAME || 'Test storybook',
   batchName: process.env.APPLITOOLS_APP_NAME || 'Test storybook',
@@ -17,4 +17,8 @@ module.exports = {
     // {width: 1200, height: 800, name: 'edge'},
     // {width: 800, height: 600, name: 'edge'},
   ],
+  // include: (() => {
+  //   let count = 0;
+  //   return () => count++ < 1;
+  // })(),
 };

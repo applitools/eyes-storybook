@@ -1,5 +1,8 @@
+'use strict';
+
 function convertTimeline(logLines) {
-  const reGettingData = /\(\):.+ms\. getting data from story (.+)/;
+  const reGettingData = /ms\. getting data from story (.+)/;
+  const reDoneGettingData = /done getting data from story (.+)/;
   const reStart = /running story (.+)$/;
   const reEnd = /finished story (.+) in .+$/;
   const reRenderId = /render request complete for (.+). test=(.+) stepCount/;
@@ -21,6 +24,7 @@ function convertTimeline(logLines) {
       const matchScreenshotAvailable = line.match(reScreenshotAvailable);
       const matchCheckWindow = line.match(reCheckWindow);
       const matchStartRender = line.match(reStartRender);
+      const matchDoneGettingData = line.match(reDoneGettingData);
 
       if (matchStart) {
         const storyName = matchStart[1];
@@ -44,7 +48,7 @@ function convertTimeline(logLines) {
         if (story) {
           story.screenshotAvailable = ts;
         } else {
-          console.log('missing renderId for available screenshot:', renderId);
+          // console.log('missing renderId for available screenshot:', renderId);
         }
       } else if (matchCheckWindow) {
         const storyName = matchCheckWindow[1];
@@ -52,6 +56,9 @@ function convertTimeline(logLines) {
       } else if (matchStartRender) {
         const storyName = matchStartRender[1];
         timing[storyName].startRender = ts;
+      } else if (matchDoneGettingData) {
+        const storyName = matchDoneGettingData[1];
+        timing[storyName].doneGettingData = ts;
       }
     } else {
       // console.log('no timestamp found for line', line)
@@ -61,9 +68,8 @@ function convertTimeline(logLines) {
   return timing;
 }
 
-function convertLog(logStr) {
+function convertLog(lines) {
   const reTime = /^(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z)(.+)$/;
-  const lines = logStr.toString().split('\n');
   let firstDate;
 
   lines.forEach((line, i) => {
@@ -87,10 +93,15 @@ if (require.main === module) {
   const fs = require('fs');
   const filepath = process.argv[2];
   const s = fs.readFileSync(filepath).toString();
-  const lines = convertLog(s);
+  const lines = convertLog(s.toString().split('\n'));
   const timing = convertTimeline(lines);
 
   const outFilepath = filepath.replace('.log', '') + '.timing.json';
   fs.writeFileSync(outFilepath, JSON.stringify(timing));
   console.log(`wrote ${Object.keys(timing).length} stories to ${outFilepath}`);
 }
+
+module.exports = {
+  convertLog,
+  convertTimeline,
+};
