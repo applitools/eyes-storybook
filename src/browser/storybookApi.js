@@ -9,32 +9,28 @@ const API_VERSIONS = {
 
 function getClientAPI() {
   const frameWindow = getFrameWindow();
-  const clientAPI = frameWindow && frameWindow.__STORYBOOK_CLIENT_API__;
-  const addons = frameWindow && frameWindow.__STORYBOOK_ADDONS;
+  const clientAPI = frameWindow.__STORYBOOK_CLIENT_API__;
+  const addons = frameWindow.__STORYBOOK_ADDONS;
 
   return getAPI(getStorybookVersion());
 
   function getStorybookVersion() {
-    if (frameWindow) {
-      const addons = frameWindow.__STORYBOOK_ADDONS;
+    const addons = frameWindow.__STORYBOOK_ADDONS;
 
-      if (frameWindow.__STORYBOOK_STORY_STORE__) {
-        return API_VERSIONS.v5_2;
-      } else if (frameWindow.__STORYBOOK_CLIENT_API__ && frameWindow.__STORYBOOK_CLIENT_API__.raw) {
-        return API_VERSIONS.v5;
-      } else if (
-        addons &&
-        addons.channel &&
-        addons.channel._listeners &&
-        addons.channel._listeners.setCurrentStory &&
-        addons.channel._listeners.setCurrentStory[0]
-      ) {
-        return API_VERSIONS.v4;
-      } else {
-        throw new Error("Cannot get client API: couldn't detect storybook version");
-      }
+    if (frameWindow.__STORYBOOK_STORY_STORE__) {
+      return API_VERSIONS.v5_2;
+    } else if (frameWindow.__STORYBOOK_CLIENT_API__ && frameWindow.__STORYBOOK_CLIENT_API__.raw) {
+      return API_VERSIONS.v5;
+    } else if (
+      addons &&
+      addons.channel &&
+      addons.channel._listeners &&
+      addons.channel._listeners.setCurrentStory &&
+      addons.channel._listeners.setCurrentStory[0]
+    ) {
+      return API_VERSIONS.v4;
     } else {
-      throw new Error('Cannot get client API: no frameWindow');
+      throw new Error("Cannot get client API: couldn't detect storybook version");
     }
   }
 
@@ -94,11 +90,22 @@ function getFrameWindow() {
   if (/iframe.html/.test(window.location.href)) {
     return window;
   }
-  return Array.prototype.filter.call(window.frames, frame => {
+
+  const innerFrameWindow = Array.prototype.find.call(window.frames, frame => {
     try {
       return /\/iframe.html/.test(frame.location.href);
     } catch (e) {}
-  })[0];
+  });
+
+  if (innerFrameWindow) {
+    return innerFrameWindow;
+  }
+
+  if (window.__STORYBOOK_CLIENT_API__) {
+    return window;
+  }
+
+  throw new Error('Cannot get client API: no frameWindow');
 }
 
 module.exports = getClientAPI;
