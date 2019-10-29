@@ -30,6 +30,7 @@ function makeRenderStories({
 
     async function processStory(page) {
       if (currIndex === stories.length) return;
+      if (page.__eyesCrash) return;
 
       const story = stories[currIndex++];
       const storyUrl = getStoryUrl(story, storybookUrl);
