@@ -1,5 +1,5 @@
 module.exports = {
-  concurrency: 10,
+  concurrency: 100,
   showLogs: process.env.APPLITOOLS_SHOW_LOGS === 'true',
   appName: process.env.APPLITOOLS_APP_NAME || 'Test storybook',
   batchName: process.env.APPLITOOLS_APP_NAME || 'Test storybook',

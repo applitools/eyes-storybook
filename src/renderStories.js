@@ -28,17 +28,23 @@ function makeRenderStories({
     updateSpinnerEnd();
     return allTestResults;
 
-    async function processStory(page) {
+    async function processStory(page, pageIndex) {
       if (currIndex === stories.length) return;
       if (page.__eyesCrash) return;
 
+      if (currIndex % 1000 === 0) {
+        logger.log('reloading all tabs');
+        await Promise.all(pages.map(page => page.reload({timeout: 300000})));
+      }
+
       const story = stories[currIndex++];
       const storyUrl = getStoryUrl(story, storybookUrl);
-      logger.log('waiting for queued renders');
+      const title = getStoryTitle(story);
+      logger.log(`[page ${pageIndex}] waiting for queued renders`);
       await waitForQueuedRenders(storyDataGap);
-      logger.log('done waiting for queued renders');
+      logger.log(`[page ${pageIndex}] done waiting for queued renders`);
       const storyDataPromise = getStoryData({story, storyUrl, page}).catch(e => {
-        const errMsg = `Failed to get story data for "${getStoryTitle(story)}". ${e}`;
+        const errMsg = `[page ${pageIndex}] Failed to get story data for "${title}". ${e}`;
         logger.log(errMsg);
         return {error: new Error(errMsg)};
       });
@@ -62,7 +68,7 @@ function makeRenderStories({
       allStoriesPromise = allStoriesPromise.then(() => storyRenderPromise);
 
       await storyDataPromise;
-      return processStory(page);
+      return processStory(page, pageIndex);
     }
 
     function didTestPass(testResultsOrErr) {

@@ -43,6 +43,7 @@ function makeGetStoryData({logger, processPageAndSerialize, waitBeforeScreenshot
       });
     }
 
+    logger.log(`running processPageAndSerialize for story ${title}`);
     const {resourceUrls, blobs, frames, cdt} = await page.evaluate(processPageAndSerialize);
     const resourceContents = blobs.map(({url, type, value}) => ({
       url,
