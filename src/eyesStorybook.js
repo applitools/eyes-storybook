@@ -14,6 +14,7 @@ const addVariationStories = require('./addVariationStories');
 const browserLog = require('./browserLog');
 const memoryLog = require('./memoryLog');
 const getIframeUrl = require('./getIframeUrl');
+const createPagePool = require('./pagePool');
 
 const CONCURRENT_PAGES = 3;
 
@@ -24,7 +25,7 @@ async function eyesStorybook({
   timeItAsync,
   outputStream = process.stderr,
 }) {
-  let memoryTimeout;
+  let memoryTimeout, removePage, createPage;
   takeMemLoop();
   logger.log('eyesStorybook started');
   const {storybookUrl, waitBeforeScreenshots, readStoriesTimeout} = config;
@@ -49,6 +50,14 @@ async function eyesStorybook({
     },
   });
 
+  let iframeUrl;
+  try {
+    iframeUrl = getIframeUrl(storybookUrl);
+  } catch (ex) {
+    logger.log(ex);
+    throw new Error(`Storybook URL is not valid: ${storybookUrl}`);
+  }
+
   try {
     let stories = await getStoriesWithSpinner();
 
@@ -62,10 +71,14 @@ async function eyesStorybook({
 
     logger.log(`starting to run ${storiesIncludingVariations.length} stories`);
 
-    const pages = [];
-    await initPagesForBrowser(browser, pages);
+    const pagePool = await createPagePool({
+      logger,
+      numOfPages: CONCURRENT_PAGES,
+      initPage,
+    });
 
-    logger.log(`${pages.length} pages open`);
+    removePage = pagePool.removePage;
+    createPage = pagePool.createPage;
 
     const getStoryData = makeGetStoryData({logger, processPageAndSerialize, waitBeforeScreenshots});
     const renderStory = makeRenderStory({
@@ -77,13 +90,13 @@ async function eyesStorybook({
 
     const renderStories = makeRenderStories({
       getStoryData,
-      pages,
       renderStory,
       storybookUrl,
       logger,
       stream: outputStream,
       waitForQueuedRenders: globalState.waitForQueuedRenders,
       storyDataGap: config.storyDataGap,
+      getFreePage: pagePool.getFreePage,
     });
 
     logger.log('finished creating functions');
@@ -106,46 +119,30 @@ async function eyesStorybook({
     clearTimeout(memoryTimeout);
   }
 
-  async function initPagesForBrowser(browser, pages) {
-    let iframeUrl;
-    try {
-      iframeUrl = getIframeUrl(storybookUrl);
-    } catch (ex) {
-      logger.log(ex);
-      throw new Error(`Storybook URL is not valid: ${storybookUrl}`);
-    }
-
-    const newPages = await Promise.all(
-      new Array(CONCURRENT_PAGES).fill().map(async (_x, i) => initPage(i)),
-    );
-
-    for (const page of newPages) pages.push(page);
-
-    async function initPage(index) {
-      logger.log('initializing puppeteer page number ', index);
-      const page = await browser.newPage();
-      if (config.showLogs) {
-        browserLog({
-          page,
-          onLog: text => {
-            if (text.match(/\[dom-snapshot\]/)) {
-              logger.log(`tab ${index}: ${text}`);
-            }
-          },
-        });
-      }
-      page.on('error', async err => {
-        logger.log(`Puppeteer error for page ${index}:`, err);
-        page.__eyesCrash = true;
-        pages.push(await initPage(pages.length));
+  async function initPage(pageId) {
+    logger.log('initializing puppeteer page number ', pageId);
+    const page = await browser.newPage();
+    if (config.showLogs) {
+      browserLog({
+        page,
+        onLog: text => {
+          if (text.match(/\[dom-snapshot\]/)) {
+            logger.log(`tab ${pageId}: ${text}`);
+          }
+        },
       });
-      const [err] = await presult(page.goto(iframeUrl, {timeout: readStoriesTimeout}));
-      if (err) {
-        logger.log(`error navigating to iframe.html`, err);
-        throw err;
-      }
-      return page;
     }
+    page.on('error', async err => {
+      logger.log(`Puppeteer error for page ${pageId}:`, err);
+      removePage(pageId);
+      createPage();
+    });
+    const [err] = await presult(page.goto(iframeUrl, {timeout: readStoriesTimeout}));
+    if (err) {
+      logger.log(`error navigating to iframe.html`, err);
+      throw err;
+    }
+    return page;
   }
 
   function takeMemLoop() {

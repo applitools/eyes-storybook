@@ -1,17 +1,33 @@
 'use strict';
 
-const {describe, it} = require('mocha');
+const {describe, it, before} = require('mocha');
 const {expect} = require('chai');
 const makeRenderStories = require('../../src/renderStories');
 const getStoryTitle = require('../../src/getStoryTitle');
 const testStream = require('../util/testStream');
+const createPagePool = require('../../src/pagePool');
+const {delay} = require('@applitools/functional-commons');
+const logger = require('../util/testLogger');
 
 const waitForQueuedRenders = () => {};
 
 describe('renderStories', () => {
+  let getFreePage;
+  before(async () => {
+    const pagePool = await createPagePool({
+      logger,
+      numOfPages: 3,
+      initPage: async index => index + 1,
+    });
+    getFreePage = pagePool.getFreePage;
+  });
   it('returns empty array for 0 stories', async () => {
     const {stream, getEvents} = testStream();
-    const renderStories = makeRenderStories({pages: [1], stream, waitForQueuedRenders});
+    const renderStories = makeRenderStories({
+      stream,
+      waitForQueuedRenders,
+      getFreePage,
+    });
 
     const results = await renderStories([]);
 
@@ -20,28 +36,29 @@ describe('renderStories', () => {
   });
 
   it('returns results from renderStory', async () => {
-    const getStoryData = async ({story, storyUrl, page}) => ({
-      cdt: `cdt_${story.name}_${story.kind}_${storyUrl}_${page}`,
-      resourceUrls: `resourceUrls_${story.name}_${story.kind}_${storyUrl}_${page}`,
-      resourceContents: `resourceContents_${story.name}_${story.kind}_${storyUrl}_${page}`,
-      frames: `frames_${story.name}_${story.kind}_${storyUrl}_${page}`,
-    });
+    const getStoryData = async ({story, storyUrl, page}) => {
+      await delay(10);
+      return {
+        cdt: `cdt_${story.name}_${story.kind}_${storyUrl}_${page}`,
+        resourceUrls: `resourceUrls_${story.name}_${story.kind}_${storyUrl}_${page}`,
+        resourceContents: `resourceContents_${story.name}_${story.kind}_${storyUrl}_${page}`,
+        frames: `frames_${story.name}_${story.kind}_${storyUrl}_${page}`,
+      };
+    };
 
     const renderStory = async arg => [{arg, getStatus: () => 'Passed'}];
 
-    const pages = [1, 2, 3];
     const storybookUrl = 'http://something';
-    const logger = console;
     const {stream, getEvents} = testStream();
 
     const renderStories = makeRenderStories({
       getStoryData,
       waitForQueuedRenders,
-      pages,
       renderStory,
       storybookUrl,
       logger,
       stream,
+      getFreePage,
     });
 
     const stories = [
@@ -86,15 +103,13 @@ describe('renderStories', () => {
 
     const renderStory = async () => {};
 
-    const pages = [1, 2, 3];
     const storybookUrl = 'http://something';
-    const logger = {log: () => {}};
     const {stream, getEvents} = testStream();
 
     const renderStories = makeRenderStories({
       getStoryData,
       waitForQueuedRenders,
-      pages,
+      getFreePage,
       renderStory,
       storybookUrl,
       logger,
@@ -106,7 +121,7 @@ describe('renderStories', () => {
 
     expect(results[0]).to.be.an.instanceOf(Error);
     expect(results[0].message).to.equal(
-      `Failed to get story data for "${getStoryTitle(story)}". Error: bla`,
+      `[page 0] Failed to get story data for "${getStoryTitle(story)}". Error: bla`,
     );
 
     expect(getEvents()).to.eql(['- Done 0 stories out of 1\n', '✖ Done 1 stories out of 1\n']);
@@ -119,15 +134,13 @@ describe('renderStories', () => {
       throw new Error('bla');
     };
 
-    const pages = [1, 2, 3];
     const storybookUrl = 'http://something';
-    const logger = {log: () => {}};
     const {stream, getEvents} = testStream();
 
     const renderStories = makeRenderStories({
       getStoryData,
       waitForQueuedRenders,
-      pages,
+      getFreePage,
       renderStory,
       storybookUrl,
       logger,
@@ -163,15 +176,13 @@ describe('renderStories', () => {
       ];
     };
 
-    const pages = [1];
     const storybookUrl = 'http://something';
-    const logger = console;
     const {stream, getEvents} = testStream();
 
     const renderStories = makeRenderStories({
       getStoryData,
       waitForQueuedRenders,
-      pages,
+      getFreePage,
       renderStory,
       storybookUrl,
       logger,

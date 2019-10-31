@@ -5,7 +5,7 @@ const ora = require('ora');
 
 function makeRenderStories({
   getStoryData,
-  pages,
+  getFreePage,
   renderStory,
   storybookUrl,
   logger,
@@ -23,52 +23,47 @@ function makeRenderStories({
     let allStoriesPromise = Promise.resolve();
     let currIndex = 0;
 
-    await Promise.all(pages.map(processStory));
+    await processStoryLoop();
     await allStoriesPromise;
     updateSpinnerEnd();
     return allTestResults;
 
-    async function processStory(page, pageIndex) {
+    async function processStoryLoop() {
       if (currIndex === stories.length) return;
-      if (page.__eyesCrash) return;
-
-      if (currIndex % 1000 === 0) {
-        logger.log('reloading all tabs');
-        await Promise.all(pages.map(page => page.reload({timeout: 300000})));
-      }
-
-      const story = stories[currIndex++];
-      const storyUrl = getStoryUrl(story, storybookUrl);
-      const title = getStoryTitle(story);
-      logger.log(`[page ${pageIndex}] waiting for queued renders`);
+      const {page, pageId, markPageAsFree} = await getFreePage();
+      logger.log(`[page ${pageId}] waiting for queued renders`);
       await waitForQueuedRenders(storyDataGap);
-      logger.log(`[page ${pageIndex}] done waiting for queued renders`);
-      const storyDataPromise = getStoryData({story, storyUrl, page}).catch(e => {
-        const errMsg = `[page ${pageIndex}] Failed to get story data for "${title}". ${e}`;
-        logger.log(errMsg);
-        return {error: new Error(errMsg)};
-      });
+      logger.log(`[page ${pageId}] done waiting for queued renders`);
+      const storyPromise = processStory();
+      allStoriesPromise = allStoriesPromise.then(() => storyPromise);
+      return processStoryLoop();
 
-      const storyRenderPromise = storyDataPromise
-        .then(updateRunning)
-        .then(
-          ({cdt, resourceUrls, resourceContents, frames, error}) =>
-            error ||
-            renderStory({
-              cdt,
-              resourceUrls,
-              resourceContents,
-              frames,
-              url: storyUrl,
-              story,
-            }),
-        )
-        .then(onDoneStory, onDoneStory);
-
-      allStoriesPromise = allStoriesPromise.then(() => storyRenderPromise);
-
-      await storyDataPromise;
-      return processStory(page, pageIndex);
+      function processStory() {
+        const story = stories[currIndex++];
+        const storyUrl = getStoryUrl(story, storybookUrl);
+        const title = getStoryTitle(story);
+        return getStoryData({story, storyUrl, page})
+          .catch(e => {
+            const errMsg = `[page ${pageId}] Failed to get story data for "${title}". ${e}`;
+            logger.log(errMsg);
+            return {error: new Error(errMsg)};
+          })
+          .then(({cdt, resourceUrls, resourceContents, frames, error}) => {
+            markPageAsFree();
+            return (
+              error ||
+              renderStory({
+                cdt,
+                resourceUrls,
+                resourceContents,
+                frames,
+                url: storyUrl,
+                story,
+              })
+            );
+          })
+          .then(onDoneStory, onDoneStory);
+      }
     }
 
     function didTestPass(testResultsOrErr) {
@@ -82,11 +77,6 @@ function makeRenderStories({
 
     function updateSpinnerEnd() {
       allTestResults.every(didTestPass) ? spinner.succeed() : spinner.fail();
-    }
-
-    function updateRunning(data) {
-      spinner.text = `Done ${doneStories} stories out of ${stories.length}`;
-      return data;
     }
 
     function onDoneStory(resultsOrErr) {
