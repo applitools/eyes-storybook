@@ -36,8 +36,9 @@ function makeRenderStories({
     async function processStoryLoop() {
       if (currIndex === stories.length) return;
       const {page, pageId, markPageAsFree, removePage, createdAt} = await pagePool.getFreePage();
-      logger.log(`got free page: ${pageId}`);
-      if (newPageIdToAdd && Date.now() - createdAt > 60000) {
+      const livedTime = Date.now() - createdAt;
+      logger.log(`[prepareNewPage] got free page: ${pageId}, lived time: ${livedTime}`);
+      if (newPageIdToAdd && livedTime > 60000) {
         logger.log(`replacing page ${pageId} with page ${newPageIdToAdd}`);
         removePage();
         page.close();
