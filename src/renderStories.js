@@ -26,6 +26,8 @@ function makeRenderStories({
     let allStoriesPromise = Promise.resolve();
     let currIndex = 0;
 
+    prepareNewPage();
+
     await processStoryLoop();
     await allStoriesPromise;
     updateSpinnerEnd();
