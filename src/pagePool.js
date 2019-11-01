@@ -86,8 +86,8 @@ function createPagePool({logger, numOfPages, initPage}) {
     }
   }
 
-  function toSmallPageObj({page, pageId, markPageAsFree, removePage}) {
-    return {page, pageId, markPageAsFree, removePage};
+  function toSmallPageObj({page, pageId, markPageAsFree, removePage, createdAt}) {
+    return {page, pageId, markPageAsFree, removePage, createdAt};
   }
 }
 
