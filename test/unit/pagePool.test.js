@@ -30,6 +30,22 @@ describe('page pool', () => {
     expect(nonPage).to.equal('ok');
   });
 
+  it('returns free pages in FIFO order', async () => {
+    const initPage = async index => index;
+    const {getFreePage} = await createPagePool({logger, numOfPages: 2, initPage});
+    const p1 = await getFreePage();
+    expect(p1.pageId).to.equal(0);
+    const p2 = await getFreePage();
+    expect(p2.pageId).to.equal(1);
+    const p3Promise = getFreePage();
+    await delay(0);
+    const p4Promise = getFreePage();
+    p1.markPageAsFree();
+    p2.markPageAsFree();
+    expect((await p3Promise).pageId).to.equal(0);
+    expect((await p4Promise).pageId).to.equal(1);
+  });
+
   it('can create pages', async () => {});
 
   it('can remove pages', async () => {});

@@ -1,9 +1,10 @@
 'use strict';
 
-async function createPagePool({logger, numOfPages, initPage}) {
+function createPagePool({logger, numOfPages, initPage}) {
   let counter = 0;
-  const fullPageObjs = await Promise.all(new Array(numOfPages).fill().map(createPage));
+  const fullPageObjs = [];
   logger.log(`[page pool] ${numOfPages} pages open`);
+  let currWaitOnFreePage = Promise.resolve();
   return {
     getFreePage,
     createPage: async () => {
@@ -11,13 +12,30 @@ async function createPagePool({logger, numOfPages, initPage}) {
       fullPageObjs.push(fullPageObj);
       return toSmallPageObj(fullPageObj);
     },
+    addToPool: pageId => {
+      const fullPageObj = fullPageObjs.find(p => p.pageId === pageId);
+      fullPageObj.addToPool();
+    },
+    removePage: pageId => {
+      const fullPageObj = fullPageObjs.find(p => p.pageId === pageId);
+      fullPageObj.removePage();
+    },
   };
 
   async function getFreePage() {
     logger.log(`[page pool] waiting for free page`);
-    const fullPageObj = await Promise.race(fullPageObjs.map(p => p.waitUntilFree()));
-    logger.log(`[page pool] free page found: ${fullPageObj.pageId}`);
+    await currWaitOnFreePage;
+    currWaitOnFreePage = Promise.race(
+      fullPageObjs
+        .filter(p => p.isInPool())
+        .map(async p => {
+          await p.waitUntilFree();
+          return p;
+        }),
+    );
+    const fullPageObj = await currWaitOnFreePage;
     fullPageObj.occupyPage();
+    logger.log(`[page pool] free page found: ${fullPageObj.pageId}`);
     return toSmallPageObj(fullPageObj);
   }
 
@@ -25,10 +43,21 @@ async function createPagePool({logger, numOfPages, initPage}) {
     const pageId = counter++;
     let workPromise = Promise.resolve();
     let resolveWork;
+    let isActive;
+    const createdAt = Date.now();
 
     const page = await initPage(pageId);
-    const pageObj = {page, pageId, markPageAsFree, waitUntilFree, occupyPage};
-    return pageObj;
+    return {
+      page,
+      pageId,
+      markPageAsFree,
+      waitUntilFree,
+      occupyPage,
+      removePage,
+      createdAt,
+      isInPool,
+      addToPool,
+    };
 
     function markPageAsFree() {
       resolveWork();
@@ -36,7 +65,6 @@ async function createPagePool({logger, numOfPages, initPage}) {
 
     async function waitUntilFree() {
       await workPromise;
-      return pageObj;
     }
 
     function occupyPage() {
@@ -44,10 +72,22 @@ async function createPagePool({logger, numOfPages, initPage}) {
         resolveWork = resolve;
       });
     }
+
+    function removePage() {
+      fullPageObjs.splice(fullPageObjs.findIndex(p => p.pageId === pageId), 1);
+    }
+
+    function isInPool() {
+      return isActive;
+    }
+
+    function addToPool() {
+      isActive = true;
+    }
   }
 
-  function toSmallPageObj({page, pageId, markPageAsFree}) {
-    return {page, pageId, markPageAsFree};
+  function toSmallPageObj({page, pageId, markPageAsFree, removePage}) {
+    return {page, pageId, markPageAsFree, removePage};
   }
 }
 

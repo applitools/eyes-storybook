@@ -25,7 +25,7 @@ async function eyesStorybook({
   timeItAsync,
   outputStream = process.stderr,
 }) {
-  let memoryTimeout, removePage, createPage;
+  let memoryTimeout, pagePool;
   takeMemLoop();
   logger.log('eyesStorybook started');
   const {storybookUrl, waitBeforeScreenshots, readStoriesTimeout} = config;
@@ -71,14 +71,13 @@ async function eyesStorybook({
 
     logger.log(`starting to run ${storiesIncludingVariations.length} stories`);
 
-    const pagePool = await createPagePool({
-      logger,
-      numOfPages: CONCURRENT_PAGES,
-      initPage,
-    });
-
-    removePage = pagePool.removePage;
-    createPage = pagePool.createPage;
+    pagePool = createPagePool({logger, initPage});
+    await Promise.all(
+      new Array(CONCURRENT_PAGES).fill().map(async () => {
+        const {pageId} = await pagePool.createPage();
+        pagePool.addToPool(pageId);
+      }),
+    );
 
     const getStoryData = makeGetStoryData({logger, processPageAndSerialize, waitBeforeScreenshots});
     const renderStory = makeRenderStory({
@@ -96,7 +95,7 @@ async function eyesStorybook({
       stream: outputStream,
       waitForQueuedRenders: globalState.waitForQueuedRenders,
       storyDataGap: config.storyDataGap,
-      getFreePage: pagePool.getFreePage,
+      pagePool,
     });
 
     logger.log('finished creating functions');
@@ -134,8 +133,9 @@ async function eyesStorybook({
     }
     page.on('error', async err => {
       logger.log(`Puppeteer error for page ${pageId}:`, err);
-      removePage(pageId);
-      createPage();
+      pagePool.removePage(pageId);
+      const {pageId} = await pagePool.createPage();
+      pagePool.addToPool(pageId);
     });
     const [err] = await presult(page.goto(iframeUrl, {timeout: readStoriesTimeout}));
     if (err) {
