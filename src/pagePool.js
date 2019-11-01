@@ -44,9 +44,8 @@ function createPagePool({logger, numOfPages, initPage}) {
     let workPromise = Promise.resolve();
     let resolveWork;
     let isActive;
-    const createdAt = Date.now();
-
     const page = await initPage(pageId);
+    const createdAt = Date.now();
     return {
       page,
       pageId,
