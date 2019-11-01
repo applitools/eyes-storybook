@@ -39,7 +39,7 @@ function makeRenderStories({
       const livedTime = Date.now() - createdAt;
       logger.log(`[prepareNewPage] got free page: ${pageId}, lived time: ${livedTime}`);
       if (newPageIdToAdd && livedTime > 60000) {
-        logger.log(`replacing page ${pageId} with page ${newPageIdToAdd}`);
+        logger.log(`[prepareNewPage] replacing page ${pageId} with page ${newPageIdToAdd}`);
         removePage();
         page.close();
         pagePool.addToPool(newPageIdToAdd);
