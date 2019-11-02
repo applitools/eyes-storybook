@@ -25,7 +25,7 @@ async function eyesStorybook({
   timeItAsync,
   outputStream = process.stderr,
 }) {
-  let memoryTimeout, pagePool;
+  let memoryTimeout;
   takeMemLoop();
   logger.log('eyesStorybook started');
   const {storybookUrl, waitBeforeScreenshots, readStoriesTimeout} = config;
@@ -38,6 +38,7 @@ async function eyesStorybook({
     ...config,
     logger: logger.extend('vgc'),
   });
+  const pagePool = createPagePool({logger, initPage});
 
   const processPageAndSerialize = `(${await getProcessPageAndSerialize()})(document, {useSessionCache: true, showLogs: ${
     config.showLogs
@@ -71,7 +72,6 @@ async function eyesStorybook({
 
     logger.log(`starting to run ${storiesIncludingVariations.length} stories`);
 
-    pagePool = createPagePool({logger, initPage});
     await Promise.all(
       new Array(CONCURRENT_PAGES).fill().map(async () => {
         const {pageId} = await pagePool.createPage();
