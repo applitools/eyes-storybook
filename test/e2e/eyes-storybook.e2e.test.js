@@ -7,7 +7,7 @@ const {delay: psetTimeout, presult} = require('@applitools/functional-commons');
 const {sh} = require('../../src/__process-commons');
 const {version} = require('../../package.json');
 
-describe.only('eyes-storybook', () => {
+describe('eyes-storybook', () => {
   let closeStorybook;
   before(async () => {
     closeStorybook = await testStorybook({port: 9001});
