@@ -33,7 +33,7 @@ async function eyesStorybook({
   logger.log('browser launched');
   const page = await browser.newPage();
   const userAgent = await page.evaluate('navigator.userAgent');
-  const {openEyes, globalState} = makeVisualGridClient({
+  const {testWindow, globalState} = makeVisualGridClient({
     userAgent,
     ...config,
     logger: logger.extend('vgc'),
@@ -82,7 +82,7 @@ async function eyesStorybook({
     const getStoryData = makeGetStoryData({logger, processPageAndSerialize, waitBeforeScreenshots});
     const renderStory = makeRenderStory({
       logger: logger.extend('renderStory'),
-      openEyes,
+      testWindow,
       performance,
       timeItAsync,
     });

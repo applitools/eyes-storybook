@@ -5,7 +5,7 @@ module.exports = {
   batchName: process.env.APPLITOOLS_APP_NAME || 'Test storybook',
   storybookUrl: process.env.APPLITOOLS_STORYBOOK_URL,
   readStoriesTimeout: 300000,
-  waitBeforeScreenshots: 200,
+  waitBeforeScreenshots: 1000,
   browser: [
     // {width: 1200, height: 800, name: 'chrome'},
     {width: 800, height: 600, name: 'chrome'},
@@ -19,6 +19,7 @@ module.exports = {
   ],
   // include: (() => {
   //   let count = 0;
-  //   return () => count++ < 1;
+  //   return () =>  ++count <= 500;
   // })(),
+  // waitBeforeScreenshots: 6000,
 };

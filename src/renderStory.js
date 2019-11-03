@@ -1,7 +1,7 @@
 'use strict';
 const getStoryTitle = require('./getStoryTitle');
 
-function makeRenderStory({logger, openEyes, performance, timeItAsync}) {
+function makeRenderStory({logger, testWindow, performance, timeItAsync}) {
   return function renderStory({story, resourceUrls, resourceContents, frames, cdt, url}) {
     const {name, kind, parameters} = story;
     const title = getStoryTitle({name, kind, parameters});
@@ -20,11 +20,11 @@ function makeRenderStory({logger, openEyes, performance, timeItAsync}) {
 
     logger.log('running story', title);
     return timeItAsync(title, async () => {
-      const {checkWindow, close} = await openEyes({
+      const openParams = {
         testName: title,
         properties: [{name: 'Component name', value: kind}, {name: 'State', value: name}],
-      });
-      checkWindow({
+      };
+      const checkParams = {
         cdt,
         resourceUrls,
         resourceContents,
@@ -39,8 +39,9 @@ function makeRenderStory({logger, openEyes, performance, timeItAsync}) {
         selector,
         region,
         tag,
-      });
-      return close(false);
+      };
+
+      return testWindow({openParams, checkParams, throwEx: false});
     }).then(onDoneStory);
 
     function onDoneStory(results) {
