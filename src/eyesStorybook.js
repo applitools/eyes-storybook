@@ -42,7 +42,7 @@ async function eyesStorybook({
 
   const processPageAndSerialize = `(${await getProcessPageAndSerialize()})(document, {useSessionCache: true, showLogs: ${
     config.showLogs
-  }})`;
+  }, dontFetchResources: ${config.disableBrowserFetching}})`;
   logger.log('got script for processPage');
   browserLog({
     page,
@@ -60,24 +60,20 @@ async function eyesStorybook({
   }
 
   try {
-    let stories = await getStoriesWithSpinner();
-
-    if (process.env.APPLITOOLS_STORYBOOK_DEBUG) {
-      stories = stories.slice(0, 5);
-    }
+    const [stories] = await Promise.all(
+      [getStoriesWithSpinner()].concat(
+        new Array(CONCURRENT_PAGES).fill().map(async () => {
+          const {pageId} = await pagePool.createPage();
+          pagePool.addToPool(pageId);
+        }),
+      ),
+    );
 
     const filteredStories = filterStories({stories, config});
 
     const storiesIncludingVariations = addVariationStories({stories: filteredStories, config});
 
     logger.log(`starting to run ${storiesIncludingVariations.length} stories`);
-
-    await Promise.all(
-      new Array(CONCURRENT_PAGES).fill().map(async () => {
-        const {pageId} = await pagePool.createPage();
-        pagePool.addToPool(pageId);
-      }),
-    );
 
     const getStoryData = makeGetStoryData({logger, processPageAndSerialize, waitBeforeScreenshots});
     const renderStory = makeRenderStory({
