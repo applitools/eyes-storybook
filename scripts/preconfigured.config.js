@@ -20,7 +20,7 @@ module.exports = {
   ],
   // include: (() => {
   //   let count = 0;
-  //   return () =>  ++count <= 500;
+  //   return () => ++count <= 500;
   // })(),
   // waitBeforeScreenshots: 6000,
 };
