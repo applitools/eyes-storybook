@@ -133,10 +133,22 @@ async function eyesStorybook({
       const {pageId} = await pagePool.createPage();
       pagePool.addToPool(pageId);
     });
+    page.on('close', async () => {
+      if (pagePool.isInPool(pageId)) {
+        logger.log(
+          `Puppeteer page closed [page ${pageId}] while still in page pool, creating a new one instead`,
+        );
+        pagePool.removePage(pageId);
+        const {pageId} = await pagePool.createPage();
+        pagePool.addToPool(pageId);
+      }
+    });
     const [err] = await presult(page.goto(iframeUrl, {timeout: readStoriesTimeout}));
     if (err) {
       logger.log(`error navigating to iframe.html`, err);
-      throw err;
+      if (pagePool.isInPool(pageId)) {
+        throw err;
+      }
     }
     return page;
   }

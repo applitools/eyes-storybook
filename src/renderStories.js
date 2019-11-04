@@ -2,7 +2,6 @@
 const getStoryUrl = require('./getStoryUrl');
 const getStoryTitle = require('./getStoryTitle');
 const ora = require('ora');
-const {delay} = require('@applitools/functional-commons');
 
 function makeRenderStories({
   getStoryData,
@@ -14,7 +13,7 @@ function makeRenderStories({
   waitForQueuedRenders,
   storyDataGap,
 }) {
-  let newPageIdToAdd;
+  let newPageIdToAdd, timeoutId;
 
   return async function renderStories(stories) {
     let doneStories = 0;
@@ -34,7 +33,10 @@ function makeRenderStories({
     return allTestResults;
 
     async function processStoryLoop() {
-      if (currIndex === stories.length) return;
+      if (currIndex === stories.length) {
+        cancelTimeout();
+        return;
+      }
 
       const {page, pageId, markPageAsFree, removePage, createdAt} = await pagePool.getFreePage();
       const livedTime = Date.now() - createdAt;
@@ -101,23 +103,22 @@ function makeRenderStories({
       return resultsOrErr;
     }
 
-    function prepareNewPage() {
-      let isTimePassed,
-        start = Date.now();
-
+    async function prepareNewPage() {
       newPageIdToAdd = null;
-      setTimeout(() => (isTimePassed = true), 60000);
-      logger.log('[prepareNewPage] preparing...');
-      pagePool.createPage().then(async ({pageId}) => {
-        logger.log(`[prepareNewPage] new page is ready: ${pageId}`);
-        if (!isTimePassed) {
-          const remainingTime = Date.now() - start;
-          logger.log(`[prepareNewPage] waiting remaining time: ${remainingTime}`);
-          await delay(remainingTime);
-        }
-        logger.log(`[prepareNewPage] setting new page to add: ${pageId}`);
-        newPageIdToAdd = pageId;
+      const timeoutPromise = new Promise(resolve => {
+        timeoutId = setTimeout(resolve, 60000);
       });
+      logger.log('[prepareNewPage] preparing...');
+      const {pageId} = await pagePool.createPage();
+      logger.log(`[prepareNewPage] new page is ready: ${pageId}, waiting remaining time`);
+      await timeoutPromise;
+      logger.log(`[prepareNewPage] setting new page to add: ${pageId}`);
+      newPageIdToAdd = pageId;
+    }
+
+    function cancelTimeout() {
+      logger.log('[prepareNewPage] cancel timeout');
+      clearTimeout(timeoutId);
     }
   };
 }

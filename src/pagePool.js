@@ -14,11 +14,19 @@ function createPagePool({logger, numOfPages, initPage}) {
     },
     addToPool: pageId => {
       const fullPageObj = fullPageObjs.find(p => p.pageId === pageId);
-      fullPageObj.addToPool();
+      if (fullPageObj) {
+        fullPageObj.addToPool();
+      }
     },
     removePage: pageId => {
       const fullPageObj = fullPageObjs.find(p => p.pageId === pageId);
-      fullPageObj.removePage();
+      if (fullPageObj) {
+        fullPageObj.removePage();
+      }
+    },
+    isInPool: pageId => {
+      const fullPageObj = fullPageObjs.find(p => p.pageId === pageId);
+      return fullPageObj && fullPageObj.isInPool();
     },
   };
 
