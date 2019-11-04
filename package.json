@@ -78,6 +78,7 @@
     "eslint-plugin-node": "^6.0.1",
     "eslint-plugin-prettier": "^2.7.0",
     "express": "^4.17.1",
+    "filenamify": "^4.1.0",
     "mocha": "^5.2.0",
     "node-fetch": "^2.6.0",
     "node-notifier-cli": "^1.1.2",
@@ -86,6 +87,7 @@
     "react-dom": "^16.11.0",
     "rollup": "^1.26.3",
     "rollup-plugin-commonjs": "^10.1.0",
-    "strip-ansi": "^5.2.0"
+    "strip-ansi": "^5.2.0",
+    "ua-parser-js": "^0.7.20"
   }
 }
