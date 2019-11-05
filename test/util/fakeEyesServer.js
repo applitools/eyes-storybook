@@ -69,6 +69,25 @@ function fakeEyesServer({expectedFolder, updateFixtures, port, hangUp} = {}) {
     const {startInfo, appOutput} = req.body;
     const runningSession = createRunningSessionFromStartInfo(startInfo);
     runningSession.steps = [{asExpected: true, appOutput}]; // TODO
+    runningSessions[runningSession.id] = runningSession;
+    res.set(
+      'location',
+      `${serverUrl}/api/tasks/matchsingle/${encodeURIComponent(runningSession.id)}`,
+    );
+    res.status(202).send({success: true});
+  });
+
+  app.get('/api/tasks/:method/:id', (req, res) => {
+    res.set(
+      'location',
+      `${serverUrl}/api/tasks/${req.params.method}/${encodeURIComponent(req.params.id)}`,
+    );
+    res.status(201).send({success: true});
+  });
+
+  app.delete('/api/tasks/:method/:id', (req, res) => {
+    const runningSessionId = decodeURIComponent(req.params.id);
+    const runningSession = runningSessions[runningSessionId];
     const testResults = createTestResultFromRunningSession(runningSession);
     res.send(testResults);
   });
