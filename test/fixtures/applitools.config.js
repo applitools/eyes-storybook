@@ -11,7 +11,7 @@ module.exports = {
       return ['rtl'];
     }
   },
-  // storybookUrl: 'http://localhost:6006',
+  // storybookUrl: 'http://localhost:9001/',
   // concurrency: 100,
   // browser: [{width: 1000, height: 600, name: 'edge'}],
   // tapFilePath: './',
