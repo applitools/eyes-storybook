@@ -1,5 +1,5 @@
 'use strict';
-const {TypeUtils} = require('@applitools/eyes-common');
+const {TypeUtils} = require('@applitools/eyes-sdk-core');
 const prettyValue = val => (!TypeUtils.isObject(val) ? val : JSON.stringify(val));
 
 function configDigest(config) {

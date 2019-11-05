@@ -1,6 +1,6 @@
 'use strict';
 const pick = require('lodash.pick');
-const {ConfigUtils} = require('@applitools/eyes-common');
+const {ConfigUtils} = require('@applitools/eyes-sdk-core');
 const {resolve} = require('path');
 
 function generateConfig({argv = {}, defaultConfig = {}, externalConfigParams = []}) {

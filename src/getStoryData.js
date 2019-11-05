@@ -1,6 +1,6 @@
 'use strict';
 const {presult} = require('@applitools/functional-commons');
-const {ArgumentGuard} = require('@applitools/eyes-common');
+const {ArgumentGuard} = require('@applitools/eyes-sdk-core');
 const renderStoryWithClientAPI = require('../dist/renderStoryWithClientAPI');
 const runRunBeforeScript = require('../dist/runRunBeforeScript');
 const getStoryTitle = require('./getStoryTitle');

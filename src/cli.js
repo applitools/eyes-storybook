@@ -1,6 +1,6 @@
 'use strict';
 const yargs = require('yargs');
-const {Logger} = require('@applitools/eyes-common');
+const {Logger} = require('@applitools/eyes-sdk-core');
 const {configParams: externalConfigParams} = require('@applitools/visual-grid-client');
 const VERSION = require('../package.json').version;
 const eyesStorybook = require('./eyesStorybook');
