@@ -8,7 +8,7 @@ const path = require('path');
 const filenamify = require('filenamify');
 const {TestResultsStatus} = require('@applitools/eyes-sdk-core');
 
-function fakeEyesServer({expectedFolder, updateFixtures, port} = {}) {
+function fakeEyesServer({expectedFolder, updateFixtures, port, hangUp} = {}) {
   const runningSessions = {};
   let serverUrl;
   let renderCounter = 0;
@@ -28,20 +28,20 @@ function fakeEyesServer({expectedFolder, updateFixtures, port} = {}) {
 
   // render
   app.post('/render', (req, res) => {
-    // res.socket.destroy();
-    // return;
     res.send(
       req.body.map(renderRequest => {
-        const renderId = `r${renderCounter++}`;
+        const renderId = renderRequest.renderId || `r${renderCounter++}`;
         renderings[renderId] = renderRequest;
         return {
           renderId,
-          renderStatus: 'rendering',
+          renderStatus: renderRequest.renderId ? 'rendering' : 'need-more-resources',
+          needMoreDom: !renderRequest.renderId,
         };
       }),
     );
   });
 
+  // render status
   app.post('/render-status', (req, res) => {
     res.send(
       req.body.map(renderId => {
@@ -59,12 +59,18 @@ function fakeEyesServer({expectedFolder, updateFixtures, port} = {}) {
     );
   });
 
+  // put resource
+  app.put('/resources/sha256/:hash', (req, res) => {
+    res.send({success: true});
+  });
+
   // matchSingleWindow
   app.post('/api/sessions', (req, res) => {
     const {startInfo, appOutput} = req.body;
     const runningSession = createRunningSessionFromStartInfo(startInfo);
     runningSession.steps = [{asExpected: true, appOutput}]; // TODO
-    res.send(createTestResultFromRunningSession(runningSession));
+    const testResults = createTestResultFromRunningSession(runningSession);
+    res.send(testResults);
   });
 
   // startSession
@@ -158,7 +164,7 @@ function fakeEyesServer({expectedFolder, updateFixtures, port} = {}) {
       batchId: runningSession.startInfo.batchId,
       hostOS: runningSession.hostOS,
       hostApp: runningSession.hostApp,
-      hostDisplaySize: runningSession.startInfo.environment.displaySize,
+      hostDisplaySize: runningSession.startInfo.environment.displaySize || {width: 7, height: 8},
       startedAt: runningSession.startedAt, // TODO
       isNew: false, // TODO
       isDifferent: false, // TODO
