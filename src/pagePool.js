@@ -1,9 +1,9 @@
 'use strict';
 
-function createPagePool({logger, numOfPages, initPage}) {
+function createPagePool({logger, initPage}) {
   let counter = 0;
   const fullPageObjs = [];
-  logger.log(`[page pool] ${numOfPages} pages open`);
+  logger.log(`[page pool] created`);
   let currWaitOnFreePage = Promise.resolve();
   return {
     getFreePage,
@@ -52,8 +52,8 @@ function createPagePool({logger, numOfPages, initPage}) {
     let workPromise = Promise.resolve();
     let resolveWork;
     let isActive;
+    let createdAt;
     const page = await initPage(pageId);
-    const createdAt = Date.now();
     return {
       page,
       pageId,
@@ -61,9 +61,9 @@ function createPagePool({logger, numOfPages, initPage}) {
       waitUntilFree,
       occupyPage,
       removePage,
-      createdAt,
       isInPool,
       addToPool,
+      getCreatedAt,
     };
 
     function markPageAsFree() {
@@ -90,11 +90,16 @@ function createPagePool({logger, numOfPages, initPage}) {
 
     function addToPool() {
       isActive = true;
+      createdAt = Date.now();
+    }
+
+    function getCreatedAt() {
+      return createdAt;
     }
   }
 
-  function toSmallPageObj({page, pageId, markPageAsFree, removePage, createdAt}) {
-    return {page, pageId, markPageAsFree, removePage, createdAt};
+  function toSmallPageObj({page, pageId, markPageAsFree, removePage, getCreatedAt}) {
+    return {page, pageId, markPageAsFree, removePage, getCreatedAt};
   }
 }
 

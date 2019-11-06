@@ -1,6 +1,6 @@
 'use strict';
 
-const {describe, it, before} = require('mocha');
+const {describe, it} = require('mocha');
 const {expect} = require('chai');
 const makeRenderStories = require('../../src/renderStories');
 const getStoryTitle = require('../../src/getStoryTitle');
@@ -11,23 +11,18 @@ const logger = require('../util/testLogger');
 
 const waitForQueuedRenders = () => {};
 
-// TODO (amit): unskip
-describe.skip('renderStories', () => {
-  let getFreePage;
-  before(async () => {
-    const pagePool = await createPagePool({
+describe('renderStories', () => {
+  it('returns empty array for 0 stories', async () => {
+    const pagePool = createPagePool({
       logger,
-      numOfPages: 3,
       initPage: async index => index + 1,
     });
-    getFreePage = pagePool.getFreePage;
-  });
-  it('returns empty array for 0 stories', async () => {
     const {stream, getEvents} = testStream();
     const renderStories = makeRenderStories({
       stream,
       waitForQueuedRenders,
-      getFreePage,
+      pagePool,
+      logger,
     });
 
     const results = await renderStories([]);
@@ -37,6 +32,14 @@ describe.skip('renderStories', () => {
   });
 
   it('returns results from renderStory', async () => {
+    const pagePool = createPagePool({
+      logger,
+      initPage: async index => index + 1,
+    });
+    pagePool.addToPool((await pagePool.createPage()).pageId);
+    pagePool.addToPool((await pagePool.createPage()).pageId);
+    pagePool.addToPool((await pagePool.createPage()).pageId);
+    await Promise.resolve();
     const getStoryData = async ({story, storyUrl, page}) => {
       await delay(10);
       return {
@@ -59,7 +62,7 @@ describe.skip('renderStories', () => {
       storybookUrl,
       logger,
       stream,
-      getFreePage,
+      pagePool,
     });
 
     const stories = [
@@ -98,6 +101,11 @@ describe.skip('renderStories', () => {
   });
 
   it('returns errors from getStoryData', async () => {
+    const pagePool = createPagePool({
+      logger,
+      initPage: async index => index + 1,
+    });
+    pagePool.addToPool((await pagePool.createPage()).pageId);
     const getStoryData = async () => {
       throw new Error('bla');
     };
@@ -110,7 +118,7 @@ describe.skip('renderStories', () => {
     const renderStories = makeRenderStories({
       getStoryData,
       waitForQueuedRenders,
-      getFreePage,
+      pagePool,
       renderStory,
       storybookUrl,
       logger,
@@ -129,6 +137,11 @@ describe.skip('renderStories', () => {
   });
 
   it('returns errors from renderStory', async () => {
+    const pagePool = createPagePool({
+      logger,
+      initPage: async index => index + 1,
+    });
+    pagePool.addToPool((await pagePool.createPage()).pageId);
     const getStoryData = async () => ({});
 
     const renderStory = async () => {
@@ -141,7 +154,7 @@ describe.skip('renderStories', () => {
     const renderStories = makeRenderStories({
       getStoryData,
       waitForQueuedRenders,
-      getFreePage,
+      pagePool,
       renderStory,
       storybookUrl,
       logger,
@@ -157,7 +170,13 @@ describe.skip('renderStories', () => {
     expect(getEvents()).to.eql(['- Done 0 stories out of 1\n', '✖ Done 1 stories out of 1\n']);
   });
 
-  it("doesn't have memory issues", async () => {
+  // TODO execute in separate process
+  it.skip("doesn't have memory issues", async () => {
+    const pagePool = createPagePool({
+      logger,
+      initPage: async index => index + 1,
+    });
+    pagePool.addToPool((await pagePool.createPage()).pageId);
     const length = 1000;
     const stories = new Array(length);
     for (let i = 0; i < length; i++) {
@@ -183,7 +202,7 @@ describe.skip('renderStories', () => {
     const renderStories = makeRenderStories({
       getStoryData,
       waitForQueuedRenders,
-      getFreePage,
+      pagePool,
       renderStory,
       storybookUrl,
       logger,

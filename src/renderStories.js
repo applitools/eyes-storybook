@@ -13,7 +13,7 @@ function makeRenderStories({
   waitForQueuedRenders,
   storyDataGap,
 }) {
-  let newPageIdToAdd, timeoutId;
+  let newPageIdToAdd;
 
   return async function renderStories(stories) {
     let doneStories = 0;
@@ -33,13 +33,10 @@ function makeRenderStories({
     return allTestResults;
 
     async function processStoryLoop() {
-      if (currIndex === stories.length) {
-        cancelTimeout();
-        return;
-      }
+      if (currIndex === stories.length) return;
 
-      const {page, pageId, markPageAsFree, removePage, createdAt} = await pagePool.getFreePage();
-      const livedTime = Date.now() - createdAt;
+      const {page, pageId, markPageAsFree, removePage, getCreatedAt} = await pagePool.getFreePage();
+      const livedTime = Date.now() - getCreatedAt();
       logger.log(`[prepareNewPage] got free page: ${pageId}, lived time: ${livedTime}`);
       if (newPageIdToAdd && livedTime > 60000) {
         logger.log(`[prepareNewPage] replacing page ${pageId} with page ${newPageIdToAdd}`);
@@ -105,20 +102,10 @@ function makeRenderStories({
 
     async function prepareNewPage() {
       newPageIdToAdd = null;
-      const timeoutPromise = new Promise(resolve => {
-        timeoutId = setTimeout(resolve, 60000);
-      });
       logger.log('[prepareNewPage] preparing...');
       const {pageId} = await pagePool.createPage();
-      logger.log(`[prepareNewPage] new page is ready: ${pageId}, waiting remaining time`);
-      await timeoutPromise;
-      logger.log(`[prepareNewPage] setting new page to add: ${pageId}`);
+      logger.log(`[prepareNewPage] new page is ready: ${pageId}`);
       newPageIdToAdd = pageId;
-    }
-
-    function cancelTimeout() {
-      logger.log('[prepareNewPage] cancel timeout');
-      clearTimeout(timeoutId);
     }
   };
 }
