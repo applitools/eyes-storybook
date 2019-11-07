@@ -1,3 +1,4 @@
 script:
   - chmod +x ./execTest.sh
   - ./execTest.sh
+  - cat yarden_tests_chrome_firefox.log
