@@ -2,6 +2,7 @@
 const getStoryUrl = require('./getStoryUrl');
 const getStoryTitle = require('./getStoryTitle');
 const ora = require('ora');
+const {presult} = require('@applitools/functional-commons');
 
 function makeRenderStories({
   getStoryData,
@@ -53,31 +54,59 @@ function makeRenderStories({
       allStoriesPromise = allStoriesPromise.then(() => storyPromise);
       return processStoryLoop();
 
-      function processStory() {
+      async function processStory() {
         const story = stories[currIndex++];
         const storyUrl = getStoryUrl(story, storybookUrl);
         const title = getStoryTitle(story);
-        return getStoryData({story, storyUrl, page})
-          .catch(e => {
-            const errMsg = `[page ${pageId}] Failed to get story data for "${title}". ${e}`;
-            logger.log(errMsg);
-            return {error: new Error(errMsg)};
-          })
-          .then(({cdt, resourceUrls, resourceContents, frames, error}) => {
-            markPageAsFree();
-            return (
-              error ||
-              renderStory({
-                cdt,
-                resourceUrls,
-                resourceContents,
-                frames,
-                url: storyUrl,
-                story,
-              })
+
+        try {
+          let [error, storyData] = await presult(
+            getStoryData({
+              story,
+              storyUrl,
+              page,
+            }),
+          );
+
+          if (error && /(Protocol error|Execution context was destroyed)/.test(error.message)) {
+            logger.log(
+              `Puppeteer error from [page ${pageId}] while getting story data. Replacing page. ${error.message}`,
             );
-          })
-          .then(onDoneStory, onDoneStory);
+            removePage();
+            page
+              .close()
+              .catch(e => logger.log(`stale [page ${pageId}] already closed: ${e.message}`));
+            const newPageObj = await pagePool.createPage();
+            const [newError, newStoryData] = await presult(
+              getStoryData({story, storyUrl, page: newPageObj.page}),
+            );
+            error = newError;
+            storyData = newStoryData;
+            pagePool.addToPool(newPageObj.pageId);
+          } else {
+            markPageAsFree();
+          }
+
+          if (error) {
+            const errMsg = `[page ${pageId}] Failed to get story data for "${title}". ${error}`;
+            logger.log(errMsg);
+            throw new Error(errMsg);
+          }
+
+          const {cdt, resourceUrls, resourceContents, frames} = storyData;
+          const testResults = await renderStory({
+            cdt,
+            resourceUrls,
+            resourceContents,
+            frames,
+            url: storyUrl,
+            story,
+          });
+
+          return onDoneStory(testResults);
+        } catch (ex) {
+          return onDoneStory(ex);
+        }
       }
     }
 
