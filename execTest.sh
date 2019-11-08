@@ -12,10 +12,6 @@ dump_output() {
    echo Tailing the last 500 lines of output:
    tail -10000 $BUILD_OUTPUT
 
-   git remote set-url origin https://$1@github.com/applitools/eyes-storybook.git
-   git commit --amend --no-edit
-   git push --force-with-lease origin HEAD:perf-storybook-api
-
    echo $BUILD_OUTPUT >> logFile.log
     LOG_FILE=$(base64 logFile.log)
     curl -s \
