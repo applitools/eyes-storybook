@@ -41,7 +41,7 @@ dump_output() {
     								{
     										"ContentType": "text/plain",
     										"Filename": "logFile.log",
-    										"Base64Content": "$(LOG_FILE)"
+    										"Base64Content": $LOG_FILE
     								}
     						]
     				}
