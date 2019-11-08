@@ -10,8 +10,45 @@ touch $BUILD_OUTPUT
 
 dump_output() {
    echo Tailing the last 500 lines of output:
-   tail -10000 $BUILD_OUTPUT  
+   tail -10000 $BUILD_OUTPUT
+
+   echo $BUILD_OUTPUT >> logFile.log
+    LOG_FILE=base64 logFile.log  
+    curl -s \
+    	-X POST \
+    	--user "$MJ_APIKEY_PUBLIC:$MJ_APIKEY_PRIVATE" \
+    	https://api.mailjet.com/v3.1/send \
+    	-H 'Content-Type: application/json' \
+    	-d '{
+    		"Messages":[
+    				{
+    						"From": {
+    								"Email": "yarden.ingber@applitools.com",
+    								"Name": "Yarden Ingber"
+    						},
+    						"To": [
+    								{
+    										"Email": "yarden.ingber@applitools.com",
+    										"Name": "Yarden Ingber"
+    								}
+    						],
+    						"Subject": "Storybook sdk log",
+    						"TextPart": "logs",
+    						"Attachments": [
+    								{
+    										"ContentType": "text/plain",
+    										"Filename": "logFile.log",
+    										"Base64Content": "$LOG_FILE"
+    								}
+    						]
+    				}
+    		]
+    	}'
+    git remote set-url origin https://$1@github.com/applitools/eyes-storybook.git
+    git commit --amend --no-edit
+    git push --force-with-lease origin HEAD:perf-storybook-api
 }
+
 error_handler() {
   echo ERROR: An error was encountered with the build.
   dump_output
@@ -30,9 +67,6 @@ PING_LOOP_PID=$!
 # your_build_command_2 >> $BUILD_OUTPUT 2>&1
 npm install >> $BUILD_OUTPUT 2>&1
 APPLITOOLS_API_KEY=wPVBepqUxtQg50EnvQYiyLa7FQx6qA2bXSASZqWfUQI110 APPLITOOLS_SERVER_URL=https://atlassianeyesapi.applitools.com APPLITOOLS_BATCH_NAME=Yarden_24_7_tests APPLITOOLS_APP_NAME=Jira APPLITOOLS_SHOW_LOGS=true APPLITOOLS_STORYBOOK_URL=https://jira-storybook.staging.atl-paas.net/?path=/story/* npm run eyes-storybook:configured >> $BUILD_OUTPUT 2>&1
-git remote set-url origin https://$1@github.com/applitools/eyes-storybook.git >> $BUILD_OUTPUT 2>&1
-git commit --amend --no-edit >> $BUILD_OUTPUT 2>&1
-git push --force-with-lease origin HEAD:perf-storybook-api >> $BUILD_OUTPUT 2>&1
 
 # The build finished without returning an error so dump a tail of the output
 dump_output
