@@ -12,10 +12,10 @@ dump_output() {
     echo Tailing the last 500 lines of output:
     tail -500 $BUILD_OUTPUT
 
-    echo "base64 $BUILD_OUTPUT"
+    echo "base64 BUILD_OUTPUT"
     base64 $BUILD_OUTPUT
     LOG_FILE=$(base64 $BUILD_OUTPUT)
-    echo "echo $LOG_FILE"
+    echo "echo LOG_FILE"
     echo $LOG_FILE
     curl -s \
         -X POST \
@@ -41,7 +41,7 @@ dump_output() {
     								{
     										"ContentType": "text/plain",
     										"Filename": "logFile.log",
-    										"Base64Content": $LOG_FILE
+    										"Base64Content": "$LOG_FILE"
     								}
     						]
     				}
