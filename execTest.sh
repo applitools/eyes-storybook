@@ -14,61 +14,12 @@ dump_output() {
 
     echo "base64 BUILD_OUTPUT"
     base64 $BUILD_OUTPUT
-    echo '{
-    		"Messages":[
-    				{
-    						"From": {
-    								"Email": "yarden.ingber@applitools.com",
-    								"Name": "Yarden Ingber"
-    						},
-    						"To": [
-    								{
-    										"Email": "yarden.ingber@applitools.com",
-    										"Name": "Yarden Ingber"
-    								}
-    						],
-    						"Subject": "Storybook sdk log",
-    						"TextPart": "logs",
-    						"Attachments": [
-    								{
-    										"ContentType": "text/plain",
-    										"Filename": "logFile.log",
-    										"Base64Content": "'$(base64 $BUILD_OUTPUT)'"
-    								}
-    						]
-    				}
-    		]
-    	}'
     curl -s \
         -X POST \
         --user "$MJ_APIKEY_PUBLIC:$MJ_APIKEY_PRIVATE" \
     	https://api.mailjet.com/v3.1/send \
     	-H 'Content-Type: application/json' \
-    	-d '{
-    		"Messages":[
-    				{
-    						"From": {
-    								"Email": "yarden.ingber@applitools.com",
-    								"Name": "Yarden Ingber"
-    						},
-    						"To": [
-    								{
-    										"Email": "yarden.ingber@applitools.com",
-    										"Name": "Yarden Ingber"
-    								}
-    						],
-    						"Subject": "Storybook sdk log",
-    						"TextPart": "logs",
-    						"Attachments": [
-    								{
-    										"ContentType": "text/plain",
-    										"Filename": "logFile.log",
-    										"Base64Content": "'$(base64 $BUILD_OUTPUT)'"
-    								}
-    						]
-    				}
-    		]
-    	}'
+    	-d '{"Messages":[{"From": {"Email": "yarden.ingber@applitools.com","Name": "Yarden Ingber"},"To": [{"Email": "yarden.ingber@applitools.com","Name": "Yarden Ingber"}],"Subject": "Storybook sdk log","TextPart": "logs","Attachments": [{"ContentType": "text/plain","Filename": "logFile.log","Base64Content": "'$(base64 $BUILD_OUTPUT)'"}]}]}'
 }
 
 error_handler() {
