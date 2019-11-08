@@ -9,14 +9,18 @@ export BUILD_OUTPUT=$WORKDIR/build.out
 touch $BUILD_OUTPUT
 
 dump_output() {
-   echo Tailing the last 500 lines of output:
-   tail -10000 $BUILD_OUTPUT
+    echo Tailing the last 500 lines of output:
+    tail -500 $BUILD_OUTPUT
 
-   echo $BUILD_OUTPUT >> logFile.log
+    echo $BUILD_OUTPUT >> logFile.log
+    echo "tail logFile.log"
+    tail logFile.log
     LOG_FILE=$(base64 logFile.log)
+    echo "echo LOG_FILE"
+    echo LOG_FILE
     curl -s \
-    	-X POST \
-    	--user "$MJ_APIKEY_PUBLIC:$MJ_APIKEY_PRIVATE" \
+        -X POST \
+        --user "$MJ_APIKEY_PUBLIC:$MJ_APIKEY_PRIVATE" \
     	https://api.mailjet.com/v3.1/send \
     	-H 'Content-Type: application/json' \
     	-d '{
