@@ -28,7 +28,7 @@ async function eyesStorybook({
   let memoryTimeout;
   takeMemLoop();
   logger.log('eyesStorybook started');
-  const {storybookUrl, waitBeforeScreenshots, readStoriesTimeout} = config;
+  const {storybookUrl, waitBeforeScreenshot, readStoriesTimeout} = config;
   const browser = await puppeteer.launch(config.puppeteerOptions);
   logger.log('browser launched');
   const page = await browser.newPage();
@@ -75,7 +75,7 @@ async function eyesStorybook({
 
     logger.log(`starting to run ${storiesIncludingVariations.length} stories`);
 
-    const getStoryData = makeGetStoryData({logger, processPageAndSerialize, waitBeforeScreenshots});
+    const getStoryData = makeGetStoryData({logger, processPageAndSerialize, waitBeforeScreenshot});
     const renderStory = makeRenderStory({
       logger: logger.extend('renderStory'),
       testWindow,

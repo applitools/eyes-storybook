@@ -6,12 +6,8 @@ const runRunBeforeScript = require('../dist/runRunBeforeScript');
 const getStoryTitle = require('./getStoryTitle');
 const {URL} = require('url');
 
-function makeGetStoryData({logger, processPageAndSerialize, waitBeforeScreenshots}) {
-  if (typeof waitBeforeScreenshots === 'number') {
-    ArgumentGuard.greaterThanOrEqualToZero(waitBeforeScreenshots, 'waitBeforeScreenshots', true);
-  }
-
-  return async function getStoryData({story, storyUrl, page}) {
+function makeGetStoryData({logger, processPageAndSerialize, waitBeforeScreenshot}) {
+  return async function getStoryData({story, storyUrl, page, waitBeforeStory}) {
     const title = getStoryTitle(story);
     logger.log(`getting data from story`, title);
 
@@ -33,8 +29,14 @@ function makeGetStoryData({logger, processPageAndSerialize, waitBeforeScreenshot
     } else {
       await renderStoryLegacy();
     }
-    if (waitBeforeScreenshots !== undefined) {
-      await page.waitFor(waitBeforeScreenshots);
+
+    const wait = waitBeforeStory || waitBeforeScreenshot;
+    if (typeof wait === 'number') {
+      ArgumentGuard.greaterThanOrEqualToZero(wait, 'waitBeforeScreenshot', true);
+    }
+    if (wait) {
+      logger.log(`waiting before screenshot of ${title} ${wait}`);
+      await page.waitFor(wait);
     }
 
     if (story.parameters && story.parameters.eyes && story.parameters.eyes.runBefore) {

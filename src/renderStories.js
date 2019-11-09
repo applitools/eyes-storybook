@@ -58,6 +58,7 @@ function makeRenderStories({
         const story = stories[currIndex++];
         const storyUrl = getStoryUrl(story, storybookUrl);
         const title = getStoryTitle(story);
+        const {waitBeforeScreenshot} = (story.parameters && story.parameters.eyes) || {};
 
         try {
           let [error, storyData] = await presult(
@@ -65,6 +66,7 @@ function makeRenderStories({
               story,
               storyUrl,
               page,
+              waitBeforeStory: waitBeforeScreenshot,
             }),
           );
 
@@ -78,7 +80,12 @@ function makeRenderStories({
               .catch(e => logger.log(`stale [page ${pageId}] already closed: ${e.message}`));
             const newPageObj = await pagePool.createPage();
             const [newError, newStoryData] = await presult(
-              getStoryData({story, storyUrl, page: newPageObj.page}),
+              getStoryData({
+                story,
+                storyUrl,
+                page: newPageObj.page,
+                waitBeforeStory: waitBeforeScreenshot,
+              }),
             );
             error = newError;
             storyData = newStoryData;

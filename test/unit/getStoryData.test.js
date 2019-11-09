@@ -39,14 +39,14 @@ describe('getStoryData', () => {
 
   it('waitsFor correctly with waitBeforeScreenshots before taking the screen shot', async () => {
     let waitedValue;
-    const waitBeforeScreenshots = 'someValue';
+    const waitBeforeScreenshot = 'someValue';
     const page = {
       goto: async () => {},
       waitFor: async value => {
         waitedValue = value;
       },
       evaluate: func =>
-        waitedValue === waitBeforeScreenshots
+        waitedValue === waitBeforeScreenshot
           ? Promise.resolve(func())
           : Promise.reject('did not wait enough before taking snapshot'),
     };
@@ -63,7 +63,7 @@ describe('getStoryData', () => {
     const getStoryData = makeGetStoryData({
       logger,
       processPageAndSerialize,
-      waitBeforeScreenshots: waitBeforeScreenshots,
+      waitBeforeScreenshot,
     });
 
     const {resourceUrls, resourceContents, cdt} = await getStoryData({
@@ -75,14 +75,6 @@ describe('getStoryData', () => {
     expect(resourceUrls).to.eql(['url1']);
     expect(resourceContents).to.eql(expectedResourceContents);
     expect(cdt).to.equal('cdt');
-  });
-
-  it('throws when getting a negative waitBeforeScreenshots', async () => {
-    expect(() =>
-      makeGetStoryData({
-        waitBeforeScreenshots: -5,
-      }),
-    ).to.throw('waitBeforeScreenshots');
   });
 
   it('throws when fails to render a story with api', async () => {

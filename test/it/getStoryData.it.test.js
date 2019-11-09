@@ -33,7 +33,7 @@ describe('getStoryData', () => {
     const getStoryData = makeGetStoryData({
       logger,
       processPageAndSerialize,
-      waitBeforeScreenshots: 2000,
+      waitBeforeScreenshot: 2000,
     });
 
     const getStoryPromise = getStoryData({
@@ -67,7 +67,7 @@ describe('getStoryData', () => {
     const getStoryData = makeGetStoryData({
       logger,
       processPageAndSerialize,
-      waitBeforeScreenshots: '#newDiv',
+      waitBeforeScreenshot: '#newDiv',
     });
 
     const getStoryPromise = getStoryData({
@@ -98,7 +98,7 @@ describe('getStoryData', () => {
     const getStoryData = makeGetStoryData({
       logger,
       processPageAndSerialize,
-      waitBeforeScreenshots: () => window.ready === 'ok',
+      waitBeforeScreenshot: () => window.ready === 'ok',
     });
 
     const getStoryPromise = getStoryData({

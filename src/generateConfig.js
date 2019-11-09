@@ -1,4 +1,5 @@
 'use strict';
+const chalk = require('chalk');
 const pick = require('lodash.pick');
 const {ConfigUtils} = require('@applitools/eyes-sdk-core');
 const {resolve} = require('path');
@@ -10,11 +11,24 @@ function generateConfig({argv = {}, defaultConfig = {}, externalConfigParams = [
   const config = ConfigUtils.getConfig({configPath, configParams});
   const argvConfig = pick(argv, configParams);
   const result = Object.assign({}, defaultConfig, config, argvConfig);
+
+  // backward compatibility
   if (
-    typeof result.waitBeforeScreenshots === 'string' &&
-    !isNaN(parseInt(result.waitBeforeScreenshots))
+    result.waitBeforeScreenshots !== defaultConfig.waitBeforeScreenshots &&
+    result.waitBeforeScreenshot === defaultConfig.waitBeforeScreenshot
   ) {
-    result.waitBeforeScreenshots = Number(result.waitBeforeScreenshots);
+    const msg = chalk.yellow(
+      "Warning 'waitBeforeScreenshots' is deprectaed please use 'waitBeforeScreenshot' (no 's').\n",
+    );
+    console.log(msg);
+    result.waitBeforeScreenshot = result.waitBeforeScreenshots;
+  }
+
+  if (
+    typeof result.waitBeforeScreenshot === 'string' &&
+    !isNaN(parseInt(result.waitBeforeScreenshot))
+  ) {
+    result.waitBeforeScreenshot = Number(result.waitBeforeScreenshot);
   }
 
   if (

@@ -9,7 +9,8 @@ module.exports = {
   storybookUrl: undefined,
   storybookStaticDir: undefined,
   showStorybookOutput: false,
-  waitBeforeScreenshots: 50,
+  waitBeforeScreenshot: 50,
+  waitBeforeScreenshots: 50, // backward compatibility
   tapFilePath: undefined,
   readStoriesTimeout: 60000,
 };
