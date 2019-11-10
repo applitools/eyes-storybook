@@ -33,7 +33,7 @@ async function eyesStorybook({
   logger.log('browser launched');
   const page = await browser.newPage();
   const userAgent = await page.evaluate('navigator.userAgent');
-  const {testWindow, globalState} = makeVisualGridClient({
+  const {testWindow, closeBatch, globalState} = makeVisualGridClient({
     userAgent,
     ...config,
     logger: logger.extend('vgc'),
@@ -99,6 +99,11 @@ async function eyesStorybook({
     const [error, results] = await presult(
       timeItAsync('renderStories', () => renderStories(storiesIncludingVariations)),
     );
+
+    const [closeBatchErr] = await presult(closeBatch());
+    if (closeBatchErr) {
+      logger.log('failed to close batch', closeBatchErr);
+    }
 
     if (error) {
       const msg = refineErrorMessage({prefix: 'Error in renderStories:', error});
