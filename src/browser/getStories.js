@@ -1,5 +1,5 @@
 /* global document */
-const getClientAPI = require('./storybookApi');
+const getClientAPI = require('./getClientAPI');
 
 const DEFAULT_TIMEOUT = 60000;
 

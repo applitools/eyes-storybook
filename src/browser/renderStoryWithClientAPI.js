@@ -1,4 +1,4 @@
-const getClientAPI = require('./storybookApi');
+const getClientAPI = require('./getClientAPI');
 
 function renderStoryWithClientAPI(index) {
   let api;

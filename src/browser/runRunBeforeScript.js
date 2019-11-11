@@ -1,5 +1,5 @@
 /* global document */
-const getClientAPI = require('./storybookApi');
+const getClientAPI = require('./getClientAPI');
 
 function runRunBeforeScript(index) {
   let api;

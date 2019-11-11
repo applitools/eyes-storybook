@@ -112,12 +112,12 @@ function __renderStoryWithClientAPI(...args) {
     throw new Error('Cannot get client API: no frameWindow');
   }
 
-  var storybookApi = getClientAPI;
+  var getClientAPI_1 = getClientAPI;
 
   function renderStoryWithClientAPI(index) {
     let api;
     try {
-      api = storybookApi();
+      api = getClientAPI_1();
       api.selectStory(index);
     } catch (ex) {
       return {message: ex.message, version: api ? api.version : undefined};

@@ -112,7 +112,7 @@ function __runRunBeforeScript(...args) {
     throw new Error('Cannot get client API: no frameWindow');
   }
 
-  var storybookApi = getClientAPI;
+  var getClientAPI_1 = getClientAPI;
 
   /* global document */
 
@@ -120,7 +120,7 @@ function __runRunBeforeScript(...args) {
   function runRunBeforeScript(index) {
     let api;
     try {
-      api = storybookApi();
+      api = getClientAPI_1();
       const story = api.getStories()[index];
       if (!story) {
         console.log('error cannot get story', index);

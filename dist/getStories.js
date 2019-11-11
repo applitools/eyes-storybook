@@ -112,7 +112,7 @@ function __getStories(...args) {
     throw new Error('Cannot get client API: no frameWindow');
   }
 
-  var storybookApi = getClientAPI;
+  var getClientAPI_1 = getClientAPI;
 
   /* global document */
 
@@ -259,7 +259,7 @@ function __getStories(...args) {
 
       async function _waitForClientAPI() {
         try {
-          return storybookApi();
+          return getClientAPI_1();
         } catch (ex) {
           await delay(100);
           return _waitForClientAPI();
