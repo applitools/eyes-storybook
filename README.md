@@ -129,10 +129,8 @@ In addition to command-line arguments, it's possible to define the following con
 | `waitBeforeScreenshot`   | undefined                   | Selector, function or timeout.<br/>If ```number``` then the argument is treated as time in milliseconds to wait before all screenshots.<br/>If ```string``` then the argument is treated as a selector for elements to wait for before all screenshots.<br/>If ```function```, then the argument is treated as a predicate to wait for before all screenshots.<br/><hr/>For per component configuration see [waitBeforeScreenshot.](#waitBeforeScreenshot)<br/>Note that we use Puppeteer's [page.waitFor()](https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#pagewaitforselectororfunctionortimeout-options-args), checkout it's API for more details. |
 | `include`                 | true                        | Specifies which stories should be visually tested. Visual baselines will be created only for the components specified. For more information, see [per component configuration - include](#include). |
 | `variations`              | undefined                   | Specifies additional variations for all or some of the stories. For example, RTL. For more information, see [per component  configuration - variations](#variations).|
-| `ignore`              | undefined                   | Specifies regions to ignore when checking for visual differences. For more information, see [per component configuration - ignore](#ignore).|
 
-<!-- | `accessibility`              | undefined                   | Specifies regions for checking accessibility. For more information, see [per component configuration - accessibility](#accessibility).|
-| `accessibilityLevel` | None | The accessibility level to use for the screenshots. Possible values are `None`, `AA` and `AAA`. |
+<!-- | `accessibilityLevel` | None | The accessibility level to use for the screenshots. Possible values are `None`, `AA` and `AAA`. |
 | `notifyOnCompletion`  | false | If `true` batch completion notifications are sent. |
 |`dontCloseBatches`| false | If true, batches are not closed for notifyOnCompletion.|-->
 
@@ -228,6 +226,8 @@ module.exports = {
 
 ## Per component configuration
 
+### _Only supported in Storybook version >= 4_
+
 There are two ways to provide configuration for a specific story, or a group of stories.
 
 1. **As an argument to the story** - It's possible to pass a third argument to storybook's `.add` function to customize each story. An `eyes` property on the parameters object can be specified with configuration properties.
@@ -290,23 +290,6 @@ storiesOf('Components that support RTL', module)
   )
 ```
 
-### `ignore`
-
-A single or an array of regions to ignore when checking for visual differences. For example:
-
-```js
-storiesOf('Components with ignored region', module)
-  .add(
-    'Some story',
-    () => 
-      <div>
-        <span>I am visually perfect!</span>
-        <span className="ignore-this">this should be ignored</span>
-      </div>,
-    {eyes: { ignore: [{selector: '.ignore-this'}] }}
-  )
-```
-
 ### `waitBeforeScreenshot`
 
 Selector or timeout, see [advanced configuration](#advanced-configuration) for more details.
@@ -320,6 +303,9 @@ storiesOf('Components with a waitBeforeScreenshot', module)
   );
 ```
 * _Note that the predicate option for `waitBeforeScreenshot` is currently not available in the per component configuration._
+
+
+### _The following parameters cannot be set as an [Advanced configuration](#advanced-configuration) :_
 
 <!-- ### `accessibility`
 
@@ -342,6 +328,24 @@ storiesOf('Components with accessibility regions', module)
 ```
 
 Possible accessibilityType values are: `IgnoreContrast`,`RegularText`,`LargeText`,`BoldText` and `GraphicalObject`. -->
+
+### `ignore`
+
+
+A single or an array of regions to ignore when checking for visual differences. For example:
+
+```js
+storiesOf('Components with ignored region', module)
+  .add(
+    'Some story',
+    () => 
+      <div>
+        <span>I am visually perfect!</span>
+        <span className="ignore-this">this should be ignored</span>
+      </div>,
+    {eyes: { ignore: [{selector: '.ignore-this'}] }}
+  )
+```
 
 ## Running Eyes-Storybook in Docker
 
