@@ -13,6 +13,8 @@ function makeRenderStories({
   stream,
   waitForQueuedRenders,
   storyDataGap,
+  getClientAPI,
+  maxPageTTL = 60000,
 }) {
   let newPageIdToAdd;
 
@@ -39,7 +41,7 @@ function makeRenderStories({
       const {page, pageId, markPageAsFree, removePage, getCreatedAt} = await pagePool.getFreePage();
       const livedTime = Date.now() - getCreatedAt();
       logger.log(`[prepareNewPage] got free page: ${pageId}, lived time: ${livedTime}`);
-      if (newPageIdToAdd && livedTime > 60000) {
+      if (newPageIdToAdd && livedTime > maxPageTTL) {
         logger.log(`[prepareNewPage] replacing page ${pageId} with page ${newPageIdToAdd}`);
         removePage();
         page.close();
@@ -79,6 +81,7 @@ function makeRenderStories({
               .close()
               .catch(e => logger.log(`stale [page ${pageId}] already closed: ${e.message}`));
             const newPageObj = await pagePool.createPage();
+            logger.log(`new page ${newPageObj.pageId} created ad hoc. trying it out`);
             const [newError, newStoryData] = await presult(
               getStoryData({
                 story,
@@ -139,8 +142,26 @@ function makeRenderStories({
     async function prepareNewPage() {
       newPageIdToAdd = null;
       logger.log('[prepareNewPage] preparing...');
-      const {pageId} = await pagePool.createPage();
+      const [errorInCreate, pageObj] = await presult(pagePool.createPage());
+      if (errorInCreate) {
+        logger.log(
+          `[prepareNewPage] error preparing new page. This is probably a fatal problem. ${errorInCreate}`,
+        );
+        return;
+      }
+
+      const {pageId, page} = pageObj;
       logger.log(`[prepareNewPage] new page is ready: ${pageId}`);
+      const [errorInSanity] = await presult(page.evaluate(getClientAPI));
+      if (errorInSanity) {
+        logger.log(
+          `[prepareNewPage] new page ${pageId} is corrupted. preparing new page. ${errorInSanity}`,
+        );
+        prepareNewPage();
+        return;
+      }
+
+      logger.log(`[prepareNewPage] setting new page for replacement: ${pageId}`);
       newPageIdToAdd = pageId;
     }
   };

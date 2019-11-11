@@ -15,6 +15,7 @@ const browserLog = require('./browserLog');
 const memoryLog = require('./memoryLog');
 const getIframeUrl = require('./getIframeUrl');
 const createPagePool = require('./pagePool');
+const getClientAPI = require('../dist/getClientAPI');
 
 const CONCURRENT_PAGES = 3;
 
@@ -92,6 +93,7 @@ async function eyesStorybook({
       waitForQueuedRenders: globalState.waitForQueuedRenders,
       storyDataGap: config.storyDataGap,
       pagePool,
+      getClientAPI,
     });
 
     logger.log('finished creating functions');

@@ -171,52 +171,132 @@ describe('renderStories', () => {
     expect(getEvents()).to.eql(['- Done 0 stories out of 1\n', '✖ Done 1 stories out of 1\n']);
   });
 
-  it("doesn't fail when page is closed", async () => {
-    const browser = await puppeteer.launch();
-    const page = await browser.newPage();
-    try {
-      const pagePool = createPagePool({
-        logger,
-        initPage: async index => (index === 0 ? page : browser.newPage()),
-      });
-      pagePool.addToPool((await pagePool.createPage()).pageId);
-      await page.close();
+  describe('with puppeteer', () => {
+    it("doesn't fail when page is closed", async () => {
+      const browser = await puppeteer.launch();
+      const page = await browser.newPage();
+      try {
+        const pagePool = createPagePool({
+          logger,
+          initPage: async index => (index === 0 ? page : browser.newPage()),
+        });
+        pagePool.addToPool((await pagePool.createPage()).pageId);
+        await page.close();
 
-      await delay(0);
+        await delay(0);
 
-      const getStoryData = async ({story, storyUrl, page}) => {
-        await delay(10);
-        const location = await page.evaluate(() => window.location.href);
-        return {
-          cdt: `cdt_${story.name}_${story.kind}_${storyUrl}_${location}`,
-          resourceUrls: `resourceUrls`,
-          resourceContents: `resourceContents`,
-          frames: `frames`,
+        const getStoryData = async ({story, storyUrl, page}) => {
+          await delay(10);
+          const location = await page.evaluate(() => window.location.href); // eslint-disable-line no-undef
+          return {
+            cdt: `cdt_${story.name}_${story.kind}_${storyUrl}_${location}`,
+            resourceUrls: `resourceUrls`,
+            resourceContents: `resourceContents`,
+            frames: `frames`,
+          };
         };
-      };
 
-      const renderStory = async arg => [{arg, getStatus: () => 'Passed'}];
+        const renderStory = async arg => [{arg, getStatus: () => 'Passed'}];
 
-      const storybookUrl = 'http://something';
-      const {stream, getEvents} = testStream();
+        const storybookUrl = 'http://something';
+        const {stream, getEvents} = testStream();
 
-      const renderStories = makeRenderStories({
-        getStoryData,
-        waitForQueuedRenders,
-        pagePool,
-        renderStory,
-        storybookUrl,
-        logger,
-        stream,
-      });
+        const renderStories = makeRenderStories({
+          getStoryData,
+          waitForQueuedRenders,
+          pagePool,
+          renderStory,
+          storybookUrl,
+          logger,
+          stream,
+          getClientAPI: () => {},
+        });
 
-      const story = {name: 's1', kind: 'k1'};
-      const results = await renderStories([story]);
+        const story = {name: 's1', kind: 'k1'};
+        const results = await renderStories([story]);
 
-      const storyUrl = `http://something/iframe.html?eyes-storybook=true&selectedKind=${story.kind}&selectedStory=${story.name}`;
+        const storyUrl = `http://something/iframe.html?eyes-storybook=true&selectedKind=${story.kind}&selectedStory=${story.name}`;
 
-      expect(results.map(result => result[0].arg)).to.eql([
-        {
+        expect(results.map(result => result[0].arg)).to.eql([
+          {
+            story,
+            url: storyUrl,
+            cdt:
+              'cdt_s1_k1_http://something/iframe.html?eyes-storybook=true&selectedKind=k1&selectedStory=s1_about:blank',
+            resourceUrls: 'resourceUrls',
+            resourceContents: 'resourceContents',
+            frames: 'frames',
+          },
+        ]);
+
+        expect(getEvents()).to.eql(['- Done 0 stories out of 1\n', '✔ Done 1 stories out of 1\n']);
+      } finally {
+        await browser.close();
+      }
+    });
+
+    it("doesn't fail when page is corrupted", async () => {
+      const browser = await puppeteer.launch();
+      try {
+        const pagePool = createPagePool({
+          logger,
+          initPage: async index => {
+            const page = await browser.newPage();
+            if (index === 1) {
+              await page.evaluate(() => (window.__failTest = true)); // eslint-disable-line no-undef
+            }
+            return page;
+          },
+        });
+        pagePool.addToPool((await pagePool.createPage()).pageId);
+
+        const getClientAPI = () => {
+          // eslint-disable-next-line no-undef
+          if (window.__failTest) {
+            throw new Error('getClientAPI mock error');
+          }
+        };
+
+        await delay(0);
+
+        const getStoryData = async ({story, storyUrl, page}) => {
+          const shouldFail = await page.evaluate(() => window.__failTest); // eslint-disable-line no-undef
+          if (shouldFail) {
+            throw new Error('getStoryData mock error');
+          } else {
+            await delay(100);
+            const location = await page.evaluate(() => window.location.href); // eslint-disable-line no-undef
+            return {
+              cdt: `cdt_${story.name}_${story.kind}_${storyUrl}_${location}`,
+              resourceUrls: `resourceUrls`,
+              resourceContents: `resourceContents`,
+              frames: `frames`,
+            };
+          }
+        };
+
+        const renderStory = async arg => [{arg, getStatus: () => 'Passed'}];
+
+        const storybookUrl = 'http://something';
+        const {stream, getEvents} = testStream();
+
+        const renderStories = makeRenderStories({
+          getStoryData,
+          waitForQueuedRenders,
+          pagePool,
+          renderStory,
+          storybookUrl,
+          logger,
+          stream,
+          getClientAPI,
+          maxPageTTL: 10,
+        });
+
+        const story = {name: 's1', kind: 'k1'};
+        const results = await renderStories([story, story]);
+
+        const storyUrl = `http://something/iframe.html?eyes-storybook=true&selectedKind=${story.kind}&selectedStory=${story.name}`;
+        const expectedStory = {
           story,
           url: storyUrl,
           cdt:
@@ -224,13 +304,18 @@ describe('renderStories', () => {
           resourceUrls: 'resourceUrls',
           resourceContents: 'resourceContents',
           frames: 'frames',
-        },
-      ]);
+        };
 
-      expect(getEvents()).to.eql(['- Done 0 stories out of 1\n', '✔ Done 1 stories out of 1\n']);
-    } finally {
-      await browser.close();
-    }
+        expect(results[0][0]).not.to.be.an.instanceOf(Error);
+        expect(results[0][0].arg).to.eql(expectedStory);
+        expect(results[1]).not.to.be.an.instanceOf(Error);
+        expect(results[1][0].arg).to.eql(expectedStory);
+
+        expect(getEvents()).to.eql(['- Done 0 stories out of 2\n', '✔ Done 2 stories out of 2\n']);
+      } finally {
+        await browser.close();
+      }
+    });
   });
 
   // TODO execute in separate process

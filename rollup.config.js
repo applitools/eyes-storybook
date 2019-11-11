@@ -1,7 +1,12 @@
 const commonjs = require('rollup-plugin-commonjs');
 const wrapBundle = require('./src/wrapBundle');
 
-module.exports = ['getStories', 'renderStoryWithClientAPI', 'runRunBeforeScript'].map(config);
+module.exports = [
+  'getStories',
+  'renderStoryWithClientAPI',
+  'runRunBeforeScript',
+  'getClientAPI',
+].map(config);
 
 function config(fileName) {
   return {
