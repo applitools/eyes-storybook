@@ -54,15 +54,6 @@ describe('validateAndPopulateConfig', () => {
     expect(config.appName).to.equal('bla');
   });
 
-  it('trims last slash from storybookUrl', async () => {
-    const config = {apiKey: 'bla', storybookUrl: 'url/', appName: 'bla'};
-    await validateAndPopulateConfig({
-      config,
-      logger: console,
-    });
-    expect(config.storybookUrl).to.equal('url');
-  });
-
   it('adds agentId with proper version', async () => {
     const {version} = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../../package.json')));
     const config = {apiKey: 'bla', storybookUrl: 'url', appName: 'bla'};

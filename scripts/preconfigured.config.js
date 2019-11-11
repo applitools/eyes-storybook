@@ -11,7 +11,7 @@ module.exports = {
     //{width: 1200, height: 800, name: 'chrome'},
     {width: 800, height: 600, name: 'chrome'},
     //{width: 1200, height: 800, name: 'firefox'},
-    {width: 800, height: 600, name: 'firefox'},
+    // {width: 800, height: 600, name: 'firefox'},
     // {deviceName: 'iPhone X'},
     // {width: 1200, height: 800, name: 'ie11'},
     //{width: 800, height: 600, name: 'ie11'},

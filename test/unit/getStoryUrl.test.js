@@ -9,7 +9,7 @@ describe('getStoryUrl', () => {
     const kind = 'kind+'; // + ==> %2B
     const baseUrl = 'http://some/url';
     const expected =
-      'http://some/iframe.html?eyes-storybook=true&selectedKind=kind%2B&selectedStory=name%3D';
+      'http://some/url/iframe.html?eyes-storybook=true&selectedKind=kind%2B&selectedStory=name%3D';
     expect(getStoryUrl({name, kind}, baseUrl)).to.equal(expected);
   });
 
