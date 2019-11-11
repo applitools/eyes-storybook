@@ -16,7 +16,7 @@ describe('renderStories', () => {
   it('returns empty array for 0 stories', async () => {
     const pagePool = createPagePool({
       logger,
-      initPage: async index => index + 1,
+      initPage: async index => ({evaluate: async () => index + 1}),
     });
     const {stream, getEvents} = testStream();
     const renderStories = makeRenderStories({
@@ -35,7 +35,7 @@ describe('renderStories', () => {
   it('returns results from renderStory', async () => {
     const pagePool = createPagePool({
       logger,
-      initPage: async index => index + 1,
+      initPage: async index => ({evaluate: async () => index + 1}),
     });
     pagePool.addToPool((await pagePool.createPage()).pageId);
     pagePool.addToPool((await pagePool.createPage()).pageId);
@@ -44,10 +44,10 @@ describe('renderStories', () => {
     const getStoryData = async ({story, storyUrl, page}) => {
       await delay(10);
       return {
-        cdt: `cdt_${story.name}_${story.kind}_${storyUrl}_${page}`,
-        resourceUrls: `resourceUrls_${story.name}_${story.kind}_${storyUrl}_${page}`,
-        resourceContents: `resourceContents_${story.name}_${story.kind}_${storyUrl}_${page}`,
-        frames: `frames_${story.name}_${story.kind}_${storyUrl}_${page}`,
+        cdt: `cdt_${story.name}_${story.kind}_${storyUrl}_${await page.evaluate()}`,
+        resourceUrls: `resourceUrls_${story.name}_${story.kind}_${storyUrl}_${await page.evaluate()}`, // eslint-disable-line prettier/prettier
+        resourceContents: `resourceContents_${story.name}_${story.kind}_${storyUrl}_${await page.evaluate()}`, // eslint-disable-line prettier/prettier
+        frames: `frames_${story.name}_${story.kind}_${storyUrl}_${await page.evaluate()}`,
       };
     };
 
@@ -81,13 +81,12 @@ describe('renderStories', () => {
     const expectedResults = await Promise.all(
       stories.map(async (story, i) => {
         const storyUrl = `http://something/iframe.html?eyes-storybook=true&selectedKind=${story.kind}&selectedStory=${story.name}`;
-        const storyData = await getStoryData({
-          story,
-          storyUrl,
-          page: i % 3 === 0 ? 1 : i % 3 === 1 ? 2 : 3,
-        });
+        const page = i % 3 === 0 ? 1 : i % 3 === 1 ? 2 : 3;
         return {
-          ...storyData,
+          cdt: `cdt_${story.name}_${story.kind}_${storyUrl}_${page}`,
+          resourceUrls: `resourceUrls_${story.name}_${story.kind}_${storyUrl}_${page}`,
+          resourceContents: `resourceContents_${story.name}_${story.kind}_${storyUrl}_${page}`, // eslint-disable-line prettier/prettier
+          frames: `frames_${story.name}_${story.kind}_${storyUrl}_${page}`,
           story,
           url: storyUrl,
         };
@@ -104,7 +103,7 @@ describe('renderStories', () => {
   it('returns errors from getStoryData', async () => {
     const pagePool = createPagePool({
       logger,
-      initPage: async index => index + 1,
+      initPage: async index => ({evaluate: async () => index + 1}),
     });
     pagePool.addToPool((await pagePool.createPage()).pageId);
     const getStoryData = async () => {
@@ -140,7 +139,7 @@ describe('renderStories', () => {
   it('returns errors from renderStory', async () => {
     const pagePool = createPagePool({
       logger,
-      initPage: async index => index + 1,
+      initPage: async index => ({evaluate: async () => index + 1}),
     });
     pagePool.addToPool((await pagePool.createPage()).pageId);
     const getStoryData = async () => ({});
