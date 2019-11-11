@@ -1,3 +1,4 @@
 test/fixtures/appWithStorybook
 test/fixtures/heavyStorybook
 dist
+logs
