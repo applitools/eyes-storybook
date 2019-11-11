@@ -83,7 +83,7 @@ function getRequests(lines) {
   });
 
   Object.keys(data).forEach(requestId => {
-    if (!data[requestId].total) {
+    if (data[requestId].total === undefined) {
       data[requestId].error = 'hanging';
       data[requestId].total = (new Date(lastTime) - new Date(data[requestId].start)) / 1000;
     }
