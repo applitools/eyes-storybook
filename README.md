@@ -129,10 +129,9 @@ In addition to command-line arguments, it's possible to define the following con
 | `waitBeforeScreenshot`   | undefined                   | Selector, function or timeout.<br/>If ```number``` then the argument is treated as time in milliseconds to wait before all screenshots.<br/>If ```string``` then the argument is treated as a selector for elements to wait for before all screenshots.<br/>If ```function```, then the argument is treated as a predicate to wait for before all screenshots.<br/><hr/>For per component configuration see [waitBeforeScreenshot.](#waitBeforeScreenshot)<br/>Note that we use Puppeteer's [page.waitFor()](https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#pagewaitforselectororfunctionortimeout-options-args), checkout it's API for more details. |
 | `include`                 | true                        | Specifies which stories should be visually tested. Visual baselines will be created only for the components specified. For more information, see [per component configuration - include](#include). |
 | `variations`              | undefined                   | Specifies additional variations for all or some of the stories. For example, RTL. For more information, see [per component  configuration - variations](#variations).|
-
-<!-- | `accessibilityLevel` | None | The accessibility level to use for the screenshots. Possible values are `None`, `AA` and `AAA`. |
+| `accessibilityLevel` | None | The accessibility level to use for the screenshots. Possible values are `None`, `AA` and `AAA`. |
 | `notifyOnCompletion`  | false | If `true` batch completion notifications are sent. |
-|`dontCloseBatches`| false | If true, batches are not closed for notifyOnCompletion.|-->
+|`dontCloseBatches`| false | If true, batches are not closed for notifyOnCompletion.|
 
 There are 2 ways to specify test configuration:
 
@@ -152,11 +151,11 @@ APPLITOOLS_BATCH_ID
 APPLITOOLS_BATCH_NAME
 APPLITOOLS_BATCH_SEQUENCE_NAME
 APPLITOOLS_PROXY
+APPLITOOLS_ACCESSIBILITY_LEVEL
+APPLITOOLS_NOTIFY_ON_COMPLETION
 ...
 // all other configuration variables apply as well..
 ```
-<!-- APPLITOOLS_ACCESSIBILITY_LEVEL
-APPLITOOLS_NOTIFY_ON_COMPLETION -->
 
 ### Method 2: The `applitools.config.js` file
 
@@ -307,7 +306,7 @@ storiesOf('Components with a waitBeforeScreenshot', module)
 
 ### _The following parameters cannot be set as an [Advanced configuration](#advanced-configuration) :_
 
-<!-- ### `accessibility`
+### `accessibility`
 
 A single or an array of regions for accessibility checking. For example:
 
@@ -327,7 +326,7 @@ storiesOf('Components with accessibility regions', module)
 });
 ```
 
-Possible accessibilityType values are: `IgnoreContrast`,`RegularText`,`LargeText`,`BoldText` and `GraphicalObject`. -->
+Possible accessibilityType values are: `IgnoreContrast`,`RegularText`,`LargeText`,`BoldText` and `GraphicalObject`.
 
 ### `ignore`
 
