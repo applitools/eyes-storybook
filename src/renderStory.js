@@ -31,7 +31,10 @@ function makeRenderStory({logger, openEyes, performance, timeItAsync}) {
     return timeItAsync(title, async () => {
       const {checkWindow, close} = await openEyes({
         testName: title,
-        properties: [{name: 'Component name', value: kind}, {name: 'State', value: name}],
+        properties: [
+          {name: 'Component name', value: kind},
+          {name: 'State', value: name},
+        ],
       });
       checkWindow({
         cdt,
