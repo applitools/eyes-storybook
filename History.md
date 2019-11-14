@@ -1,4 +1,12 @@
 
+v2.9.6 / 2019-11-14
+===================
+
+* 2.9.6 [[1167159](https://github.com/applitools/eyes-storybook/commit/11671590bbc7cbcc8f9e9b12532e0304c98b3d2c)]
+* updated vgc [[ef53daf](https://github.com/applitools/eyes-storybook/commit/ef53daf071653dfc091fdc85951da4f4190d6514)]
+* readme for accurate version of per story configuration [[f89d201](https://github.com/applitools/eyes-storybook/commit/f89d201f72ac4bcc2e8f090e7cd2dbcc00c701da)]
+* changelog [[ee80656](https://github.com/applitools/eyes-storybook/commit/ee80656be59cb3d43881c5413473d7f0b15da40d)]
+
 v2.9.5 / 2019-10-27
 ===================
 
