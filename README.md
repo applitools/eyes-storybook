@@ -38,9 +38,9 @@ If your project is using the default storybook config folder (i.e. `<project_fol
 ```bash
 npx eyes-storybook
 ```
-<br/><br/>
+<br/>
 
-### Index
+## Index
   - [Configuring a local storybook server](#Configuring-local-storybook-server)
   - [Standalone server](#Standalone-server)
   - [Command line arguments](#Command-line-arguments)
