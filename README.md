@@ -40,7 +40,7 @@ npx eyes-storybook
 ```
 <br/>
 
-## Index
+### Index
   - [Configuring a local storybook server](#Configuring-local-storybook-server)
   - [Standalone server](#Standalone-server)
   - [Command line arguments](#Command-line-arguments)
