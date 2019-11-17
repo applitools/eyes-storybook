@@ -54,7 +54,7 @@ npx eyes-storybook
 - [Configuring the browser](#Configuring-the-browser)
   - [Device emulation](#Device-emulation)
 - [Per component configuration](#Per-component-configuration)
-  - [Global params set as per component params](#The-following-properties-are-supported:)
+  - [Global params set as per component params](#The-following-properties-are-supported)
     - [include](#include)
     - [variations](#variations)
     - [waitBeforeScreenshot](#waitBeforeScreenshot)
