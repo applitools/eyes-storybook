@@ -39,6 +39,33 @@ If your project is using the default storybook config folder (i.e. `<project_fol
 npx eyes-storybook
 ```
 
+### Index
+  - [Configuring a local storybook server](#Configuring-local-storybook-server)
+  - [Standalone server](#Standalone-server)
+  - [Command line arguments](#Command-line-arguments)
+  - [Concurrency](#Concurrency)
+  - [Advanced configuration](#Advanced-configuration)
+  - [Concurrency](#Concurrency)
+  - [Advanced configuration](#Advanced-configuration)
+    - [Arguments](#Advanced-configuration)
+    - [Examples](#Method-1-Environment-variables)
+      - [Environment variables](#Method-1-Environment-variables)
+      - [The `applitools.config.js` file](#Method-2-The-applitoolsconfigjs-file)
+- [Configuring the browser](#Configuring-the-browser)
+  - [Device emulation](#Device-emulation)
+- [Per component configuration](#Per-component-configuration)
+  - [Global params set as per component params](#The-following-properties-are-supported:)
+    - [include](#include)
+    - [variations](#variations)
+    - [waitBeforeScreenshot](#waitBeforeScreenshot)
+  - [Per component params](#accessibility)
+    - [accessibility](#accessibility)
+    - [ignore](#ignore)
+- [Running Eyes-Storybook in Docker](#Running-Eyes-Storybook-in-Docker)
+- [Dealing with dynamic data](#Dealing-with-dynamic-data)
+- [Troubleshooting](#Troubleshooting)
+
+
 ### Configuring local storybook server
 
 Normally, Eyes-Storybook starts a storybook dev server in an available port between 9000-9010 for the duration of the tests. It's possible to pass arguments to Eyes-Storybook to configure the local storybook server:
@@ -246,7 +273,7 @@ module.exports = {
 }
 ```
 
-The following properties are supported:
+#### The following properties are supported:
 
 ### `include`
 
