@@ -62,6 +62,7 @@ npx eyes-storybook
   - [Per component params](#accessibility)
     - [accessibility](#accessibility)
     - [ignore](#ignore)
+    - [runBefore](#runBefore)
 - [Running Eyes-Storybook in Docker](#Running-Eyes-Storybook-in-Docker)
 - [Dealing with dynamic data](#Dealing-with-dynamic-data)
 - [Troubleshooting](#Troubleshooting)
@@ -161,6 +162,7 @@ In addition to command-line arguments, it's possible to define the following con
 | `accessibilityLevel` | None | The accessibility level to use for the screenshots. Possible values are `None`, `AA` and `AAA`. |
 | `notifyOnCompletion`  | false | If `true` batch completion notifications are sent. |
 |`dontCloseBatches`| false | If true, batches are not closed for notifyOnCompletion.|
+| `concurrency`             | 10                          | The maximum number of tests that can run concurrently. The default value is the allowed amount for free accounts. For paid accounts, set this number to the quota set for your account. |
 
 There are 2 ways to specify test configuration:
 
@@ -309,9 +311,8 @@ if (isRTL) {
 storiesOf('Components that support RTL', module)
   .add(
     'Some story',
-    () => 
-      <div>
-        <span>I am visually perfect!<span>
+    () => <div>
+        <span>I am visually perfect!</span>
         <span>{isRTL ? ' and rendered right to left as well :)' : ''}</span>
       </div>,
     {eyes: {variations: ['RTL']}}
@@ -359,14 +360,13 @@ Possible accessibilityType values are: `IgnoreContrast`,`RegularText`,`LargeText
 
 ### `ignore`
 
-
 A single or an array of regions to ignore when checking for visual differences. For example:
 
 ```js
 storiesOf('Components with ignored region', module)
   .add(
     'Some story',
-    () => 
+    () =>
       <div>
         <span>I am visually perfect!</span>
         <span className="ignore-this">this should be ignored</span>
@@ -374,6 +374,31 @@ storiesOf('Components with ignored region', module)
     {eyes: { ignore: [{selector: '.ignore-this'}] }}
   )
 ```
+
+### `runBefore`
+
+An asynchronous function that will be evaluated before the story's screenshot is taken. This is the place to perform any interaction with the story using DOM API's.
+
+For performing various DOM interactions, we recommend checking out [dom-testing-library](https://github.com/testing-library/dom-testing-library). It provides utilities to interact, query and wait for conditions on the DOM.
+
+For example, a component that renders a popover could trigger the opening of the popover and wait for content to appear:
+
+```js
+// these are utilities from dom-testing-library
+import {wait, within, fireEvent} from '@testing-library/dom';
+
+// <Popover /> is a component in your UI library.
+// The assumption in this example is that it is opened by an element with the text 'Open',
+// and then that element's text changes to 'Close':
+storiesOf('UI components', module)
+  .add('Popover', () => <Popover />, {
+    eyes: {
+      runBefore({rootEl, story}) {
+        fireEvent.click(within(rootEl).getByText('Open'))
+        return wait(() => within(rootEl).getByText('Close'))
+      }
+    },
+  })
 
 ## Running Eyes-Storybook in Docker
 

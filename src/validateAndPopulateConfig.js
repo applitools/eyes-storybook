@@ -50,8 +50,6 @@ async function validateAndPopulateConfig({config, packagePath, logger}) {
     }
   }
 
-  config.storybookUrl = config.storybookUrl;
-
   config.agentId = `eyes-storybook/${packageVersion}`;
 
   if (config.runInDocker) {

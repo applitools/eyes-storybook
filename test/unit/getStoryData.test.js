@@ -1,6 +1,7 @@
 'use strict';
 const {describe, it} = require('mocha');
 const {expect} = require('chai');
+const {presult} = require('@applitools/functional-commons');
 const makeGetStoryData = require('../../src/getStoryData');
 
 describe('getStoryData', () => {
@@ -25,7 +26,11 @@ describe('getStoryData', () => {
       processPageAndSerialize,
       waitBeforeScreenshot: 50,
     });
-    const {resourceUrls, resourceContents, cdt} = await getStoryData({url: 'url', page});
+    const {resourceUrls, resourceContents, cdt} = await getStoryData({
+      story: {},
+      storyUrl: 'url',
+      page,
+    });
 
     expect(resourceUrls).to.eql(['url1']);
     expect(resourceContents).to.eql(expectedResourceContents);
@@ -62,7 +67,8 @@ describe('getStoryData', () => {
     });
 
     const {resourceUrls, resourceContents, cdt} = await getStoryData({
-      url: 'url',
+      story: {},
+      storyUrl: 'url',
       page,
     });
 
@@ -101,7 +107,8 @@ describe('getStoryData', () => {
     });
 
     const {resourceUrls, resourceContents, cdt} = await getStoryData({
-      url: 'url',
+      story: {},
+      storyUrl: 'url',
       page,
       waitBeforeStory: waitBeforeScreenshot,
     });
@@ -133,7 +140,7 @@ describe('getStoryData', () => {
     });
     let err;
     try {
-      await getStoryData({url: 'url', page, waitBeforeStory: -5});
+      await getStoryData({story: {}, storyUrl: 'url', page, waitBeforeStory: -5});
     } catch (e) {
       err = e;
     }
@@ -162,10 +169,39 @@ describe('getStoryData', () => {
     });
     let err;
     try {
-      await getStoryData({url: 'url', page});
+      await getStoryData({story: {}, storyUrl: 'url', page});
     } catch (e) {
       err = e;
     }
     expect(err.message).to.eql('IllegalArgument: waitBeforeScreenshot < 0');
+  });
+
+  it('throws when fails to render a story with api', async () => {
+    const page = {
+      evaluate: func => {
+        if (func.name === '__renderStoryWithClientAPI') {
+          return {message: 'some render story error', version: 'some api version'};
+        } else {
+          return Promise.resolve(func());
+        }
+      },
+    };
+    const logger = console;
+    const getStoryData = makeGetStoryData({
+      logger,
+      processPageAndSerialize: () => {},
+      waitBeforeScreenshots: 50,
+    });
+    const [err] = await presult(
+      getStoryData({
+        story: {isApi: true},
+        storyUrl: 'url',
+        page,
+      }),
+    );
+
+    expect(err.message).to.eql(
+      'Eyes could not render stories properly. The detected version of storybook is some api version. Contact support@applitools.com for troubleshooting.',
+    );
   });
 });

@@ -1,7 +1,7 @@
 'use strict';
 const getStoryTitle = require('./getStoryTitle');
 
-function makeRenderStory({logger, openEyes, performance, timeItAsync}) {
+function makeRenderStory({logger, testWindow, performance, timeItAsync}) {
   return function renderStory({story, resourceUrls, resourceContents, frames, cdt, url}) {
     const {name, kind, parameters} = story;
     const title = getStoryTitle({name, kind, parameters});
@@ -28,34 +28,37 @@ function makeRenderStory({logger, openEyes, performance, timeItAsync}) {
     }
 
     logger.log('running story', title);
+
+    const openParams = {
+      testName: title,
+      properties: [
+        {name: 'Component name', value: kind},
+        {name: 'State', value: name},
+      ],
+    };
+
+    const checkParams = {
+      cdt,
+      resourceUrls,
+      resourceContents,
+      url,
+      frames,
+      ignore,
+      accessibility,
+      floating,
+      strict,
+      layout,
+      scriptHooks,
+      sizeMode,
+      target,
+      fully,
+      selector,
+      region,
+      tag,
+    };
+
     return timeItAsync(title, async () => {
-      const {checkWindow, close} = await openEyes({
-        testName: title,
-        properties: [
-          {name: 'Component name', value: kind},
-          {name: 'State', value: name},
-        ],
-      });
-      checkWindow({
-        cdt,
-        resourceUrls,
-        resourceContents,
-        url,
-        frames,
-        ignore,
-        accessibility,
-        floating,
-        strict,
-        layout,
-        scriptHooks,
-        sizeMode,
-        target,
-        fully,
-        selector,
-        region,
-        tag,
-      });
-      return close(false);
+      return testWindow({openParams, checkParams, throwEx: false});
     }).then(onDoneStory);
 
     function onDoneStory(results) {

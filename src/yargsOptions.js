@@ -41,8 +41,12 @@ module.exports = {
   showStorybookOutput: {
     alias: ['show-storybook-output'],
     description: 'whether or not you want to see Storybook output',
-    requiresArg: true,
     boolean: true,
+  },
+  readStoriesTimeout: {
+    alias: ['read-stories-timeout'],
+    description: 'The time to wait until all stories are read, before starting the visual tests',
+    number: true,
   },
 
   // general

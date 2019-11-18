@@ -35,6 +35,24 @@
       "protocol": "inspector",
       "console": "integratedTerminal",
       "showAsyncStacks": true
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Moche - run current test file",
+      "program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
+      "args": [
+        "--no-timeouts",
+        "--trace-warnings",
+        "${file}"
+      ],
+      "env": {
+        "DEBUG": "applitools:${workspaceFolderBasename}*"
+      },
+      "cwd": "${workspaceRoot}",
+      "protocol": "inspector",
+      "console": "integratedTerminal",
+      "showAsyncStacks": true
     }
   ]
 }

@@ -3,6 +3,7 @@ import { storiesOf } from '@storybook/react';
 import WithScript from './withScript';
 import './storybook.css';
 import smurfs from '../smurfs.jpg';
+import {wait, within, fireEvent} from '@testing-library/dom';
 
 const isRTL = new URL(window.location).searchParams.get('eyes-variation') === 'rtl';
 
@@ -91,4 +92,35 @@ storiesOf('Text', module)
         <div id="delay">Not Ready - do not take snapshot!</div>
       </WithScript>,
     {eyes: {waitBeforeScreenshot: '.ready'}}
-  )
+  );
+
+storiesOf('Interaction', module)
+  .add('Popover', () => <Popover />, {
+    eyes: {
+      runBefore({rootEl, story}) {
+        rootEl.querySelector('.main').style.background = story.parameters.bgColor;
+        fireEvent.click(within(rootEl).getByText('Open'))
+        return wait(() => within(rootEl).getByText('Close'))
+      }
+    },
+    bgColor: 'lime',
+  })
+
+class Popover extends React.Component {
+  state = {isOpen: false, transition: undefined};
+
+  toggle = () => {
+    if (this.state.transition) return;
+    this.setState(({isOpen}) => ({transition: isOpen ? 'closing' : 'opening'}))
+    setTimeout(() => {
+      this.setState(({isOpen}) => ({isOpen: !isOpen, transition: undefined}))
+    }, 1000)
+  }
+
+  render() {
+    return <div>
+      <button onClick={this.toggle} disabled={!!this.state.transition}>{this.state.transition || (this.state.isOpen ? 'Close' : 'Open')}</button>
+      {this.state.isOpen && <div>I show up only after button is clicked</div>}
+    </div>
+  }
+}

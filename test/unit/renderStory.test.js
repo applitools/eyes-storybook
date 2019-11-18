@@ -17,22 +17,10 @@ describe('renderStory', () => {
     timeItAsync = timing.timeItAsync;
   });
 
-  it('calls openEyes, checkWindow and close with proper arguments and sets performance timing', async () => {
-    const openEyes = async ({testName}) => {
-      let checkWindowArguments;
-      return {
-        checkWindow: args => (checkWindowArguments = args),
-        close: async throwEx => {
-          return {
-            throwEx,
-            checkWindowArguments,
-            testName,
-          };
-        },
-      };
-    };
+  it('calls testWindow with proper arguments and sets performance timing', async () => {
+    const testWindow = async x => x;
 
-    const renderStory = makeRenderStory({logger, openEyes, performance, timeItAsync});
+    const renderStory = makeRenderStory({logger, testWindow, performance, timeItAsync});
 
     const cdt = 'cdt';
     const resourceUrls = 'resourceUrls';
@@ -59,8 +47,20 @@ describe('renderStory', () => {
 
     expect(results).to.eql({
       throwEx: false,
-      testName: title,
-      checkWindowArguments: {
+      openParams: {
+        properties: [
+          {
+            name: 'Component name',
+            value: 'kind',
+          },
+          {
+            name: 'State',
+            value: 'name',
+          },
+        ],
+        testName: title,
+      },
+      checkParams: {
         cdt,
         resourceContents,
         resourceUrls,
@@ -73,34 +73,14 @@ describe('renderStory', () => {
     expect(performance[title]).not.to.equal(undefined);
   });
 
-  it('throws error during openEyes', async () => {
-    const openEyes = async () => {
+  it('throws error during testWindow', async () => {
+    const testWindow = async () => {
       await psetTimeout(0);
       throw new Error('bla');
     };
 
-    const renderStory = makeRenderStory({logger, openEyes, performance, timeItAsync});
+    const renderStory = makeRenderStory({logger, testWindow, performance, timeItAsync});
     const [{message}] = await presult(renderStory({story: {}}));
     expect(message).to.equal('bla');
-  });
-
-  it('handles error during close', async () => {
-    let shouldThrow;
-    const openEyes = async () => ({
-      checkWindow() {},
-      close: async throwEx => {
-        shouldThrow = throwEx;
-        await psetTimeout(0);
-        return [new Error('bla')];
-      },
-    });
-
-    const renderStory = makeRenderStory({logger, openEyes, performance, timeItAsync});
-    const story = {name: 'name1', kind: 'kind'};
-    const [{message}] = await renderStory({story});
-    expect(message).to.equal('bla');
-    expect(!!shouldThrow).to.be.false;
-    console.log(performance);
-    expect(performance[getStoryTitle(story)]).not.to.equal(undefined);
   });
 });

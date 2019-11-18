@@ -1,0 +1,40 @@
+<body>
+  <div id="root"></div>
+  <script>
+    window.__STORYBOOK_CLIENT_API__ = { _storyStore: { _data: {
+        Button: {
+          kind: 'Button',
+          stories: {
+            'With text': {
+              name: 'With text', 
+              parameters: {
+                eyes: {
+                  runBefore: ({rootEl}) => {
+                    return new Promise(resolve => {
+                      setTimeout(() => {
+                        rootEl.textContent = 'story done';
+                        resolve();
+                      }, 500);
+                    });
+                  },
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+  }
+  
+  window.__STORYBOOK_ADDONS = {
+    channel: {
+      _listeners: { 
+        setCurrentStory: [
+          ({kind, story}) => 
+            document.getElementById('root').textContent = `${kind}-${story}`
+        ] 
+      }
+    }
+  }
+  </script>
+</body>

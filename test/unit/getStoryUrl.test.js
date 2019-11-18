@@ -9,17 +9,17 @@ describe('getStoryUrl', () => {
     const kind = 'kind+'; // + ==> %2B
     const baseUrl = 'http://some/url';
     const expected =
-      'http://some/url/iframe.html?selectedKind=kind%2B&selectedStory=name%3D&eyes-storybook=true';
+      'http://some/url/iframe.html?eyes-storybook=true&selectedKind=kind%2B&selectedStory=name%3D';
     expect(getStoryUrl({name, kind}, baseUrl)).to.equal(expected);
   });
 
   it('adds RTL param when needed', () => {
     const name = 'name';
     const kind = 'kind';
-    const baseUrl = 'baseUrl';
+    const baseUrl = 'http://some/url/';
     const parameters = {eyes: {variationUrlParam: 'bla'}};
     const expected =
-      'baseUrl/iframe.html?selectedKind=kind&selectedStory=name&eyes-storybook=true&eyes-variation=bla';
+      'http://some/url/iframe.html?eyes-storybook=true&selectedKind=kind&selectedStory=name&eyes-variation=bla';
     expect(getStoryUrl({name, kind, parameters}, baseUrl)).to.equal(expected);
   });
 });

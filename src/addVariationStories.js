@@ -1,12 +1,12 @@
 'use strict';
 
 function addVariationStories({stories, config}) {
-  const storiesWithVariations = [...stories];
-
   const globalVariationFunc =
     typeof config.variations === 'function' ? config.variations : undefined;
   const globalVariationArray = Array.isArray(config.variations) ? config.variations : undefined;
-  const storiesToAddVariations = stories.filter(story => getStoryVariations(story));
+  const storiesToAddVariations = stories.filter(getStoryVariations);
+
+  const storiesByVariation = {};
 
   for (const story of storiesToAddVariations) {
     const variations = getStoryVariations(story);
@@ -15,14 +15,17 @@ function addVariationStories({stories, config}) {
     }
 
     for (const variation of variations) {
-      storiesWithVariations.push({
+      const variationArr = storiesByVariation[variation] || (storiesByVariation[variation] = []);
+      variationArr.push({
         ...story,
         parameters: addFlagToParameters(story.parameters, variation),
       });
     }
   }
 
-  return storiesWithVariations;
+  return Object.keys(storiesByVariation).reduce((storiesWithVariations, variation) => {
+    return storiesWithVariations.concat(storiesByVariation[variation]);
+  }, stories);
 
   function getStoryVariations(story) {
     if (story.parameters && story.parameters.eyes && story.parameters.eyes.variations) {

@@ -1,0 +1,28 @@
+<body>
+  <div id="root"></div>
+  <script>
+  window.__STORYBOOK_CLIENT_API__ = {
+    _storyStore: {
+      setSelection: ({initialText}) => {
+        document.getElementById('root').textContent = initialText;
+      }
+    },
+
+    raw: () => [{
+      initialText: 'story not done',
+      parameters: {
+        eyes: {
+          runBefore: ({rootEl}) => {
+            return new Promise(resolve => {
+              setTimeout(() => {
+                rootEl.textContent = 'story done';
+                resolve();
+              }, 500);
+            });
+          },
+        }
+      }
+    }]
+  }
+  </script>
+</body>

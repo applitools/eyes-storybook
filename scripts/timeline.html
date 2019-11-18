@@ -1,0 +1,64 @@
+<div id="timeline"></div>
+<script src="timeline.js"></script>
+
+<style>
+  html {
+    font-size: 12px;
+    color: rgba(0, 0, 0, 0.62);
+    font-family: sans-serif;
+  }
+  
+  #timeline {
+    position: relative;
+    background: rgba(0,0,0,0.1);
+  }
+
+  .notch {
+    position: absolute;
+    border-left: 1px solid black;
+    height: 10px;
+    top: 100%;
+  }
+  
+  .notch span {
+    position: absolute;
+    top: 10px;
+    left: -4px;
+  }
+
+  .story-vg {
+    position: absolute;
+    background: rgba(255,0,0,0.3);
+  }
+
+  .story-eyes {
+    position: absolute;
+    background: rgba(0,0,255,0.3);
+  }
+
+  .story-vg:hover {
+    background: rgba(255,0,0,1);
+  }
+
+  .story-vg:hover .story-name {
+    display: block;
+  }
+
+  .story-name {
+    display: none;
+    cursor: default;
+    background: white;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1), 0px 0px 3px rgba(0, 0, 0, 0.1);
+    margin-top: 15px;
+    position: absolute;
+    white-space: nowrap;
+    z-index: 1;
+    padding: 3px;
+    font-size: 10px;
+  }
+
+  .getting-data {
+    position: absolute;
+    background: rgba(0,80,0,0.5);
+  }
+</style>

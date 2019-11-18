@@ -8,26 +8,28 @@
   },
   "files": [
     "src",
-    "bin"
+    "bin",
+    "dist"
   ],
   "bin": {
     "eyes-storybook": "./bin/eyes-storybook.js"
   },
   "scripts": {
-    "test": "npm run test:mocha && npm run eslint && npm run msg:success || npm run msg:failure",
+    "test": "npm run build && npm run test:mocha && npm run eslint && npm run msg:success || npm run msg:failure",
     "test:mocha": "mocha --no-timeouts --trace-warnings 'test/unit/*.test.js' 'test/it/*.test.js' 'test/e2e/*.test.js'",
     "test:unit": "mocha --no-timeouts --trace-warnings 'test/unit/*.test.js'",
     "test:it": "mocha --no-timeouts --trace-warnings 'test/it/*.test.js'",
     "test:e2e": "mocha --no-timeouts --trace-warnings 'test/e2e/*.test.js'",
     "msg:success": "notify -t 'Storybook tests Passed !!' -m 'Yaaaaaa !!!'",
     "msg:failure": "notify -t 'Storybook tests Failed !!' -m 'Daaaamm !!!'",
+    "build": "rollup -c rollup.config.js",
+    "build:heavy": "node scripts/bitmap.js",
     "eslint": "eslint '**/*.js'",
-    "prepublishOnly": "npm version patch",
     "storybook": "start-storybook -c test/fixtures/appWithStorybook -p 9001 -s test/fixtures",
     "storybook:heavy": "start-storybook -c test/fixtures/heavyStorybook -p 9002 -s test/fixtures",
-    "build:heavy": "node scripts/bitmap.js",
     "eyes-storybook": "node bin/eyes-storybook.js -f test/fixtures/applitools.config.js",
     "eyes-storybook:heavy": "node bin/eyes-storybook.js -f test/fixtures/heavyStorybook/applitools.config.js",
+    "eyes-storybook:configured": "node bin/eyes-storybook.js -f scripts/preconfigured.config.js",
     "changelog": "git changelog -x -p -f v$npm_package_version > History.md && git add ./History.md && git commit -am 'changelog'",
     "changelog:init": "git config changelog.format \"* %s [[%h]($(echo $npm_package_repository_url|cut -d+ -f2|cut -d. -f1-2)/commit/%H)]\"",
     "changelog:install": "sudo apt-get install git-extras"
@@ -48,8 +50,7 @@
     "type": "git"
   },
   "dependencies": {
-    "@applitools/dom-snapshot": "^3.0.4",
-    "@applitools/eyes-common": "^3.12.0",
+    "@applitools/dom-snapshot": "^3.1.2",
     "@applitools/eyes-sdk-core": "^5.20.5",
     "@applitools/functional-commons": "^1.5.2",
     "@applitools/monitoring-commons": "^1.0.15",
@@ -65,6 +66,7 @@
   "devDependencies": {
     "@storybook/addon-options": "^5.2.6",
     "@storybook/react": "^5.2.6",
+    "@testing-library/dom": "^5.6.1",
     "babel-core": "^6.26.3",
     "babel-loader": "^8.0.6",
     "babel-preset-env": "^1.7.0",
@@ -77,6 +79,7 @@
     "eslint-plugin-node": "^6.0.1",
     "eslint-plugin-prettier": "^2.7.0",
     "express": "^4.17.1",
+    "filenamify": "^4.1.0",
     "mocha": "^5.2.0",
     "node-fetch": "^2.6.0",
     "node-notifier-cli": "^1.1.2",
@@ -85,6 +88,7 @@
     "react-dom": "^16.11.0",
     "rollup": "^1.27.0",
     "rollup-plugin-commonjs": "^10.1.0",
-    "strip-ansi": "^5.2.0"
+    "strip-ansi": "^5.2.0",
+    "ua-parser-js": "^0.7.20"
   }
 }

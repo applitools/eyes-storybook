@@ -1,6 +1,6 @@
 'use strict';
 const yargs = require('yargs');
-const {Logger} = require('@applitools/eyes-common');
+const {Logger} = require('@applitools/eyes-sdk-core');
 const {configParams: externalConfigParams} = require('@applitools/visual-grid-client');
 const VERSION = require('../package.json').version;
 const eyesStorybook = require('./eyesStorybook');
@@ -12,6 +12,8 @@ const defaultConfig = require('./defaultConfig');
 const configDigest = require('./configDigest');
 const {makeTiming} = require('@applitools/monitoring-commons');
 const handleTapFile = require('./handleTapFile');
+const {presult} = require('@applitools/functional-commons');
+const chalk = require('chalk');
 const {performance, timeItAsync} = makeTiming();
 
 (async function() {
@@ -29,23 +31,27 @@ const {performance, timeItAsync} = makeTiming();
 
     const config = generateConfig({argv, defaultConfig, externalConfigParams});
     const logger = new Logger(config.showLogs, 'eyes');
+    logger.setIncludeTime(true);
     await validateAndPopulateConfig({config, logger, packagePath: process.cwd()});
     logger.log(`Running with the following config:\n${configDigest(config)}`);
-    const results = await timeItAsync('eyesStorybook', () =>
-      eyesStorybook({config, logger, performance, timeItAsync}),
+    const [err, results] = await presult(
+      timeItAsync('eyesStorybook', () => eyesStorybook({config, logger, performance, timeItAsync})),
     );
-    const {exitCode, formatter, outputStr} = processResults({
-      results,
-      totalTime: performance['eyesStorybook'],
-      concurrency: config.concurrency,
-    });
-    console.log(outputStr);
-
-    if (config.tapFilePath) {
-      handleTapFile(config.tapFilePath, formatter);
+    if (err) {
+      console.log(chalk.red(err.message));
+      process.exit(config.exitcode ? config.exitcode : 0);
+    } else {
+      const {exitCode, formatter, outputStr} = processResults({
+        results,
+        totalTime: performance['eyesStorybook'],
+        concurrency: config.concurrency,
+      });
+      console.log(outputStr);
+      if (config.tapFilePath) {
+        handleTapFile(config.tapFilePath, formatter);
+      }
+      process.exit(config.exitcode ? exitCode : 0);
     }
-
-    process.exit(config.exitcode ? exitCode : 0);
   } catch (ex) {
     console.log(ex.message);
     process.exit(1);

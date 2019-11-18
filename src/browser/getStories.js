@@ -1,9 +1,12 @@
-/* global window,document */
+/* global document */
+const getClientAPI = require('./getClientAPI');
 
-async function getStories() {
+const DEFAULT_TIMEOUT = 60000;
+
+async function getStories({timeout = DEFAULT_TIMEOUT} = {timeout: DEFAULT_TIMEOUT}) {
   const Stories = {
     _getStoriesV2: () => {
-      let categories = getCategories();
+      let categories = getCategoriesV2();
       console.log(`got ${categories.length} categories`);
       let stories = [];
 
@@ -24,12 +27,6 @@ async function getStories() {
 
       return stories;
 
-      function getCategories() {
-        return Array.from(document.querySelector('.Pane.vertical.Pane1 ul').children).map(li =>
-          li.querySelector('a'),
-        );
-      }
-
       function verifyOpen(anchor) {
         if (!anchor.nextElementSibling) {
           anchor.click();
@@ -38,7 +35,7 @@ async function getStories() {
     },
 
     _getStoriesV3: () => {
-      let menuItems = getAllMenuItems();
+      let menuItems = getAllMenuItemsV3();
       console.log(`got ${menuItems.length} menu items`);
 
       let closedMenuItems = getClosedMenus(menuItems);
@@ -49,7 +46,7 @@ async function getStories() {
       while (closedMenuItems.length) {
         console.log(`opening ${closedMenuItems.length} closed menu items`);
         openMenus(closedMenuItems);
-        menuItems = getAllMenuItems();
+        menuItems = getAllMenuItemsV3();
         closedMenuItems = getClosedMenus(menuItems);
         console.log(`after opening menus, got ${menuItems.length} menu items`);
         console.log(
@@ -94,25 +91,40 @@ async function getStories() {
   const clientApi = await waitForClientAPI();
 
   if (clientApi) {
+    console.log(`getting stories from storybook via API. ${clientApi.version}`);
     return getStoriesThroughClientAPI(clientApi);
   } else if (isStoryBookLoading()) {
-    throw new Error('storybook is loading for too long');
+    return Promise.reject('storybook is loading for too long');
   } else {
     const storybookVersion = getVersion();
-    console.log(`getting stories from storybook through scraping. ${storybookVersion}`);
-    return Stories[`_getStories${storybookVersion}`]();
+    if (storybookVersion) {
+      console.log(`getting stories from storybook via scraping. ${storybookVersion}`);
+      return Stories[`_getStories${storybookVersion}`]();
+    } else {
+      return Promise.reject('could not determine storybook version in order to extract stories');
+    }
   }
 
   function getStoriesThroughClientAPI(clientApi) {
-    return clientApi.raw().map(({name, kind, parameters}) => {
+    return clientApi.getStories().map((story, index) => {
+      const {name, kind, parameters} = story;
       let parametersIfSerialized, error;
       try {
         parametersIfSerialized = JSON.parse(JSON.stringify(parameters));
+        if (parameters && parameters.eyes && typeof parameters.eyes === 'object') {
+          for (const prop in parameters.eyes) {
+            if (typeof parameters.eyes[prop] === 'function') {
+              parametersIfSerialized.eyes[prop] = '__func';
+            }
+          }
+        }
       } catch (e) {
         error = `Ignoring parameters for story: "${name} ${kind}" ! since they are not serilizable, error: "${e.message}"`;
       }
 
       return {
+        isApi: true,
+        index,
         name,
         kind,
         parameters: parametersIfSerialized,
@@ -121,35 +133,21 @@ async function getStories() {
     });
   }
 
-  function getAllMenuItems() {
+  function getAllMenuItemsV3() {
     return Array.from(document.querySelectorAll('.Pane.vertical.Pane1 [role="menuitem"]'));
   }
 
+  function getCategoriesV2() {
+    const ul = document.querySelector('.Pane.vertical.Pane1 ul');
+    return ul && Array.from(ul.children).map(li => li.querySelector('a'));
+  }
+
   function getVersion() {
-    if (getAllMenuItems().length !== 0) {
+    if (getAllMenuItemsV3().length !== 0) {
       return 'V3';
-    } else {
+    } else if (getCategoriesV2()) {
       return 'V2';
     }
-  }
-
-  function getClientAPI() {
-    const frameWindow = getFrameWindow();
-    if (
-      frameWindow &&
-      frameWindow.__STORYBOOK_CLIENT_API__ &&
-      frameWindow.__STORYBOOK_CLIENT_API__.raw
-    ) {
-      return frameWindow.__STORYBOOK_CLIENT_API__;
-    }
-  }
-
-  function getFrameWindow() {
-    return Array.prototype.filter.call(window.frames, frame => {
-      try {
-        return /\/iframe.html/.test(frame.location.href);
-      } catch (e) {}
-    })[0];
   }
 
   function isStoryBookLoading() {
@@ -159,19 +157,16 @@ async function getStories() {
   }
 
   function waitForClientAPI() {
-    const WAIT_FOR_SB_TIMEOUT = 10000;
+    return ptimeoutWithValue(_waitForClientAPI, timeout, undefined);
 
-    const _waitForClientAPI = async () => {
-      const clientApi = getClientAPI();
-      if (clientApi) {
-        return clientApi;
-      } else {
+    async function _waitForClientAPI() {
+      try {
+        return getClientAPI();
+      } catch (ex) {
         await delay(100);
         return _waitForClientAPI();
       }
-    };
-
-    return ptimeoutWithValue(_waitForClientAPI, WAIT_FOR_SB_TIMEOUT, undefined);
+    }
   }
 
   async function delay(time) {

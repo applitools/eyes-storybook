@@ -5,17 +5,17 @@ const {expect} = require('chai');
 const testServer = require('../util/testServer');
 const makeGetStoryData = require('../../src/getStoryData');
 const {ptimeoutWithError} = require('@applitools/functional-commons');
+const browserLog = require('../../src/browserLog');
+const logger = console;
 
 describe('getStoryData', () => {
   let browser, page, closeTestServer;
   before(async () => {
-    browser = await puppeteer.launch();
+    browser = await puppeteer.launch({headless: true});
     page = await browser.newPage();
     const server = await testServer({port: 7272});
     closeTestServer = server.close;
-    // page.on('console', msg => {
-    //   console.log(msg.args().join(' '));
-    // });
+    browserLog({page, onLog: text => console.log(`[browser] ${text}`)});
   });
 
   after(async () => {
@@ -30,7 +30,6 @@ describe('getStoryData', () => {
       cdt: 'cdt',
     });
 
-    const logger = console;
     const getStoryData = makeGetStoryData({
       logger,
       processPageAndSerialize,
@@ -38,7 +37,8 @@ describe('getStoryData', () => {
     });
 
     const getStoryPromise = getStoryData({
-      url: 'http://localhost:7272/renderTimeoutNumber.html',
+      story: {},
+      storyUrl: 'http://localhost:7272/renderTimeoutNumber.html',
       page,
     });
     const {resourceUrls, resourceContents, cdt} = await ptimeoutWithError(
@@ -64,7 +64,6 @@ describe('getStoryData', () => {
       cdt: 'cdt',
     });
 
-    const logger = console;
     const getStoryData = makeGetStoryData({
       logger,
       processPageAndSerialize,
@@ -72,7 +71,8 @@ describe('getStoryData', () => {
     });
 
     const getStoryPromise = getStoryData({
-      url: 'http://localhost:7272/renderTimeoutSelector.html',
+      story: {},
+      storyUrl: 'http://localhost:7272/renderTimeoutSelector.html',
       page,
     });
     const {resourceUrls, resourceContents, cdt} = await ptimeoutWithError(
@@ -95,7 +95,6 @@ describe('getStoryData', () => {
       cdt: 'cdt',
     });
 
-    const logger = console;
     const getStoryData = makeGetStoryData({
       logger,
       processPageAndSerialize,
@@ -103,7 +102,8 @@ describe('getStoryData', () => {
     });
 
     const getStoryPromise = getStoryData({
-      url: 'http://localhost:7272/renderTimeoutFunction.html',
+      story: {},
+      storyUrl: 'http://localhost:7272/renderTimeoutFunction.html',
       page,
     });
     const {resourceUrls, resourceContents, cdt} = await ptimeoutWithError(
@@ -117,5 +117,118 @@ describe('getStoryData', () => {
       {url: 'url2', type: 'type', value: Buffer.from('ss', 'base64')},
     ]);
     expect(cdt).to.equal('cdt');
+  });
+
+  it('uses storybook client API V5 when possible', async () => {
+    const processPageAndSerialize = () => ({
+      resourceUrls: [],
+      blobs: [],
+      cdt: document.getElementById('story').textContent,
+    });
+
+    await page.goto('http://localhost:7272/renderStorybookClientApiV5_2-iframe.html');
+    const getStoryData = makeGetStoryData({logger, processPageAndSerialize});
+
+    expect((await getStoryData({story: {isApi: true, index: 0}, page})).cdt).to.equal('story1');
+    expect((await getStoryData({story: {isApi: true, index: 1}, page})).cdt).to.equal('story2');
+  });
+
+  it('uses storybook client API V5 when possible', async () => {
+    const processPageAndSerialize = () => ({
+      resourceUrls: [],
+      blobs: [],
+      cdt: document.getElementById('story').textContent,
+    });
+
+    await page.goto('http://localhost:7272/renderStorybookClientApiV5-iframe.html');
+    const getStoryData = makeGetStoryData({logger, processPageAndSerialize});
+
+    expect((await getStoryData({story: {isApi: true, index: 0}, page})).cdt).to.equal('story1');
+    expect((await getStoryData({story: {isApi: true, index: 1}, page})).cdt).to.equal('story2');
+  });
+
+  it('uses storybook client API V4 when possible', async () => {
+    const processPageAndSerialize = () => ({
+      resourceUrls: [],
+      blobs: [],
+      cdt: document.getElementById('story').textContent,
+    });
+
+    await page.goto('http://localhost:7272/renderStorybookClientApiV4-iframe.html');
+    const getStoryData = makeGetStoryData({logger, processPageAndSerialize});
+
+    expect((await getStoryData({story: {isApi: true, index: 0}, page})).cdt).to.equal(
+      'Button-With text',
+    );
+  });
+
+  it('runs runBefore before extracting story data V5', async () => {
+    const processPageAndSerialize = () => ({
+      resourceUrls: [],
+      blobs: [],
+      cdt: document.getElementById('root').textContent,
+    });
+
+    await page.goto('http://localhost:7272/runBeforeV5-iframe.html');
+    const getStoryData = makeGetStoryData({logger, processPageAndSerialize});
+
+    const {cdt} = await getStoryData({
+      story: {
+        isApi: true,
+        index: 0,
+        parameters: {
+          eyes: {
+            runBefore: {},
+          },
+        },
+      },
+      page,
+    });
+
+    expect(cdt).to.equal('story done');
+  });
+
+  it('runs runBefore before extracting story data V4', async () => {
+    const processPageAndSerialize = () => ({
+      resourceUrls: [],
+      blobs: [],
+      cdt: document.getElementById('root').textContent,
+    });
+
+    await page.goto('http://localhost:7272/runBeforeV4-iframe.html');
+    const getStoryData = makeGetStoryData({logger, processPageAndSerialize});
+
+    const {cdt} = await getStoryData({
+      story: {
+        isApi: true,
+        index: 0,
+        parameters: {
+          eyes: {
+            runBefore: {},
+          },
+        },
+      },
+      page,
+    });
+
+    expect(cdt).to.equal('story done');
+  });
+
+  it("doesn't throw on exception in runBefore", async () => {
+    const processPageAndSerialize = () => ({
+      resourceUrls: [],
+      blobs: [],
+      cdt: document.getElementById('root').textContent,
+    });
+
+    await page.goto('http://localhost:7272/runBeforeWithException-iframe.html');
+    const getStoryData = makeGetStoryData({logger, processPageAndSerialize});
+
+    const {cdt} = await getStoryData({
+      story: {isApi: true, index: 0, parameters: {eyes: {runBefore: {}}}},
+      page,
+    });
+
+    expect(cdt).to.equal('story done');
   });
 });

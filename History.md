@@ -1,6 +1,4 @@
 
-v2.9.6 / 2019-11-14
-===================
 
 * 2.9.6 [[1167159](https://github.com/applitools/eyes-storybook/commit/11671590bbc7cbcc8f9e9b12532e0304c98b3d2c)]
 * updated vgc [[ef53daf](https://github.com/applitools/eyes-storybook/commit/ef53daf071653dfc091fdc85951da4f4190d6514)]
@@ -262,6 +260,7 @@ v2.7.11 / 2019-06-30
 * support storybookUrl with path/query [[c014bdb](https://github.com/applitools/eyes-storybook/commit/c014bdbe4953f3a2749c7b66bbb382fc73427668)]
 * changelog [[2690144](https://github.com/applitools/eyes-storybook/commit/2690144de3c0c7d808c74a2d6d7994f4ed54d697)]
 
+=======
 v2.7.9 / 2019-06-30
 ===================
 
@@ -284,9 +283,6 @@ v2.7.7 / 2019-06-25
 * removed presult [[ded5498](https://github.com/applitools/eyes-storybook/commit/ded549802a9726f947c362b2a592bfcce91612fb)]
 * updated vgc to support renderId [[a08e1b5](https://github.com/applitools/eyes-storybook/commit/a08e1b51d3ada7fc928cf38e868ed0188e1feed4)]
 
-v2.7.8-beta.1 / 2019-06-26
-==========================
-
 * 2.7.8-beta.1 [[2d8c3bb](https://github.com/applitools/eyes-storybook/commit/2d8c3bb5f0d165468a97efd3e215658b0a812b9e)]
 * support interactions in storybook! [[04d1c25](https://github.com/applitools/eyes-storybook/commit/04d1c25f42e6bdef2f8414d4e4e0228df9a9bfed)]
 * remove prepublishOnly [[726b4a5](https://github.com/applitools/eyes-storybook/commit/726b4a5f75c03ddaf245721dee85768ff6e6ac84)]
@@ -303,6 +299,8 @@ v2.7.7-beta / 2019-06-24
 * Merge branch 'master' into perf-storybook-api [[4742dd8](https://github.com/applitools/eyes-storybook/commit/4742dd817881cf8fa63a30cd14c52c05eb20f619)]
 * 2.7.6 [[60c8e89](https://github.com/applitools/eyes-storybook/commit/60c8e8939471220e49cb88888e07951a17b85b37)]
 * use storybook api instead of navigation [[85e9d4f](https://github.com/applitools/eyes-storybook/commit/85e9d4f51a4932e0d775db402cf952f0ee404c93)]
+=======
+* 2.7.6 [[60c8e89](https://github.com/applitools/eyes-storybook/commit/60c8e8939471220e49cb88888e07951a17b85b37)]
 * docs for ignore regions [[8fbe2a5](https://github.com/applitools/eyes-storybook/commit/8fbe2a5834981cb46078d6463e7e33f81e7e7eb2)]
 * docs for include and variations [[60debd8](https://github.com/applitools/eyes-storybook/commit/60debd83bd50b64759f4c0d6d12fab08ea7f5570)]
 * support filtering with include param [[81b0bf4](https://github.com/applitools/eyes-storybook/commit/81b0bf46cd079d1a8f6829c0508c05f24f8896fd)]
