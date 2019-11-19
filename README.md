@@ -102,16 +102,17 @@ The full list of command line arguments can be viewed by running `npx eyes-story
 Usage: eyes-storybook.js [options]
 
 Options:
-  --help                                            Show help                                                      [boolean]
-  --version, -v                                     Show the version number                                        [boolean]
-  --conf, -f                                        Path to applitools.config.js config file                        [string]
-  --storybook-url, -u                               URL to storybook                                                [string]
-  --storybookPort, -p, --storybook-port             Port to run Storybook                                           [number]
-  --storybookHost, -h, --storybook-host             Host to run Storybook                                           [string]
-  --storybookConfigDir, -c, --storybook-config-dir  Path to Storybook's config folder (defaults to .storybook)      [string]
-  --storybookStaticDir, --storybook-static-dir      Path to Storybook's static files folder                         [string]
-  --showStorybookOutput, --show-storybook-output    Whether or not you want to see Storybook output                [boolean]
-  --exitcode, -e                                    If tests failed close with non-zero exit code                  [boolean]
+  --help                                            Show help                                                                       [boolean]
+  --version, -v                                     Show the version number                                                         [boolean]
+  --conf, -f                                        Path to applitools.config.js config file                                         [string]
+  --storybook-url, -u                               URL to storybook                                                                 [string]
+  --storybookPort, -p, --storybook-port             Port to run Storybook                                                            [number]
+  --storybookHost, -h, --storybook-host             Host to run Storybook                                                            [string]
+  --storybookConfigDir, -c, --storybook-config-dir  Path to Storybook's config folder (defaults to .storybook)                       [string]
+  --storybookStaticDir, --storybook-static-dir      Path to Storybook's static files folder                                          [string]
+  --showStorybookOutput, --show-storybook-output    Whether or not you want to see Storybook output                                 [boolean]
+  --readStoriesTimeout, --read-stories-timeout      The time to wait until all stories are read, before starting the visual tests    [number]
+  --exitcode, -e                                    If tests failed close with non-zero exit code                                   [boolean]
 ```
 
 ## Concurrency
@@ -139,7 +140,7 @@ In addition to command-line arguments, it's possible to define the following con
 | `saveDebugData`           | false                       | Whether to save troubleshooting data. See the troubleshooting section of this doc for more info. |
 | `batchId`                 | random                      | Provides ability to group tests into batches. Read more about batches [here](https://applitools.com/docs/topics/working-with-test-batches/how-to-group-tests-into-batches.html). |
 | `batchName`               | undefined                   | Provides a name to the batch. |
-| `batchSequenceName`               | undefined | Name for managing batch statistics. |
+| `batchSequenceName`       | undefined                   | Name for managing batch statistics. |
 | `baselineEnvName`         | undefined                   | The name of the environment of the baseline. |
 | `envName`                 | undefined                   | A name for the environment in which the application under test is running. |
 | `ignoreCaret`             | false                       | Whether to ignore or the blinking caret or not when comparing images. |
@@ -156,13 +157,14 @@ In addition to command-line arguments, it's possible to define the following con
 | `runInDocker`             | false                       | If you are having issues running the SDK in docker, set this flag to `true`. See more info [below](#running-eyes-storybook-in-docker) |
 | `puppeteerOptions`        | undefined                   | Options to send to `puppeteer.launch`. This is a low-level configuration and should be used with great care. |
 | `tapFilePath`             | undefined                   | Directory path of a results file. If set, then a [TAP](https://en.wikipedia.org/wiki/Test_Anything_Protocol#Specification) file is created in this directory, the file is created with the name eyes.tap and contains the Eyes test results. |
-| `waitBeforeScreenshot`   | undefined                   | Selector, function or timeout.<br/>If ```number``` then the argument is treated as time in milliseconds to wait before all screenshots.<br/>If ```string``` then the argument is treated as a selector for elements to wait for before all screenshots.<br/>If ```function```, then the argument is treated as a predicate to wait for before all screenshots.<br/><hr/>For per component configuration see [waitBeforeScreenshot.](#waitBeforeScreenshot)<br/>Note that we use Puppeteer's [page.waitFor()](https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#pagewaitforselectororfunctionortimeout-options-args), checkout it's API for more details. |
+| `waitBeforeScreenshot`    | undefined                   | Selector, function or timeout.<br/>If ```number``` then the argument is treated as time in milliseconds to wait before all screenshots.<br/>If ```string``` then the argument is treated as a selector for elements to wait for before all screenshots.<br/>If ```function```, then the argument is treated as a predicate to wait for before all screenshots.<br/><hr/>For per component configuration see [waitBeforeScreenshot.](#waitBeforeScreenshot)<br/>Note that we use Puppeteer's [page.waitFor()](https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#pagewaitforselectororfunctionortimeout-options-args), checkout it's API for more details. |
 | `include`                 | true                        | Specifies which stories should be visually tested. Visual baselines will be created only for the components specified. For more information, see [per component configuration - include](#include). |
 | `variations`              | undefined                   | Specifies additional variations for all or some of the stories. For example, RTL. For more information, see [per component  configuration - variations](#variations).|
-| `accessibilityLevel` | None | The accessibility level to use for the screenshots. Possible values are `None`, `AA` and `AAA`. |
-| `notifyOnCompletion`  | false | If `true` batch completion notifications are sent. |
-|`dontCloseBatches`| false | If true, batches are not closed for notifyOnCompletion.|
+| `accessibilityLevel`      | None                        | The accessibility level to use for the screenshots. Possible values are `None`, `AA` and `AAA`. |
+| `notifyOnCompletion`      | false                       | If `true` batch completion notifications are sent. |
+| `dontCloseBatches`        | false                       | If true, batches are not closed for notifyOnCompletion.|
 | `concurrency`             | 10                          | The maximum number of tests that can run concurrently. The default value is the allowed amount for free accounts. For paid accounts, set this number to the quota set for your account. |
+| `readStoriesTimeout`      | 60000                       | The amount of time (in milliseconds) Eyes-Storybook waits for storybook to load. For old storybook versions 2 and 3, this is also the time it takes for Eyes-Storybook to acknowledge it is working on those versions. So it is recommended to make this value small (e.g. 3000) when working with Storybook version 2 or 3. |
 
 There are 2 ways to specify test configuration:
 

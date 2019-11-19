@@ -18,7 +18,6 @@ module.exports = {
     // {width: 1200, height: 800, name: 'edge'},
     //{width: 800, height: 600, name: 'edge'},
   ],
-  storyDataGap: 100,
   // include: (() => {
   //   let count = 0;
   //   return () => ++count <= 500;
