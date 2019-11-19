@@ -1,3 +1,0 @@
-script:
-  - chmod +x ./execTest.sh
-  - ./execTest.sh "$GH_TOKEN"
