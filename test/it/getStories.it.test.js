@@ -40,7 +40,7 @@ describe('getStories', () => {
           {
             name: 'with some emoji',
             kind: 'Button',
-            error: `Ignoring parameters for story: "with some emoji Button" ! since they are not serilizable, error: "Converting circular structure to JSON\n    --> starting at object with constructor 'Object'\n    --- property 'inner' closes the circle"`,
+            error: `Ignoring parameters for story: "with some emoji Button" since they are not serilizable. Error: "Converting circular structure to JSON\n    --> starting at object with constructor 'Object'\n    --- property 'inner' closes the circle"`,
           },
           {name: 'image', kind: 'Image'},
           {name: 'story 1', kind: 'Nested'},

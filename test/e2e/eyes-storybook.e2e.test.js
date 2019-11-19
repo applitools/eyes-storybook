@@ -52,6 +52,10 @@ describe('eyes-storybook', () => {
     expect(normalizedStdout).to.equal(`Using @applitools/eyes-storybook version ${version}.
 
 
+Ignoring parameters for story: "with some emoji Button" since they are not serilizable. Error: "Converting circular structure to JSON
+    --> starting at object with constructor 'Object'
+    --- property 'inner' closes the circle"
+
 [EYES: TEST RESULTS]:
 Button with-space yes-indeed: a yes-a b [1024x768] - Passed
 Button with-space yes-indeed/nested with-space yes: b yes-a b [1024x768] - Passed
@@ -78,18 +82,18 @@ See details at <some_url>
 Total time: <some_time> seconds
 
 
-Important notice: the Applitools visual tests are currently running with a concurrency value of 10.
-This means that only up to 10 visual tests can run in parallel, and therefore the execution might be slow. This is the default behavior for free accounts.
-If your account does support a higher level of concurrency, it's possible to pass a different value by specifying \`concurrency:X\` in the applitools.config.js file.
-For more information on how to configure the concurrency level, visit the following link: https://www.npmjs.com/package/@applitools/eyes-storybook#concurrency.
-If you are interested in speeding up your visual tests, contact sdr@applitools.com to get a trial account and a higher level of concurrency.
+Important notice: Your Applitools visual tests are currently running with a concurrency value of 10.
+This means that only up to 10 visual tests can run in parallel, and therefore the execution might be slower.
+If your Applitools license supports a higher concurrency level, learn how to configure it here: https://www.npmjs.com/package/@applitools/eyes-storybook#concurrency.
+Need a higher concurrency in your account? Email us @ sdr@applitools.com with your required concurrency level.
+
 
 `);
 
     expect(stderr).to.equal(`- Reading stories
 ✔ Reading stories
-- Done 0 stories out of 17
-✔ Done 17 stories out of 17
+- Done 0 stories out of 18
+✔ Done 18 stories out of 18
 `);
   });
 

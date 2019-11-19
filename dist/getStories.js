@@ -235,7 +235,7 @@ function __getStories(...args) {
             }
           }
         } catch (e) {
-          error = `Ignoring parameters for story: "${name} ${kind}" ! since they are not serilizable, error: "${e.message}"`;
+          error = `Ignoring parameters for story: "${name} ${kind}" since they are not serilizable. Error: "${e.message}"`;
         }
 
         return {

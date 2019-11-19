@@ -119,7 +119,7 @@ async function getStories({timeout = DEFAULT_TIMEOUT} = {timeout: DEFAULT_TIMEOU
           }
         }
       } catch (e) {
-        error = `Ignoring parameters for story: "${name} ${kind}" ! since they are not serilizable, error: "${e.message}"`;
+        error = `Ignoring parameters for story: "${name} ${kind}" since they are not serilizable. Error: "${e.message}"`;
       }
 
       return {
