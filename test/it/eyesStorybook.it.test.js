@@ -94,8 +94,8 @@ describe('eyesStorybook', () => {
 
     expect(getEvents().join('')).to.equal(`- Reading stories
 ✔ Reading stories
-- Done 0 stories out of 17
-✔ Done 17 stories out of 17
+- Done 0 stories out of 18
+✔ Done 18 stories out of 18
 `);
   });
 });

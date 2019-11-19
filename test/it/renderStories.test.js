@@ -105,9 +105,12 @@ describe('renderStories', () => {
       logger,
       initPage: async index => ({evaluate: async () => index + 1}),
     });
+    pagePool.addToPool((await pagePool.createPage()).pageId);
+
     let _waitBeforeScreenshot;
-    const getStoryData = async ({url: _url, page: _page, waitBeforeStory}) => {
-      return waitBeforeStory;
+    const getStoryData = async ({waitBeforeStory}) => {
+      _waitBeforeScreenshot = waitBeforeStory;
+      return {};
     };
 
     const renderStory = async arg => [{arg, getStatus: () => 'Passed'}];
