@@ -6,6 +6,7 @@ const testStorybook = require('../util/testStorybook');
 const getStories = require('../../dist/getStories');
 const {delay: psetTimeout} = require('@applitools/functional-commons');
 const browserLog = require('../../src/browserLog');
+const logger = require('../util/testLogger');
 
 describe('getStories', () => {
   let closeTestServer, browser;
@@ -23,7 +24,7 @@ describe('getStories', () => {
   it('gets stories', async () => {
     const page = await browser.newPage();
     const closeStorybook = await testStorybook({port: 9001});
-    browserLog({page, onLog: text => console.log(`[browser] ${text}`)});
+    browserLog({page, onLog: text => logger.log(`[browser] ${text}`)});
     try {
       await page.goto('http://localhost:9001');
       const stories = await page.evaluate(getStories);
@@ -117,7 +118,7 @@ describe('getStories', () => {
 
   it('fails on timeout', async () => {
     const page = await browser.newPage();
-    browserLog({page, onLog: text => console.log(`[browser] ${text}`)});
+    browserLog({page, onLog: text => logger.log(`[browser] ${text}`)});
 
     await page.goto('http://localhost:7272');
 

@@ -1,5 +1,6 @@
 'use strict';
 const getStoryTitle = require('./getStoryTitle');
+const deprecationWarning = require('./deprecationWarning');
 
 function makeRenderStory({logger, testWindow, performance, timeItAsync}) {
   return function renderStory({story, resourceUrls, resourceContents, frames, cdt, url}) {
@@ -22,9 +23,7 @@ function makeRenderStory({logger, testWindow, performance, timeItAsync}) {
     } = eyesOptions;
 
     if (sizeMode) {
-      console.warn(
-        'WARNING! "sizeMode" is eprecated and will be removed in the future, please use target instead.',
-      );
+      console.log(deprecationWarning("'sizeMode'", "'target'"));
     }
 
     logger.log('running story', title);

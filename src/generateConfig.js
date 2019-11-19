@@ -1,8 +1,8 @@
 'use strict';
-const chalk = require('chalk');
 const pick = require('lodash.pick');
 const {ConfigUtils} = require('@applitools/eyes-sdk-core');
 const {resolve} = require('path');
+const deprecationWarning = require('./deprecationWarning');
 
 function generateConfig({argv = {}, defaultConfig = {}, externalConfigParams = []}) {
   const configPath = argv.conf ? resolve(process.cwd(), argv.conf) : undefined;
@@ -17,10 +17,7 @@ function generateConfig({argv = {}, defaultConfig = {}, externalConfigParams = [
     result.waitBeforeScreenshots !== defaultConfig.waitBeforeScreenshots &&
     result.waitBeforeScreenshot === defaultConfig.waitBeforeScreenshot
   ) {
-    const msg = chalk.yellow(
-      "Warning: 'waitBeforeScreenshots' is deprectaed. Please use 'waitBeforeScreenshot' (no 's').\n",
-    );
-    console.log(msg);
+    console.log(deprecationWarning("'waitBeforeScreenshots'", "'waitBeforeScreenshot' (no 's')"));
     result.waitBeforeScreenshot = result.waitBeforeScreenshots;
   }
 

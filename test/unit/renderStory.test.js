@@ -6,9 +6,9 @@ const {presult} = require('@applitools/functional-commons');
 const {makeTiming} = require('@applitools/monitoring-commons');
 const psetTimeout = require('util').promisify(setTimeout);
 const getStoryTitle = require('../../src/getStoryTitle');
+const logger = require('../util/testLogger');
 
 describe('renderStory', () => {
-  const logger = console;
   let performance, timeItAsync;
 
   beforeEach(() => {
