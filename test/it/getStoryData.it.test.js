@@ -6,7 +6,7 @@ const testServer = require('../util/testServer');
 const makeGetStoryData = require('../../src/getStoryData');
 const {ptimeoutWithError} = require('@applitools/functional-commons');
 const browserLog = require('../../src/browserLog');
-const logger = console;
+const logger = require('../util/testLogger');
 
 describe('getStoryData', () => {
   let browser, page, closeTestServer;
@@ -230,5 +230,30 @@ describe('getStoryData', () => {
     });
 
     expect(cdt).to.equal('story done');
+  });
+
+  it('reloads page when reloadPagePerStory is set', async () => {
+    const processPageAndSerialize = () => ({
+      resourceUrls: [],
+      blobs: [],
+      cdt: document.getElementById('root').textContent,
+    });
+
+    const storyUrl = 'http://localhost:7272/reloadPagePerStory.html';
+
+    await page.goto(storyUrl);
+    const getStoryData = makeGetStoryData({
+      logger,
+      processPageAndSerialize,
+      reloadPagePerStory: true,
+    });
+
+    const {cdt} = await getStoryData({
+      story: {isApi: true, index: 0},
+      storyUrl,
+      page,
+    });
+
+    expect(cdt).to.equal('fresh content');
   });
 });

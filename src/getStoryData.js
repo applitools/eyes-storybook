@@ -6,12 +6,17 @@ const runRunBeforeScript = require('../dist/runRunBeforeScript');
 const getStoryTitle = require('./getStoryTitle');
 const {URL} = require('url');
 
-function makeGetStoryData({logger, processPageAndSerialize, waitBeforeScreenshot}) {
+function makeGetStoryData({
+  logger,
+  processPageAndSerialize,
+  waitBeforeScreenshot,
+  reloadPagePerStory,
+}) {
   return async function getStoryData({story, storyUrl, page, waitBeforeStory}) {
     const title = getStoryTitle(story);
     logger.log(`getting data from story`, title);
 
-    if (story.isApi) {
+    if (story.isApi && !reloadPagePerStory) {
       const actualVariationParam = await getEyesVariationParam(page);
       const expectedVariationUrlParam =
         story.parameters && story.parameters.eyes
@@ -72,6 +77,7 @@ function makeGetStoryData({logger, processPageAndSerialize, waitBeforeScreenshot
       }
     }
 
+    // TODO (amit): handle this error in the caller (probably renderStories)
     function handleRenderStoryError(error) {
       logger.log(error.message);
       const versionMsg = error.version

@@ -30,7 +30,7 @@ async function eyesStorybook({
   let memoryTimeout;
   takeMemLoop();
   logger.log('eyesStorybook started');
-  const {storybookUrl, waitBeforeScreenshot, readStoriesTimeout} = config;
+  const {storybookUrl, waitBeforeScreenshot, readStoriesTimeout, reloadPagePerStory} = config;
   const browser = await puppeteer.launch(config.puppeteerOptions);
   logger.log('browser launched');
   const page = await browser.newPage();
@@ -84,6 +84,7 @@ async function eyesStorybook({
       testWindow,
       performance,
       timeItAsync,
+      reloadPagePerStory,
     });
 
     const renderStories = makeRenderStories({

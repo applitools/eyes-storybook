@@ -14,4 +14,5 @@ module.exports = {
   tapFilePath: undefined,
   exitcode: true,
   readStoriesTimeout: 60000,
+  reloadPagePerStory: false,
 };

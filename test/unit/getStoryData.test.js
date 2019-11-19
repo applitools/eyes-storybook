@@ -3,6 +3,8 @@ const {describe, it} = require('mocha');
 const {expect} = require('chai');
 const {presult} = require('@applitools/functional-commons');
 const makeGetStoryData = require('../../src/getStoryData');
+const renderStoryWithClientAPI = require('../../dist/renderStoryWithClientAPI');
+const logger = require('../util/testLogger');
 
 describe('getStoryData', () => {
   it('works', async () => {
@@ -20,7 +22,6 @@ describe('getStoryData', () => {
       cdt: 'cdt',
     });
 
-    const logger = console;
     const getStoryData = makeGetStoryData({
       logger,
       processPageAndSerialize,
@@ -59,7 +60,6 @@ describe('getStoryData', () => {
       blobs,
       cdt: 'cdt',
     });
-    const logger = console;
     const getStoryData = makeGetStoryData({
       logger,
       processPageAndSerialize,
@@ -99,7 +99,6 @@ describe('getStoryData', () => {
       blobs,
       cdt: 'cdt',
     });
-    const logger = console;
     const getStoryData = makeGetStoryData({
       logger,
       processPageAndSerialize,
@@ -132,7 +131,6 @@ describe('getStoryData', () => {
       cdt: 'cdt',
     });
 
-    const logger = console;
     const getStoryData = makeGetStoryData({
       logger,
       processPageAndSerialize,
@@ -161,7 +159,6 @@ describe('getStoryData', () => {
       cdt: 'cdt',
     });
 
-    const logger = console;
     const getStoryData = makeGetStoryData({
       logger,
       processPageAndSerialize,
@@ -178,19 +175,17 @@ describe('getStoryData', () => {
 
   it('throws when fails to render a story with api', async () => {
     const page = {
-      evaluate: func => {
-        if (func.name === '__renderStoryWithClientAPI') {
+      evaluate: async func => {
+        if (func === renderStoryWithClientAPI) {
           return {message: 'some render story error', version: 'some api version'};
         } else {
-          return Promise.resolve(func());
+          return func();
         }
       },
     };
-    const logger = console;
     const getStoryData = makeGetStoryData({
       logger,
       processPageAndSerialize: () => {},
-      waitBeforeScreenshots: 50,
     });
     const [err] = await presult(
       getStoryData({
@@ -203,5 +198,38 @@ describe('getStoryData', () => {
     expect(err.message).to.eql(
       'Eyes could not render stories properly. The detected version of storybook is some api version. Contact support@applitools.com for troubleshooting.',
     );
+  });
+
+  it('reloads page when reloadPagePerStory is set', async () => {
+    const page = {
+      evaluate: async func => {
+        if (func === renderStoryWithClientAPI) {
+          return {
+            message: 'getStoryData should not use client API when reloadPagePerStory is set',
+            version: 'test version',
+          };
+        } else {
+          return func();
+        }
+      },
+      goto: async () => {},
+      waitFor: async () => {},
+    };
+    const getStoryData = makeGetStoryData({
+      logger,
+      processPageAndSerialize: () => ({
+        resourceUrls: [],
+        blobs: [],
+        cdt: 'cdt',
+      }),
+      reloadPagePerStory: true,
+    });
+    const data = await getStoryData({
+      story: {isApi: true},
+      storyUrl: 'url',
+      page,
+    });
+
+    expect(data).to.eql({cdt: 'cdt', resourceUrls: [], resourceContents: [], frames: undefined});
   });
 });
