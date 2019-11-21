@@ -38,20 +38,22 @@ If your project is using the default storybook config folder (i.e. `<project_fol
 ```bash
 npx eyes-storybook
 ```
+
 <br/><br/>
 
 ### Index
-  - [Configuring a local storybook server](#Configuring-local-storybook-server)
-  - [Standalone server](#Standalone-server)
-  - [Command line arguments](#Command-line-arguments)
-  - [Concurrency](#Concurrency)
-  - [Advanced configuration](#Advanced-configuration)
-  - [Concurrency](#Concurrency)
-  - [Advanced configuration](#Advanced-configuration)
-    - [Arguments](#Advanced-configuration)
-    - [Examples](#Method-1-Environment-variables)
-      - [Environment variables](#Method-1-Environment-variables)
-      - [The `applitools.config.js` file](#Method-2-The-applitoolsconfigjs-file)
+
+- [Configuring a local storybook server](#Configuring-local-storybook-server)
+- [Standalone server](#Standalone-server)
+- [Command line arguments](#Command-line-arguments)
+- [Concurrency](#Concurrency)
+- [Advanced configuration](#Advanced-configuration)
+- [Concurrency](#Concurrency)
+- [Advanced configuration](#Advanced-configuration)
+  - [Arguments](#Advanced-configuration)
+  - [Examples](#Method-1-Environment-variables)
+    - [Environment variables](#Method-1-Environment-variables)
+    - [The `applitools.config.js` file](#Method-2-The-applitoolsconfigjs-file)
 - [Configuring the browser](#Configuring-the-browser)
   - [Device emulation](#Device-emulation)
 - [Per component configuration](#Per-component-configuration)
@@ -73,10 +75,10 @@ npx eyes-storybook
 
 Normally, Eyes-Storybook starts a storybook dev server in an available port between 9000-9010 for the duration of the tests. It's possible to pass arguments to Eyes-Storybook to configure the local storybook server:
 
-* `--storybook-port OR -p`: Port to run storybook (passed as `-p` to `start-storybook`).
-* `--storybook-host OR -h`: Host to run storybook (passed as `-h` to `start-storybook`).
-* `--storybook-config-dir OR -c`: Directory where to load Storybook configurations from (passed as `-c` to `start-storybook`)
-* `--storybook-static-dir OR -s`: Directory where to load static files from, comma-separated list (passed as `-s` to `start-storybook`)
+- `--storybook-port OR -p`: Port to run storybook (passed as `-p` to `start-storybook`).
+- `--storybook-host OR -h`: Host to run storybook (passed as `-h` to `start-storybook`).
+- `--storybook-config-dir OR -c`: Directory where to load Storybook configurations from (passed as `-c` to `start-storybook`)
+- `--storybook-static-dir OR -s`: Directory where to load static files from, comma-separated list (passed as `-s` to `start-storybook`)
 
 ### Standalone server
 
@@ -266,7 +268,7 @@ There are two ways to provide configuration for a specific story, or a group of 
 
 2. **In the global configuration file, `applitools.config.js`** - If a function is specified for one of the properties below, it will be called for each story, and will be passed the story's metadata, of the structure `{name, kind, parameters}`, where `name` is the name of the component, `kind` is the string built by storybook for the category, e.g. `Forms|Input/Text`, and `parameters` are the third argument to storybook's `.add` function. The function should return the configuration value for the specific property+story.
 
-* Specifying a value locally in the story takes precedence over the global config value.
+_Specifying a value locally in the story takes precedence over the global config value._
 
 For example, for the config property `include` (described below), here's how to specify the value for a group of stories in the `applitools.config.js` file:
 
@@ -333,8 +335,8 @@ storiesOf('Components with a waitBeforeScreenshot', module)
     {eyes: { waitBeforeScreenshot: '#container.ready' }}
   );
 ```
-* _Note that the predicate option for `waitBeforeScreenshot` is currently not available in the per component configuration._
 
+_Note that the predicate option for `waitBeforeScreenshot` is currently not available in the per component configuration._
 
 ### _The following parameters cannot be set as an [Advanced configuration](#advanced-configuration) :_
 
