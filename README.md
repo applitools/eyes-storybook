@@ -61,9 +61,9 @@ npx eyes-storybook
     - [include](#include)
     - [variations](#variations)
     - [waitBeforeScreenshot](#waitBeforeScreenshot)
-  - [Per component params](#accessibility)
-    - [accessibility](#accessibility)
+  - [Per component params](#ignore)
     - [ignore](#ignore)
+    <!-- - [accessibility](#accessibility) -->
     - [runBefore](#runBefore)
 - [Running Eyes-Storybook in Docker](#Running-Eyes-Storybook-in-Docker)
 - [Dealing with dynamic data](#Dealing-with-dynamic-data)
@@ -162,12 +162,12 @@ In addition to command-line arguments, it's possible to define the following con
 | `waitBeforeScreenshot`    | undefined                   | Selector, function or timeout.<br/>If ```number``` then the argument is treated as time in milliseconds to wait before all screenshots.<br/>If ```string``` then the argument is treated as a selector for elements to wait for before all screenshots.<br/>If ```function```, then the argument is treated as a predicate to wait for before all screenshots.<br/><hr/>For per component configuration see [waitBeforeScreenshot.](#waitBeforeScreenshot)<br/>Note that we use Puppeteer's [page.waitFor()](https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#pagewaitforselectororfunctionortimeout-options-args), checkout it's API for more details. |
 | `include`                 | true                        | Specifies which stories should be visually tested. Visual baselines will be created only for the components specified. For more information, see [per component configuration - include](#include). |
 | `variations`              | undefined                   | Specifies additional variations for all or some of the stories. For example, RTL. For more information, see [per component  configuration - variations](#variations).|
-| `accessibilityLevel`      | None                        | The accessibility level to use for the screenshots. Possible values are `None`, `AA` and `AAA`. |
 | `notifyOnCompletion`      | false                       | If `true` batch completion notifications are sent. |
 | `dontCloseBatches`        | false                       | If true, batches are not closed for notifyOnCompletion.|
 | `concurrency`             | 10                          | The maximum number of tests that can run concurrently. The default value is the allowed amount for free accounts. For paid accounts, set this number to the quota set for your account. |
 | `readStoriesTimeout`      | 60000                       | The amount of time (in milliseconds) Eyes-Storybook waits for storybook to load. For old storybook versions 2 and 3, this is also the time it takes for Eyes-Storybook to acknowledge it is working on those versions. So it is recommended to make this value small (e.g. 3000) when working with Storybook version 2 or 3. |
 
+<!-- | `accessibilityLevel`      | None                        | The accessibility level to use for the screenshots. Possible values are `None`, `AA` and `AAA`. | -->
 There are 2 ways to specify test configuration:
 
 1) Environment variables
@@ -186,11 +186,11 @@ APPLITOOLS_BATCH_ID
 APPLITOOLS_BATCH_NAME
 APPLITOOLS_BATCH_SEQUENCE_NAME
 APPLITOOLS_PROXY
-APPLITOOLS_ACCESSIBILITY_LEVEL
 APPLITOOLS_NOTIFY_ON_COMPLETION
 ...
 // all other configuration variables apply as well..
 ```
+<!-- APPLITOOLS_ACCESSIBILITY_LEVEL -->
 
 ### Method 2: The `applitools.config.js` file
 
@@ -340,7 +340,7 @@ _Note that the predicate option for `waitBeforeScreenshot` is currently not avai
 
 ### _The following parameters cannot be set as an [Advanced configuration](#advanced-configuration) :_
 
-### `accessibility`
+<!-- ### `accessibility`
 
 A single or an array of regions for accessibility checking. For example:
 
@@ -360,7 +360,7 @@ storiesOf('Components with accessibility regions', module)
 });
 ```
 
-Possible accessibilityType values are: `IgnoreContrast`,`RegularText`,`LargeText`,`BoldText` and `GraphicalObject`.
+Possible accessibilityType values are: `IgnoreContrast`,`RegularText`,`LargeText`,`BoldText` and `GraphicalObject`. -->
 
 ### `ignore`
 
