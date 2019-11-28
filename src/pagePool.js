@@ -81,7 +81,10 @@ function createPagePool({logger, initPage}) {
     }
 
     function removePage() {
-      fullPageObjs.splice(fullPageObjs.findIndex(p => p.pageId === pageId), 1);
+      fullPageObjs.splice(
+        fullPageObjs.findIndex(p => p.pageId === pageId),
+        1,
+      );
     }
 
     function isInPool() {

@@ -22,7 +22,10 @@ function makeRenderStory({logger, testWindow, performance, timeItAsync}) {
     return timeItAsync(title, async () => {
       const openParams = {
         testName: title,
-        properties: [{name: 'Component name', value: kind}, {name: 'State', value: name}],
+        properties: [
+          {name: 'Component name', value: kind},
+          {name: 'State', value: name},
+        ],
       };
       const checkParams = {
         cdt,
