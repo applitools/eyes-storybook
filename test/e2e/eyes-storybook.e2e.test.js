@@ -1,6 +1,5 @@
 const {describe, it, before, after} = require('mocha');
 const {expect} = require('chai');
-const testStorybook = require('../util/testStorybook');
 const path = require('path');
 const testServer = require('../util/testServer');
 const {delay: psetTimeout, presult} = require('@applitools/functional-commons');
@@ -8,15 +7,6 @@ const {sh} = require('../../src/__process-commons');
 const {version} = require('../../package.json');
 
 describe('eyes-storybook', () => {
-  let closeStorybook;
-  before(async () => {
-    closeStorybook = await testStorybook({port: 9001});
-  });
-
-  after(() => {
-    return closeStorybook();
-  });
-
   let closeTestServer;
   before(async () => {
     closeTestServer = (await testServer({port: 7272})).close;
@@ -90,7 +80,9 @@ Need a higher concurrency in your account? Email us @ sdr@applitools.com with yo
 
 `);
 
-    expect(stderr).to.equal(`- Reading stories
+    expect(stderr).to.equal(`- Starting storybook server
+✔ Storybook was started
+- Reading stories
 ✔ Reading stories
 - Done 0 stories out of 18
 ✔ Done 18 stories out of 18

@@ -1,7 +1,10 @@
+const path = require('path');
+
 module.exports = {
   appName: 'Simple storybook',
   batchName: 'Simple storybook',
-  storybookUrl: 'http://localhost:9001?path=/story/*', // TODO it tests for eyeStorybook using fake servers to check param behavior
+  storybookConfigDir: path.resolve(__dirname, '../../fixtures/appWithStorybook'),
+  storybookStaticDir: path.resolve(__dirname, '../../fixtures'),
   include: ({name}) => !/^\[SKIP\]/.test(name),
   variations: ({name}) => {
     if (/should also do RTL/.test(name)) {
