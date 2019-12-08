@@ -151,4 +151,59 @@ Need a higher concurrency in your account? Email us @ sdr@applitools.com with yo
 ✖ Error when reading stories: storybook is loading for too long
 `);
   });
+
+  it('renders multi browser versions', async () => {
+    const [err, result] = await presult(
+      sh(
+        `node ${path.resolve(__dirname, '../../bin/eyes-storybook')} -f ${path.resolve(
+          __dirname,
+          'happy-config/single.config.js',
+        )}`,
+        {
+          spawnOptions: {stdio: 'pipe'},
+        },
+      ),
+    );
+
+    const stdout = err ? err.stdout : result.stdout;
+    const stderr = err ? err.stderr : result.stderr;
+
+    const normalizedStdout = stdout
+      .replace(
+        /See details at https\:\/\/eyes.applitools.com\/app\/test-results\/.+/,
+        'See details at <some_url>',
+      )
+      .replace(/Total time\: \d+ seconds/, 'Total time: <some_time> seconds');
+
+    expect(normalizedStdout).to.equal(`Using @applitools/eyes-storybook version ${version}.
+
+
+[EYES: TEST RESULTS]:
+Single category: Single story [640x480] - Passed
+Single category: Single story [640x480] - Passed
+Single category: Single story [640x480] - Passed
+Single category: Single story [640x480] - Passed
+
+No differences were found!
+
+See details at <some_url>
+Total time: <some_time> seconds
+
+
+Important notice: Your Applitools visual tests are currently running with a concurrency value of 10.
+This means that only up to 10 visual tests can run in parallel, and therefore the execution might be slower.
+If your Applitools license supports a higher concurrency level, learn how to configure it here: https://www.npmjs.com/package/@applitools/eyes-storybook#concurrency.
+Need a higher concurrency in your account? Email us @ sdr@applitools.com with your required concurrency level.
+
+
+`);
+
+    expect(stderr).to.equal(`- Starting storybook server
+✔ Storybook was started
+- Reading stories
+✔ Reading stories
+- Done 0 stories out of 1
+✔ Done 1 stories out of 1
+`);
+  });
 });
