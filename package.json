@@ -25,6 +25,7 @@
     "build": "rollup -c rollup.config.js",
     "build:heavy": "node scripts/bitmap.js",
     "eslint": "eslint '**/*.js'",
+    "prepublishOnly": "npm version patch",
     "storybook": "start-storybook -c test/fixtures/appWithStorybook -p 9001 -s test/fixtures",
     "storybook:heavy": "start-storybook -c test/fixtures/heavyStorybook -p 9002 -s test/fixtures",
     "eyes-storybook": "node bin/eyes-storybook.js -f test/fixtures/applitools.config.js",
