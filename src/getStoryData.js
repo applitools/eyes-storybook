@@ -1,5 +1,6 @@
 'use strict';
 const {presult} = require('@applitools/functional-commons');
+const {deserializeDomSnapshotResult} = require('@applitools/eyes-sdk-core');
 const {ArgumentGuard} = require('@applitools/eyes-sdk-core');
 const renderStoryWithClientAPI = require('../dist/renderStoryWithClientAPI');
 const runRunBeforeScript = require('../dist/runRunBeforeScript');
@@ -51,12 +52,10 @@ function makeGetStoryData({
     }
 
     logger.log(`running processPageAndSerialize for story ${title}`);
-    const {resourceUrls, blobs, frames, cdt} = await page.evaluate(processPageAndSerialize);
-    const resourceContents = blobs.map(({url, type, value}) => ({
-      url,
-      type,
-      value: Buffer.from(value, 'base64'),
-    }));
+    const {resourceUrls, resourceContents, frames, cdt} = await page
+      .evaluate(processPageAndSerialize)
+      .then(deserializeDomSnapshotResult);
+
     logger.log(`done getting data from story`, title);
     return {resourceUrls, resourceContents, cdt, frames};
 

@@ -28,6 +28,7 @@ describe('getStoryData', () => {
       resourceUrls: ['url1', window.timeout],
       blobs: [{url: 'url2', type: 'type', value: 'ss'}],
       cdt: 'cdt',
+      frames: [],
     });
 
     const getStoryData = makeGetStoryData({
@@ -48,9 +49,9 @@ describe('getStoryData', () => {
     );
 
     expect(resourceUrls).to.eql(['url1', 1500]);
-    expect(resourceContents).to.eql([
-      {url: 'url2', type: 'type', value: Buffer.from('ss', 'base64')},
-    ]);
+    expect(resourceContents).to.eql({
+      url2: {url: 'url2', type: 'type', value: Buffer.from('ss', 'base64')},
+    });
     expect(cdt).to.equal('cdt');
   });
 
@@ -62,6 +63,7 @@ describe('getStoryData', () => {
       ],
       blobs: [{url: 'url2', type: 'type', value: 'ss'}],
       cdt: 'cdt',
+      frames: [],
     });
 
     const getStoryData = makeGetStoryData({
@@ -82,9 +84,9 @@ describe('getStoryData', () => {
     );
 
     expect(resourceUrls).to.eql(['url1', 'div created']);
-    expect(resourceContents).to.eql([
-      {url: 'url2', type: 'type', value: Buffer.from('ss', 'base64')},
-    ]);
+    expect(resourceContents).to.eql({
+      url2: {url: 'url2', type: 'type', value: Buffer.from('ss', 'base64')},
+    });
     expect(cdt).to.equal('cdt');
   });
 
@@ -93,6 +95,7 @@ describe('getStoryData', () => {
       resourceUrls: ['url1', document.getElementById('changeME').innerText],
       blobs: [{url: 'url2', type: 'type', value: 'ss'}],
       cdt: 'cdt',
+      frames: [],
     });
 
     const getStoryData = makeGetStoryData({
@@ -113,9 +116,9 @@ describe('getStoryData', () => {
     );
 
     expect(resourceUrls).to.eql(['url1', '1500 ms passed']);
-    expect(resourceContents).to.eql([
-      {url: 'url2', type: 'type', value: Buffer.from('ss', 'base64')},
-    ]);
+    expect(resourceContents).to.eql({
+      url2: {url: 'url2', type: 'type', value: Buffer.from('ss', 'base64')},
+    });
     expect(cdt).to.equal('cdt');
   });
 
@@ -124,6 +127,7 @@ describe('getStoryData', () => {
       resourceUrls: [],
       blobs: [],
       cdt: document.getElementById('story').textContent,
+      frames: [],
     });
 
     await page.goto('http://localhost:7272/renderStorybookClientApiV5_2-iframe.html');
@@ -138,6 +142,7 @@ describe('getStoryData', () => {
       resourceUrls: [],
       blobs: [],
       cdt: document.getElementById('story').textContent,
+      frames: [],
     });
 
     await page.goto('http://localhost:7272/renderStorybookClientApiV5-iframe.html');
@@ -152,6 +157,7 @@ describe('getStoryData', () => {
       resourceUrls: [],
       blobs: [],
       cdt: document.getElementById('story').textContent,
+      frames: [],
     });
 
     await page.goto('http://localhost:7272/renderStorybookClientApiV4-iframe.html');
@@ -167,6 +173,7 @@ describe('getStoryData', () => {
       resourceUrls: [],
       blobs: [],
       cdt: document.getElementById('root').textContent,
+      frames: [],
     });
 
     await page.goto('http://localhost:7272/runBeforeV5-iframe.html');
@@ -193,6 +200,7 @@ describe('getStoryData', () => {
       resourceUrls: [],
       blobs: [],
       cdt: document.getElementById('root').textContent,
+      frames: [],
     });
 
     await page.goto('http://localhost:7272/runBeforeV4-iframe.html');
@@ -219,6 +227,7 @@ describe('getStoryData', () => {
       resourceUrls: [],
       blobs: [],
       cdt: document.getElementById('root').textContent,
+      frames: [],
     });
 
     await page.goto('http://localhost:7272/runBeforeWithException-iframe.html');
@@ -237,6 +246,7 @@ describe('getStoryData', () => {
       resourceUrls: [],
       blobs: [],
       cdt: document.getElementById('root').textContent,
+      frames: [],
     });
 
     const storyUrl = 'http://localhost:7272/reloadPagePerStory.html';
