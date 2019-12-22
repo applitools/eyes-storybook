@@ -15,11 +15,12 @@ describe('getStoryData', () => {
     };
     const valueBuffer = Buffer.from('value');
     const blobs = [{url: 'url2', type: 'type', value: valueBuffer.toString('base64')}];
-    const expectedResourceContents = [{url: 'url2', type: 'type', value: valueBuffer}];
+    const expectedResourceContents = {url2: {url: 'url2', type: 'type', value: valueBuffer}};
     const processPageAndSerialize = () => ({
       resourceUrls: ['url1'],
       blobs,
       cdt: 'cdt',
+      frames: [],
     });
 
     const getStoryData = makeGetStoryData({
@@ -54,11 +55,12 @@ describe('getStoryData', () => {
 
     const valueBuffer = Buffer.from('value');
     const blobs = [{url: 'url2', type: 'type', value: valueBuffer.toString('base64')}];
-    const expectedResourceContents = [{url: 'url2', type: 'type', value: valueBuffer}];
+    const expectedResourceContents = {url2: {url: 'url2', type: 'type', value: valueBuffer}};
     const processPageAndSerialize = () => ({
       resourceUrls: ['url1'],
       blobs,
       cdt: 'cdt',
+      frames: [],
     });
     const getStoryData = makeGetStoryData({
       logger,
@@ -93,11 +95,12 @@ describe('getStoryData', () => {
 
     const valueBuffer = Buffer.from('value');
     const blobs = [{url: 'url2', type: 'type', value: valueBuffer.toString('base64')}];
-    const expectedResourceContents = [{url: 'url2', type: 'type', value: valueBuffer}];
+    const expectedResourceContents = {url2: {url: 'url2', type: 'type', value: valueBuffer}};
     const processPageAndSerialize = () => ({
       resourceUrls: ['url1'],
       blobs,
       cdt: 'cdt',
+      frames: [],
     });
     const getStoryData = makeGetStoryData({
       logger,
@@ -129,6 +132,7 @@ describe('getStoryData', () => {
       resourceUrls: ['url1'],
       blobs,
       cdt: 'cdt',
+      frames: [],
     });
 
     const getStoryData = makeGetStoryData({
@@ -157,6 +161,7 @@ describe('getStoryData', () => {
       resourceUrls: ['url1'],
       blobs,
       cdt: 'cdt',
+      frames: [],
     });
 
     const getStoryData = makeGetStoryData({
@@ -221,6 +226,7 @@ describe('getStoryData', () => {
         resourceUrls: [],
         blobs: [],
         cdt: 'cdt',
+        frames: [],
       }),
       reloadPagePerStory: true,
     });
@@ -230,6 +236,6 @@ describe('getStoryData', () => {
       page,
     });
 
-    expect(data).to.eql({cdt: 'cdt', resourceUrls: [], resourceContents: [], frames: undefined});
+    expect(data).to.eql({cdt: 'cdt', resourceUrls: [], resourceContents: {}, frames: []});
   });
 });
