@@ -160,7 +160,7 @@ In addition to command-line arguments, it's possible to define the following con
 | `puppeteerOptions`        | undefined                   | Options to send to `puppeteer.launch`. This is a low-level configuration and should be used with great care. |
 | `tapFilePath`             | undefined                   | Directory path of a results file. If set, then a [TAP](https://en.wikipedia.org/wiki/Test_Anything_Protocol#Specification) file is created in this directory, the file is created with the name eyes.tap and contains the Eyes test results. |
 | `waitBeforeScreenshot`    | undefined                   | Selector, function or timeout.<br/>If ```number``` then the argument is treated as time in milliseconds to wait before all screenshots.<br/>If ```string``` then the argument is treated as a selector for elements to wait for before all screenshots.<br/>If ```function```, then the argument is treated as a predicate to wait for before all screenshots.<br/><hr/>For per component configuration see [waitBeforeScreenshot.](#waitBeforeScreenshot)<br/>Note that we use Puppeteer's [page.waitFor()](https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#pagewaitforselectororfunctionortimeout-options-args), checkout it's API for more details. |
-| `include`                 | true                        | Specifies which stories should be visually tested. Visual baselines will be created only for the components specified. For more information, see [per component configuration - include](#include). |
+| `include`                 | true                        | A predicate function specifying which stories should be visually tested.<br/>Visual baselines will be created only for the components specified.<br/>The function receives as it's first argument an object with a ```name``` property.<br/>For example (exclude all stories with a name that start with [SKIP]):<br/>```({name}) => !/^\[SKIP\]/.test(name)```<br/>For more information, see [per component configuration - include](#include). |
 | `variations`              | undefined                   | Specifies additional variations for all or some of the stories. For example, RTL. For more information, see [per component  configuration - variations](#variations).|
 | `notifyOnCompletion`      | false                       | If `true` batch completion notifications are sent. |
 | `dontCloseBatches`        | false                       | If true, batches are not closed for notifyOnCompletion.|
@@ -269,17 +269,6 @@ There are two ways to provide configuration for a specific story, or a group of 
 2. **In the global configuration file, `applitools.config.js`** - If a function is specified for one of the properties below, it will be called for each story, and will be passed the story's metadata, of the structure `{name, kind, parameters}`, where `name` is the name of the component, `kind` is the string built by storybook for the category, e.g. `Forms|Input/Text`, and `parameters` are the third argument to storybook's `.add` function. The function should return the configuration value for the specific property+story.
 
 _Specifying a value locally in the story takes precedence over the global config value._
-
-For example, for the config property `include` (described below), here's how to specify the value for a group of stories in the `applitools.config.js` file:
-
-```js
-// Exclude all stories with a name that start with [SKIP]
-module.exports = {
-  include: ({name, kind, parameters}) => {
-    return !/^\[SKIP\]/.test(name)
-  }
-}
-```
 
 #### The following properties are supported:
 
