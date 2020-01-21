@@ -137,7 +137,7 @@ In addition to command-line arguments, it's possible to define the following con
 | `storybookStaticDir`      | undefined                   | Path to Storybook's static files folder (also available as command-line argument). |
 | `showStorybookOutput`     | undefined                   | Whether or not you want to see Storybook output (also available as command-line argument). |
 | `exitcode`                | false                       | If tests failed close with non-zero exit code (also available as command-line argument). |
-| `browser`                 | { width: 800, height: 600, name: 'chrome' } | The size and browser of the generated screenshots. Currently, `firefox`, `chrome`, `edge`, `ie10` and `ie11` are supported. For more info, see the [browser section below](#configuring-the-browser).|
+| `browser`                 | { width: 800, height: 600, name: 'chrome' } | The size and browser of the generated screenshots. For more info and possible values, see the [browser section below](#configuring-the-browser).|
 | `showLogs`                | false                       | Whether or not you want to see logs of the Eyes-Storybook plugin. |
 | `saveDebugData`           | false                       | Whether to save troubleshooting data. See the troubleshooting section of this doc for more info. |
 | `batchId`                 | random                      | Provides ability to group tests into batches. Read more about batches [here](https://applitools.com/docs/topics/working-with-test-batches/how-to-group-tests-into-batches.html). |
@@ -209,6 +209,27 @@ module.exports = {
 ## Configuring the browser
 
 Eyes-Storybook will take a screenshot of the page as specified in the `browser` configuration parameter.
+
+Possible values are:
+
+- `chrome`
+- `firefox`
+- `edge`
+- `ie10`
+- `ie11`
+- `safari`
+- `chrome-one-version-back`
+- `chrome-two-versions-back`
+- `firefox-one-version-back`
+- `firefox-two-versions-back`
+- `safari-one-version-back`
+- `safari-two-versions-back`
+
+### Previous browser versions
+
+`*-one-version-back` and `*-two-versions-back` are relative to the version of the same browser. For example, if `chrome` refers to version 79, then `chrome-one-version-back` will be Chrome 78 and `chrome-two-versions-back` will be Chrome 77.
+
+### Getting a screenshot of multiple browsers in parallel
 
 It's also possible to send an array of browsers, for example in the `applitools.config.js` file:
 
