@@ -182,7 +182,6 @@ Need a higher concurrency in your account? Email us @ sdr@applitools.com with yo
 Single category: Single story [640x480] - Passed
 Single category: Single story [640x480] - Passed
 Single category: Single story [640x480] - Passed
-Single category: Single story [640x480] - Passed
 
 No differences were found!
 
