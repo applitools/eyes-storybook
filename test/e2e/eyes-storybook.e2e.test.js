@@ -37,7 +37,7 @@ describe('eyes-storybook', () => {
 
     const normalizedStdout = stdout
       .replace(
-        /See details at https\:\/\/eyes.applitools.com\/app\/test-results\/.+/,
+        /See details at https\:\/\/.+.applitools.com\/app\/test-results\/.+/,
         'See details at <some_url>',
       )
       .replace(/Total time\: \d+ seconds/, 'Total time: <some_time> seconds');
@@ -173,7 +173,7 @@ Need a higher concurrency in your account? Email us @ sdr@applitools.com with yo
 
     const normalizedStdout = stdout
       .replace(
-        /See details at https\:\/\/eyes.applitools.com\/app\/test-results\/.+/,
+        /See details at https\:\/\/.+.applitools.com\/app\/test-results\/.+/,
         'See details at <some_url>',
       )
       .replace(/Total time\: \d+ seconds/, 'Total time: <some_time> seconds');
