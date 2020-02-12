@@ -7,13 +7,16 @@ const {sh} = require('../../src/__process-commons');
 const {version} = require('../../package.json');
 
 describe('eyes-storybook', () => {
-  let closeTestServer;
+  let closeTestServer, showLogsOrig;
   before(async () => {
     closeTestServer = (await testServer({port: 7272})).close;
+    showLogsOrig = process.env.APPLITOOLS_SHOW_LOGS;
+    process.env.APPLITOOLS_SHOW_LOGS = false;
   });
 
   after(async () => {
     await closeTestServer();
+    process.env.APPLITOOLS_SHOW_LOGS = showLogsOrig;
   });
 
   it('renders test storybook', async () => {
