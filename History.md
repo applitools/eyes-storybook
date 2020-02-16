@@ -1,4 +1,32 @@
 
+v3.2.7 / 2020-02-16
+===================
+
+* 3.2.7 [[a003252](https://github.com/applitools/eyes-storybook/commit/a003252e90ec3d51cc53fb61b16b7e8d46f69ba6)]
+* updated vgc to support branching feature [[a366355](https://github.com/applitools/eyes-storybook/commit/a366355915c5f4bdb09a93806ce7e63a021e38b8)]
+* fixed tests to support changing server urls [[2423744](https://github.com/applitools/eyes-storybook/commit/242374416084d9eaf3159c6ce9b4d8f7350bfaf3)]
+* removing showLogs form testing stout [[3c20205](https://github.com/applitools/eyes-storybook/commit/3c202053878fb6fc60492119d0de357318a235b4)]
+* 3.2.6 [[b03405a](https://github.com/applitools/eyes-storybook/commit/b03405a7d074dd587d553ea4f33fb5572fd5210e)]
+* update vgc and esc to send stitching server to vg [[2005080](https://github.com/applitools/eyes-storybook/commit/2005080bb925f6b3254a6e110258ef96051c27e2)]
+* Merge pull request #31 from L0wry/patch-1 [[e67bea2](https://github.com/applitools/eyes-storybook/commit/e67bea2030835d043a8f6ed06ef52048a0133f16)]
+* Update README.md [[0ab7b41](https://github.com/applitools/eyes-storybook/commit/0ab7b41fd96cc844e517f949521bcbcb22f9fb0e)]
+* docs: improve pupeteer options [[fbd08ae](https://github.com/applitools/eyes-storybook/commit/fbd08ae1c169692b3b58320cd1f5e1fe3e4e82c9)]
+* 3.2.5 [[c14b934](https://github.com/applitools/eyes-storybook/commit/c14b934d6475290b34939c49e343322be40e67b7)]
+* update deps to get emulationInfo validation [[2d273ad](https://github.com/applitools/eyes-storybook/commit/2d273adc7d6b37770c589aaeef50d7f174aa5953)]
+* 3.2.4 [[45c215c](https://github.com/applitools/eyes-storybook/commit/45c215c393891dc1f96b5e367142f92aa4e3afeb)]
+* docs for multi-version browser and safari [[be3580e](https://github.com/applitools/eyes-storybook/commit/be3580e65737ddafa05b83ce4b72af66fd62a3da)]
+* more info on include in readme [[110f4df](https://github.com/applitools/eyes-storybook/commit/110f4df03c18fd6fc14d5fd5370158b05f6bf633)]
+* better include readme [[10d64de](https://github.com/applitools/eyes-storybook/commit/10d64def9a63499d35fe1ecdaef6d21e69f4cc8d)]
+* 3.2.3 [[4779e6e](https://github.com/applitools/eyes-storybook/commit/4779e6e52390dc487a168b61809e53df70ea12b1)]
+* update packages to get ua even in case of render failure [[cbf7a63](https://github.com/applitools/eyes-storybook/commit/cbf7a63679a453f951a898b0bbe0a53443884985)]
+* 3.2.2 [[ebd9b33](https://github.com/applitools/eyes-storybook/commit/ebd9b336fe2713dbf24f8b52a00a6a39f2a84fa7)]
+* update eyes-sdk-core to fix server connector bug [[23fca44](https://github.com/applitools/eyes-storybook/commit/23fca445895d50041f3f282cda6ee450e792709c)]
+* license [[b68baf0](https://github.com/applitools/eyes-storybook/commit/b68baf0ca32e9d483154dee6759ad538a1fa8403)]
+* 3.2.1 [[27ef357](https://github.com/applitools/eyes-storybook/commit/27ef3575d1218be855f584d67cabf24ea455b762)]
+* fix tests [[e6721e5](https://github.com/applitools/eyes-storybook/commit/e6721e51e34f95f8640d8426b271db690fadb730)]
+* update eyes-sdk-core to fix nested iframes [[4a90854](https://github.com/applitools/eyes-storybook/commit/4a908542ad3b268260c81fd6f5430ce448ad9ef3)]
+* changelog [[3ac8c00](https://github.com/applitools/eyes-storybook/commit/3ac8c007ed40066dce9ab45684d1b41e641e7b53)]
+
 v3.2.0 / 2019-12-15
 ===================
 
