@@ -11,6 +11,11 @@ describe('eyes-storybook', () => {
   before(async () => {
     closeTestServer = (await testServer({port: 7272})).close;
     showLogsOrig = process.env.APPLITOOLS_SHOW_LOGS;
+    if (showLogsOrig) {
+      console.warn(
+        '\nThis test disables APPLITOOLS_SHOW_LOGS so dont be surprised son !!! See: test/e2e/eyes-storybook.e2e.test.js:15\n',
+      );
+    }
     process.env.APPLITOOLS_SHOW_LOGS = false;
   });
 
